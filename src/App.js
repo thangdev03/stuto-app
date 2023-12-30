@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route } from 'react-router-dom' 
+import Home from './pages/client/Home'
+import FindFriends from './pages/client/FindFriends'
+import StudyRoom from './pages/client/StudyRoom'
+import Timetable from './pages/client/Timetable'
+import Courses from './pages/client/Courses'
+import Posts from './pages/client/Posts'
+import Navbar from './components/Navbar'
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p className="text-red-500">
-          Hello World
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />}/>
+        <Route path="/tim-ban-hoc" element={<FindFriends />}/>
+        <Route path="/phong-hoc-online" element={<StudyRoom />}/>
+        <Route path="/thoi-gian-bieu" element={<Timetable />}/>
+        <Route path="/khoa-hoc" element={<Courses />}/>
+        <Route path="/bai-dang" element={<Posts />}/>
+      </Routes>
     </div>
   );
 }
