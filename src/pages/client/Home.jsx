@@ -1,6 +1,6 @@
 function Home() {
     return (
-        <h1>Home Page</h1>
+        <h1 className="h-[5000px]">Home Page</h1>
     )
 }
 

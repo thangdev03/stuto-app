@@ -14,7 +14,7 @@ function Navbar() {
                 <li>
                     <Link to="/"
                     className={
-                        `flex items-center gap-3 h-12 px-5 text-[18px] rounded-xl hover:bg-[#f8f8f8] transition-all
+                        `flex items-center gap-3 h-12 px-5 text-lg rounded-xl hover:bg-[#f8f8f8] transition-all
                         ${location.pathname === '/'? 
                         "text-primaryColor bg-boxBackground": 
                         "text-textInactive"
@@ -27,7 +27,7 @@ function Navbar() {
                 <li>
                     <Link to="/tim-ban-hoc" 
                     className={
-                        `flex items-center gap-3 h-12 px-5 text-[18px] rounded-xl hover:bg-[#f8f8f8] transition-all
+                        `flex items-center gap-3 h-12 px-5 text-lg rounded-xl hover:bg-[#f8f8f8] transition-all
                         ${location.pathname === '/tim-ban-hoc'? 
                         "text-primaryColor bg-boxBackground": 
                         "text-textInactive"
@@ -40,7 +40,7 @@ function Navbar() {
                 <li>
                     <Link to="/phong-hoc-online"
                     className={
-                        `flex items-center gap-3 h-12 px-5 text-[18px] rounded-xl hover:bg-[#f8f8f8] transition-all
+                        `flex items-center gap-3 h-12 px-5 text-lg rounded-xl hover:bg-[#f8f8f8] transition-all
                         ${location.pathname === '/phong-hoc-online'? 
                         "text-primaryColor bg-boxBackground": 
                         "text-textInactive"
@@ -53,7 +53,7 @@ function Navbar() {
                 <li>
                     <Link to="/thoi-gian-bieu"
                     className={
-                        `flex items-center gap-3 h-12 px-5 text-[18px] rounded-xl hover:bg-[#f8f8f8] transition-all
+                        `flex items-center gap-3 h-12 px-5 text-lg rounded-xl hover:bg-[#f8f8f8] transition-all
                         ${location.pathname === '/thoi-gian-bieu'? 
                         "text-primaryColor bg-boxBackground": 
                         "text-textInactive"
@@ -66,7 +66,7 @@ function Navbar() {
                 <li>
                     <Link to="/khoa-hoc" 
                     className={
-                        `flex items-center gap-3 h-12 px-5 text-[18px] rounded-xl hover:bg-[#f8f8f8] transition-all
+                        `flex items-center gap-3 h-12 px-5 text-lg rounded-xl hover:bg-[#f8f8f8] transition-all
                         ${location.pathname === '/khoa-hoc'? 
                         "text-primaryColor bg-boxBackground": 
                         "text-textInactive"
@@ -79,7 +79,7 @@ function Navbar() {
                 <li>
                     <Link to="/bai-dang" 
                     className={
-                        `flex items-center gap-3 h-12 px-5 text-[18px] rounded-xl hover:bg-[#f8f8f8] transition-all
+                        `flex items-center gap-3 h-12 px-5 text-lg rounded-xl hover:bg-[#f8f8f8] transition-all
                         ${location.pathname === '/bai-dang'? 
                         "text-primaryColor bg-boxBackground": 
                         "text-textInactive"

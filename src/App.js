@@ -6,11 +6,13 @@ import Timetable from './pages/client/Timetable'
 import Courses from './pages/client/Courses'
 import Posts from './pages/client/Posts'
 import Navbar from './components/Navbar'
+import Header from './components/Header'
 
 function App() {
   return (
     <div className="App">
       <Navbar />
+      <Header />
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/tim-ban-hoc" element={<FindFriends />}/>
