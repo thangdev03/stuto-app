@@ -1,5 +1,6 @@
 import { FaClock } from "react-icons/fa"
 import Notes from "../../components/Notes";
+import FriendsList from "../../components/FriendsList";
 
 function Home() {
     const recentlyGroups = [
@@ -149,8 +150,8 @@ function Home() {
                     );
                 })}
             </div>
-
-            <Notes/>
+            <FriendsList />
+            <Notes />
         </div>
     )
 }
