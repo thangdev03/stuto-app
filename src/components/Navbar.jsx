@@ -6,9 +6,9 @@ function Navbar() {
     const location = useLocation();
 
     return (
-        <nav className="fixed z-10">
+        <nav className="fixed top-0">
             <Link to="/" className="block ml-8 mb-2">
-                <img src="./img/logo2.png" width={150} alt=""/>
+                <img src="./img/logo.webp" width={150} alt=""/>
             </Link>
             <ul className="w-64 ml-5 font-semibold flex flex-col gap-3">
                 <li>

@@ -16,7 +16,7 @@ function FriendsList() {
                 </div>
             </form>
             {/* Friends list */}
-            <div className="mt-5 flex flex-col gap-4 grow overflow-y-scroll">
+            <div className="mt-5 flex flex-col gap-4 grow overflow-y-auto">
                 <div className="flex items-top">
                     <div className="relative mr-4">
                         <img 
