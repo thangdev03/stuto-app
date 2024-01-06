@@ -2,14 +2,15 @@ import { MdLocationOn } from "react-icons/md";
 import { IoIosSend } from "react-icons/io";
 import { FaUserFriends } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
+import FilterFriends from "../../components/FilterFriends"
 
 function FindFriends() {
     return (
         <div className="ml-80 mr-[416px] mt-[114px]">
             <h1 className="font-bold text-3xl">Hi Nhật Thăng, bạn muốn học cùng ai?</h1>
+            {/* Users list */}
             <div className="mt-8">
                 <h3 className="font-semibold text-2xl">Các StuToers phù hợp nhất</h3>
-                {/* Users list */}
                 <div className="mt-3">
                     <div className="mb-2 pt-3 pr-6 pl-3 pb-4 min-h-64 bg-boxBackground rounded-lg shadow-blockShadow">
                         <div className="flex gap-4">
@@ -56,6 +57,7 @@ function FindFriends() {
                     </div>
                 </div>
             </div>
+            <FilterFriends />
         </div>
     )
 }
