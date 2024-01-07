@@ -24,7 +24,7 @@ function Header() {
                 <div className="py-2 px-5 grow flex items-center bg-boxBackground rounded-full shadow-blockShadow">
                     <div className="mr-4">
                         <img 
-                            src="https://scontent.fhan9-1.fna.fbcdn.net/v/t39.30808-6/414095711_2062853317397924_4320486541956585795_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeGR8cJh3RWBia0pQgtkWO8YDKnlQ1E9WIgMqeVDUT1YiGuge0-Gvmh7ntYv2hOiTl3hrgcoGasNBENWWv9oxpiV&_nc_ohc=BIfH2eF9DlsAX8Xk4Fv&_nc_ht=scontent.fhan9-1.fna&oh=00_AfC3UIIn5FGbpIYGlxOKfMsHR6-oBEASTpnaQaTGxlNBpA&oe=6595E54D" 
+                            src="./img/default-avatar.png" 
                             alt="Avatar" 
                             className="w-9 h-9 rounded-full object-cover"
                         />

@@ -20,7 +20,7 @@ function FriendsList() {
                 <div className="flex items-top">
                     <div className="relative mr-4">
                         <img 
-                            src="https://scontent.fhan9-1.fna.fbcdn.net/v/t39.30808-6/411677944_900591898096751_4513068970627541677_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeE3AM_rR1xy0c-wcQmVgIzbwc61ZIpbSwXBzrVkiltLBZddvvq88xO08FISKb7e9iSMDLtuV0rG5Ga9aHx4J2Wl&_nc_ohc=UlWWnGvrM4wAX_g02Fd&_nc_ht=scontent.fhan9-1.fna&oh=00_AfBy6oFbsmERfToFw0u_qpgOXpF0P091vOQYMTAsB_Qvnw&oe=6596E021" 
+                            src="./img/default-avatar.png" 
                             alt=""
                             className="w-10 h-10 rounded-full object-cover" 
                         />
@@ -34,7 +34,7 @@ function FriendsList() {
                 <div className="flex items-top">
                     <div className="relative mr-4">
                         <img 
-                            src="https://scontent.fhan9-1.fna.fbcdn.net/v/t39.30808-6/411677944_900591898096751_4513068970627541677_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeE3AM_rR1xy0c-wcQmVgIzbwc61ZIpbSwXBzrVkiltLBZddvvq88xO08FISKb7e9iSMDLtuV0rG5Ga9aHx4J2Wl&_nc_ohc=UlWWnGvrM4wAX_g02Fd&_nc_ht=scontent.fhan9-1.fna&oh=00_AfBy6oFbsmERfToFw0u_qpgOXpF0P091vOQYMTAsB_Qvnw&oe=6596E021" 
+                            src="./img/default-avatar.png" 
                             alt=""
                             className="w-10 h-10 rounded-full object-cover" 
                         />
@@ -48,7 +48,7 @@ function FriendsList() {
                 <div className="flex items-top">
                     <div className="relative mr-4">
                         <img 
-                            src="https://scontent.fhan9-1.fna.fbcdn.net/v/t39.30808-6/411677944_900591898096751_4513068970627541677_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeE3AM_rR1xy0c-wcQmVgIzbwc61ZIpbSwXBzrVkiltLBZddvvq88xO08FISKb7e9iSMDLtuV0rG5Ga9aHx4J2Wl&_nc_ohc=UlWWnGvrM4wAX_g02Fd&_nc_ht=scontent.fhan9-1.fna&oh=00_AfBy6oFbsmERfToFw0u_qpgOXpF0P091vOQYMTAsB_Qvnw&oe=6596E021" 
+                            src="./img/default-avatar.png" 
                             alt=""
                             className="w-10 h-10 rounded-full object-cover" 
                         />
@@ -62,7 +62,7 @@ function FriendsList() {
                 <div className="flex items-top">
                     <div className="relative mr-4">
                         <img 
-                            src="https://scontent.fhan9-1.fna.fbcdn.net/v/t39.30808-6/411677944_900591898096751_4513068970627541677_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeE3AM_rR1xy0c-wcQmVgIzbwc61ZIpbSwXBzrVkiltLBZddvvq88xO08FISKb7e9iSMDLtuV0rG5Ga9aHx4J2Wl&_nc_ohc=UlWWnGvrM4wAX_g02Fd&_nc_ht=scontent.fhan9-1.fna&oh=00_AfBy6oFbsmERfToFw0u_qpgOXpF0P091vOQYMTAsB_Qvnw&oe=6596E021" 
+                            src="./img/default-avatar.png" 
                             alt=""
                             className="w-10 h-10 rounded-full object-cover" 
                         />
@@ -76,7 +76,7 @@ function FriendsList() {
                 <div className="flex items-top">
                     <div className="relative mr-4">
                         <img 
-                            src="https://scontent.fhan9-1.fna.fbcdn.net/v/t39.30808-6/411677944_900591898096751_4513068970627541677_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeE3AM_rR1xy0c-wcQmVgIzbwc61ZIpbSwXBzrVkiltLBZddvvq88xO08FISKb7e9iSMDLtuV0rG5Ga9aHx4J2Wl&_nc_ohc=UlWWnGvrM4wAX_g02Fd&_nc_ht=scontent.fhan9-1.fna&oh=00_AfBy6oFbsmERfToFw0u_qpgOXpF0P091vOQYMTAsB_Qvnw&oe=6596E021" 
+                            src="./img/default-avatar.png" 
                             alt=""
                             className="w-10 h-10 rounded-full object-cover" 
                         />
@@ -90,7 +90,7 @@ function FriendsList() {
                 <div className="flex items-top">
                     <div className="relative mr-4">
                         <img 
-                            src="https://scontent.fhan9-1.fna.fbcdn.net/v/t39.30808-6/411677944_900591898096751_4513068970627541677_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeE3AM_rR1xy0c-wcQmVgIzbwc61ZIpbSwXBzrVkiltLBZddvvq88xO08FISKb7e9iSMDLtuV0rG5Ga9aHx4J2Wl&_nc_ohc=UlWWnGvrM4wAX_g02Fd&_nc_ht=scontent.fhan9-1.fna&oh=00_AfBy6oFbsmERfToFw0u_qpgOXpF0P091vOQYMTAsB_Qvnw&oe=6596E021" 
+                            src="./img/default-avatar.png" 
                             alt=""
                             className="w-10 h-10 rounded-full object-cover" 
                         />
@@ -104,7 +104,7 @@ function FriendsList() {
                 <div className="flex items-top">
                     <div className="relative mr-4">
                         <img 
-                            src="https://scontent.fhan9-1.fna.fbcdn.net/v/t39.30808-6/411677944_900591898096751_4513068970627541677_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeE3AM_rR1xy0c-wcQmVgIzbwc61ZIpbSwXBzrVkiltLBZddvvq88xO08FISKb7e9iSMDLtuV0rG5Ga9aHx4J2Wl&_nc_ohc=UlWWnGvrM4wAX_g02Fd&_nc_ht=scontent.fhan9-1.fna&oh=00_AfBy6oFbsmERfToFw0u_qpgOXpF0P091vOQYMTAsB_Qvnw&oe=6596E021" 
+                            src="./img/default-avatar.png" 
                             alt=""
                             className="w-10 h-10 rounded-full object-cover" 
                         />
@@ -118,7 +118,7 @@ function FriendsList() {
                 <div className="flex items-top">
                     <div className="relative mr-4">
                         <img 
-                            src="https://scontent.fhan9-1.fna.fbcdn.net/v/t39.30808-6/411677944_900591898096751_4513068970627541677_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeE3AM_rR1xy0c-wcQmVgIzbwc61ZIpbSwXBzrVkiltLBZddvvq88xO08FISKb7e9iSMDLtuV0rG5Ga9aHx4J2Wl&_nc_ohc=UlWWnGvrM4wAX_g02Fd&_nc_ht=scontent.fhan9-1.fna&oh=00_AfBy6oFbsmERfToFw0u_qpgOXpF0P091vOQYMTAsB_Qvnw&oe=6596E021" 
+                            src="./img/default-avatar.png" 
                             alt=""
                             className="w-10 h-10 rounded-full object-cover" 
                         />
@@ -132,7 +132,7 @@ function FriendsList() {
                 <div className="flex items-top">
                     <div className="relative mr-4">
                         <img 
-                            src="https://scontent.fhan9-1.fna.fbcdn.net/v/t39.30808-6/411677944_900591898096751_4513068970627541677_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeE3AM_rR1xy0c-wcQmVgIzbwc61ZIpbSwXBzrVkiltLBZddvvq88xO08FISKb7e9iSMDLtuV0rG5Ga9aHx4J2Wl&_nc_ohc=UlWWnGvrM4wAX_g02Fd&_nc_ht=scontent.fhan9-1.fna&oh=00_AfBy6oFbsmERfToFw0u_qpgOXpF0P091vOQYMTAsB_Qvnw&oe=6596E021" 
+                            src="./img/default-avatar.png" 
                             alt=""
                             className="w-10 h-10 rounded-full object-cover" 
                         />

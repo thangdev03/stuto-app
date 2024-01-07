@@ -11,17 +11,17 @@ function FindFriends() {
             {/* Users list */}
             <div className="mt-8">
                 <h3 className="font-semibold text-2xl">Các StuToers phù hợp nhất</h3>
-                <div className="mt-3">
+                <div className="mt-3 users-container">
                     <div className="mb-2 pt-3 pr-6 pl-3 pb-4 min-h-64 bg-boxBackground rounded-lg shadow-blockShadow">
                         <div className="flex gap-4">
                             <div className="flex-shrink-0">
                                 <img 
-                                    src="https://scontent.fhan9-1.fna.fbcdn.net/v/t39.30808-6/414095711_2062853317397924_4320486541956585795_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeGR8cJh3RWBia0pQgtkWO8YDKnlQ1E9WIgMqeVDUT1YiGuge0-Gvmh7ntYv2hOiTl3hrgcoGasNBENWWv9oxpiV&_nc_ohc=BIfH2eF9DlsAX8Xk4Fv&_nc_ht=scontent.fhan9-1.fna&oh=00_AfC3UIIn5FGbpIYGlxOKfMsHR6-oBEASTpnaQaTGxlNBpA&oe=6595E54D" 
+                                    src="./img/default-avatar.png" 
                                     alt="avatar"
                                     className="w-16 h-16 object-cover rounded-full" 
                                 />
                             </div>
-                            <div>
+                            <div className="grow">
                                 <div className="flex justify-between gap-10">
                                     <div>
                                         <h3 className="text-xl font-semibold">Chu Bin</h3>
@@ -31,6 +31,7 @@ function FindFriends() {
                                         </div>
                                         <p><span className="font-medium">Chuyên ngành:</span> Information Technology</p>
                                         <p><span className="font-medium">Trình độ:</span> Undergraduate</p>
+                                        <p><span className="font-medium">Môn học:</span> Trí tuệ nhân tạo</p>
                                         <p><span className="font-medium">Mong muốn:</span> Tìm bạn cùng học các môn thuộc Computer Science, đặc biệt là phân tích dữ liệu và trí tuệ nhân tạo</p>
                                     </div>
                                     <div className="flex items-center gap-2 h-7">
@@ -39,7 +40,7 @@ function FindFriends() {
                                     </div>
                                 </div>
                                 <div className="mt-10 flex justify-between items-center gap-24">
-                                    <div className="text-primaryColor flex justify-between items-center grow font-medium">
+                                    <div className="text-primaryColor flex justify-between items-center w-96 font-medium">
                                         <p className="flex gap-2 items-center"><FaUserFriends />Số bạn học: 12</p>
                                         <span className="block w-[2px] h-6 bg-[#a7a7a7] rounded-full"></span>
                                         <p className="flex gap-2 items-center"><FaClock />Số giờ đã học: 6h 23m</p>
