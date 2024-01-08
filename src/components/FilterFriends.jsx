@@ -3,6 +3,10 @@ import { FaChevronDown } from "react-icons/fa6";
 import { IoIosSearch } from "react-icons/io";
 import Slider from "react-slider"
 
+const minAge = 18;
+const maxAge = 26;
+
+
 function FilterFriends() {
     const [inputMajor, setInputMajor] = useState("");
     const [selectedMajor, setSelectedMajor] = useState("");
@@ -16,6 +20,7 @@ function FilterFriends() {
     const majors = ['Công nghệ thông tin', 'Khoa học máy tính', 'Hệ thống thông tin quản lý', 'Marketing', 'Quản trị nhân lực'];
     const subjects = ['Nhập môn công nghệ thông tin', 'Lập trình hướng đối tượng', 'Cấu trúc dữ liệu và giải thuật', 'Kinh tế vi mô', 'Pháp luật đại cương'];
     const [cities, setCities] = useState(null);
+    const [ageValues, setAgeValues] = useState([minAge, maxAge]);
     
     useEffect(() => {
         fetch('https://provinces.open-api.vn/api/p')
@@ -28,14 +33,17 @@ function FilterFriends() {
             <div className="text-base">
                 <span className="font-medium">Độ tuổi</span>
                 <div className="mt-3 flex items-center justify-between">
-                    <p className="py-1 px-5 border border-[#bebebe] rounded w-20 text-center">18</p>
+                    <p className="py-1 px-5 border border-[#bebebe] rounded w-20 text-center">{ageValues[0]}</p>
                     <div className="bg-[#bebebe] w-20 h-[1px] grow"></div>
-                    <p className="py-1 px-5 border border-[#bebebe] rounded w-20 text-center">18</p>
+                    <p className="py-1 px-5 border border-[#bebebe] rounded w-20 text-center">{ageValues[1]}</p>
                 </div>
                 <Slider 
-                    className="w-full h-5 mt-3"
-                    valueLabelDisplay="auto"
-                    getAriaLabel={() => 'Temperature range'}
+                    className="mt-3 w-full h-1 bg-gray-300 rounded-full"
+                    thumbClassName="w-5 h-5 bg-[#cbb8ff] rounded-full outline-none cursor-grab -top-2 active:bg-[#BAA1FF] hover:bg-[#BAA1FF]"
+                    onChange={setAgeValues}
+                    value={ageValues}
+                    min={minAge}
+                    max={maxAge}
                 />
             </div>
             <div className="mt-5 text-base">
