@@ -6,7 +6,7 @@ function Notes() {
         },
         {
             id: 2,
-            content: "15/11: Họp N-Start"
+            content: "15/11: Họp N-Start Họp N-Start Họp N-Start Họp N-Start Họp N-Start"
         },
         // {
         //     id: 3,
@@ -36,10 +36,10 @@ function Notes() {
             <ul className="mt-3 max-h-28 overflow-y-auto">
                 {
                     notes.map(note => 
-                        <li className="mb-2" key={note.id}>
+                        <li className="mb-2 flex items-center" key={note.id}>
                             <input type="checkbox" id={`note-${note.id}`} 
-                            className="mr-3 w-4 h-4 text-red-500"/>
-                            <label htmlFor={`note-${note.id}`}>{note.content}</label>
+                            className="mr-3 w-4 h-4 text-red-500 cursor-pointer shrink-0"/>
+                            <label htmlFor={`note-${note.id}`} className="cursor-pointer">{note.content}</label>
                         </li>
                     )
                 }

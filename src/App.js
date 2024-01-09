@@ -6,13 +6,15 @@ import Timetable from './pages/client/Timetable'
 import Courses from './pages/client/Courses'
 import Posts from './pages/client/Posts'
 import Navbar from './components/Navbar'
-import Header from './components/Header'
+import SearchBar from './components/SearchBar'
+import InfoBarWithBell from './components/InfoBarWithBell'
 
 function App() {
   return (
     <div className="App">
       <Navbar />
-      <Header />
+      <SearchBar />
+      <InfoBarWithBell />
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/tim-ban-hoc" element={<FindFriends />}/>

@@ -64,7 +64,7 @@ function Home() {
     ];
 
     return (
-        <div className="ml-80 mr-[416px] mt-[114px]">
+        <div className="ml-80 mr-[416px] mt-10">
             <h1 className="font-bold text-3xl">Đến giờ học rồi, Nhật Thăng ơi</h1>
             <p className="mt-4 text-textInactive font-bold">Hôm nay bạn muốn học môn gì?</p>
             {/* Dashboard */}
@@ -111,14 +111,14 @@ function Home() {
             <div className="mt-2 grid grid-cols-4 gap-2 overflow-hidden w-full py-2">
                 {recentlyGroups.map(group => {
                     return (
-                        <div key={group.id} className="p-1 bg-boxBackground rounded-xl h-48 shadow-blockShadow">
+                        <a href="#" key={group.id} className="p-2 bg-boxBackground rounded-xl h-48 shadow-blockShadow hover:bg-primaryColor/70 hover:text-white transition-all">
                             <img 
                                 src={group.image}
                                 alt="code on laptop on black table"
                                 className="w-full h-[60%] object-cover rounded-lg"
                             />
                             <p className="mt-3 font-medium text-center truncate" title={group.name}>{group.name}</p>
-                        </div>
+                        </a>
                     );
                 })}
             </div>
@@ -127,7 +127,7 @@ function Home() {
             <div className="mt-2 mb-8 grid grid-cols-4 gap-2 overflow-hidden w-full py-2">
                 {courses.map(course => {
                     return (
-                        <div key={course.id} className="p-1 bg-boxBackground rounded-xl h-72 shadow-blockShadow relative">
+                        <div key={course.id} className="p-2 bg-boxBackground rounded-xl h-72 shadow-blockShadow relative">
                             <img 
                                 src={course.image}
                                 alt="code on laptop on black table"

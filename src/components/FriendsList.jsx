@@ -16,8 +16,8 @@ function FriendsList() {
                 </div>
             </form>
             {/* Friends list */}
-            <div className="mt-5 flex flex-col gap-4 grow overflow-y-auto">
-                <div className="flex items-top">
+            <div className="mt-5 flex flex-col gap-1 grow overflow-y-auto">
+                <a href="#" className="flex items-top hover:cursor-pointer hover:bg-gray-100 p-2 rounded-lg">
                     <div className="relative mr-4">
                         <img 
                             src="./img/default-avatar.png" 
@@ -30,8 +30,8 @@ function FriendsList() {
                         <h4 className="font-semibold">Chu Bin</h4>
                         <p className="text-xs w-full truncate">NEU, Natural Resources Economics Resources Economic Resources Economic</p>
                     </div>
-                </div>
-                <div className="flex items-top">
+                </a>
+                <a href="#" className="flex items-top hover:cursor-pointer hover:bg-gray-100 p-2 rounded-lg">
                     <div className="relative mr-4">
                         <img 
                             src="./img/default-avatar.png" 
@@ -44,105 +44,7 @@ function FriendsList() {
                         <h4 className="font-semibold">Chu Bin</h4>
                         <p className="text-xs w-full truncate">NEU, Natural Resources Economics</p>
                     </div>
-                </div>
-                <div className="flex items-top">
-                    <div className="relative mr-4">
-                        <img 
-                            src="./img/default-avatar.png" 
-                            alt=""
-                            className="w-10 h-10 rounded-full object-cover" 
-                        />
-                        <div className={`absolute top-7 left-7 bg-green-500 w-3 h-3 rounded-full`}></div>
-                    </div>
-                    <div className="w-[calc(100%-56px)] overflow-hidden">
-                        <h4 className="font-semibold">Chu Bin</h4>
-                        <p className="text-xs w-full truncate">NEU, Natural Resources Economics</p>
-                    </div>
-                </div>
-                <div className="flex items-top">
-                    <div className="relative mr-4">
-                        <img 
-                            src="./img/default-avatar.png" 
-                            alt=""
-                            className="w-10 h-10 rounded-full object-cover" 
-                        />
-                        <div className={`absolute top-7 left-7 bg-green-500 w-3 h-3 rounded-full`}></div>
-                    </div>
-                    <div className="w-[calc(100%-56px)] overflow-hidden">
-                        <h4 className="font-semibold">Chu Bin</h4>
-                        <p className="text-xs w-full truncate">NEU, Natural Resources Economics</p>
-                    </div>
-                </div>
-                <div className="flex items-top">
-                    <div className="relative mr-4">
-                        <img 
-                            src="./img/default-avatar.png" 
-                            alt=""
-                            className="w-10 h-10 rounded-full object-cover" 
-                        />
-                        <div className={`absolute top-7 left-7 bg-green-500 w-3 h-3 rounded-full`}></div>
-                    </div>
-                    <div className="w-[calc(100%-56px)] overflow-hidden">
-                        <h4 className="font-semibold">Chu Bin</h4>
-                        <p className="text-xs w-full truncate">NEU, Natural Resources Economics</p>
-                    </div>
-                </div>
-                <div className="flex items-top">
-                    <div className="relative mr-4">
-                        <img 
-                            src="./img/default-avatar.png" 
-                            alt=""
-                            className="w-10 h-10 rounded-full object-cover" 
-                        />
-                        <div className={`absolute top-7 left-7 bg-green-500 w-3 h-3 rounded-full`}></div>
-                    </div>
-                    <div className="w-[calc(100%-56px)] overflow-hidden">
-                        <h4 className="font-semibold">Chu Bin</h4>
-                        <p className="text-xs w-full truncate">NEU, Natural Resources Economics</p>
-                    </div>
-                </div>
-                <div className="flex items-top">
-                    <div className="relative mr-4">
-                        <img 
-                            src="./img/default-avatar.png" 
-                            alt=""
-                            className="w-10 h-10 rounded-full object-cover" 
-                        />
-                        <div className={`absolute top-7 left-7 bg-green-500 w-3 h-3 rounded-full`}></div>
-                    </div>
-                    <div className="w-[calc(100%-56px)] overflow-hidden">
-                        <h4 className="font-semibold">Chu Bin</h4>
-                        <p className="text-xs w-full truncate">NEU, Natural Resources Economics</p>
-                    </div>
-                </div>
-                <div className="flex items-top">
-                    <div className="relative mr-4">
-                        <img 
-                            src="./img/default-avatar.png" 
-                            alt=""
-                            className="w-10 h-10 rounded-full object-cover" 
-                        />
-                        <div className={`absolute top-7 left-7 bg-green-500 w-3 h-3 rounded-full`}></div>
-                    </div>
-                    <div className="w-[calc(100%-56px)] overflow-hidden">
-                        <h4 className="font-semibold">Chu Bin</h4>
-                        <p className="text-xs w-full truncate">NEU, Natural Resources Economics</p>
-                    </div>
-                </div>
-                <div className="flex items-top">
-                    <div className="relative mr-4">
-                        <img 
-                            src="./img/default-avatar.png" 
-                            alt=""
-                            className="w-10 h-10 rounded-full object-cover" 
-                        />
-                        <div className={`absolute top-7 left-7 bg-green-500 w-3 h-3 rounded-full`}></div>
-                    </div>
-                    <div className="w-[calc(100%-56px)] overflow-hidden">
-                        <h4 className="font-semibold">Chu Bin</h4>
-                        <p className="text-xs w-full truncate">NEU, Natural Resources Economics</p>
-                    </div>
-                </div>
+                </a>
             </div>
         </div>
     );
