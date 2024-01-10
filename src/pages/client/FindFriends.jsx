@@ -1,13 +1,37 @@
+import { useState } from "react";
 import { MdLocationOn } from "react-icons/md";
 import { IoIosSend } from "react-icons/io";
 import { FaUserFriends } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
 import FilterFriends from "../../components/FilterFriends"
 
+var statusFindFriend = true;
+
 function FindFriends() {
+    const [activeFind, setActiveFind] = useState(statusFindFriend);
     return (
         <div className="ml-80 mr-[416px] mt-10">
             <h1 className="font-bold text-3xl">Hi Nhật Thăng, bạn muốn học cùng ai?</h1>
+            <div className="mt-8 pt-5 px-6 pb-6 bg-white w-full rounded-lg shadow-blockShadow">
+                <div className="flex justify-between items-center">
+                    <span className="font-medium">Chế độ tìm bạn học</span>
+                    <div 
+                    className={`h-10 w-32 bg-gray-300 rounded-full flex items-center cursor-pointer
+                    transition-all ${activeFind && "bg-primaryColor"}`} 
+                    onClick={() => setActiveFind(!activeFind)}>
+                        <div className={`w-8 h-8 
+                        rounded-full transition-all bg-white
+                        ${activeFind ? "ml-[92px]" : "ml-1"}`}></div>
+                    </div>
+                </div>
+                <div className="flex justify-between items-center mt-2">
+                    <span className="font-medium">Thay đổi yêu cầu của bạn</span>
+                    <button className="px-6 py-2 text-primaryColor border border-primaryColor rounded-full transition-all
+                    hover:text-white hover:bg-primaryColor">
+                        Chỉnh sửa
+                        </button>
+                </div>
+            </div>
             {/* Users list */}
             <div className="mt-8">
                 <h3 className="font-semibold text-2xl">Các StuToers phù hợp nhất</h3>
