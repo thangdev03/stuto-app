@@ -29,7 +29,7 @@ function FindFriends() {
                     <button className="px-6 py-2 text-primaryColor border border-primaryColor rounded-full transition-all
                     hover:text-white hover:bg-primaryColor">
                         Chỉnh sửa
-                        </button>
+                    </button>
                 </div>
             </div>
             {/* Users list */}

@@ -107,7 +107,7 @@ function Home() {
                 </div>
             </div>
             {/* Top 8 Recently Access */}
-            <h2 className="font-semibold text-xl mt-8">Những nhóm học cùng gần đây</h2>
+            <h2 className="font-semibold text-xl mt-8">Những môn bạn học gần đây</h2>
             <div className="mt-2 grid grid-cols-4 gap-2 overflow-hidden w-full py-2">
                 {recentlyGroups.map(group => {
                     return (

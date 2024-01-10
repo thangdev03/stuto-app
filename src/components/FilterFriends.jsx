@@ -198,6 +198,14 @@ function FilterFriends() {
                     </ul>
                 </div>
             </div>
+            <div className="mt-4 flex justify-between">
+                <a href="#" className="w-36 text-center py-2 text-base text-red-500 rounded-lg border border-red-500 transition-all hover:brightness-110 hover:shadow">
+                    Bỏ chọn
+                </a>
+                <a href="#" type="submit" className="w-36 text-center py-2 text-base bg-primaryColor text-white rounded-lg border border-primaryColor transition-all hover:brightness-105 hover:shadow">
+                    Xem kết quả
+                </a>
+            </div>
         </div>
     );
 }
