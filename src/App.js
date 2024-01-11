@@ -8,6 +8,7 @@ import Posts from './pages/client/Posts'
 import Navbar from './components/Navbar'
 import SearchBar from './components/SearchBar'
 import InfoBarWithBell from './components/InfoBarWithBell'
+import Profile from './pages/client/Profile'
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/thoi-gian-bieu" element={<Timetable />}/>
         <Route path="/khoa-hoc" element={<Courses />}/>
         <Route path="/bai-dang" element={<Posts />}/>
+        <Route path="/user-profile" element={<Profile />}/>
       </Routes>
     </div>
   );
