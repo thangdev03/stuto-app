@@ -1,6 +1,8 @@
 import { FaArrowRight, FaMapPin, FaPaperPlane } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import { RiUserForbidLine } from "react-icons/ri";
+import { MdOutlineReport } from "react-icons/md";
 import FriendsList from "../../components/FriendsList";
 
 function Profile() {
@@ -8,8 +10,8 @@ function Profile() {
         <div className="ml-80 mr-[416px] mt-10 pb-12">
             <FriendsList />
             {/* Basic Info */}
-            <div className="bg-white rounded-3xl overflow-hidden">
-                <div className="user-info-bgGradient py-8 px-12 flex items-end gap-8">
+            <div className="bg-white rounded-3xl">
+                <div className="user-info-bgGradient py-8 px-12 flex items-end gap-8 rounded-t-3xl">
                     <div className="w-44 flex flex-col items-center">
                         <div>
                             <img 
@@ -47,10 +49,20 @@ function Profile() {
                                     <FaPaperPlane className="font-normal"/>
                                     Mời học
                                 </button>
-                                <button className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 border-2 border-textInactive/70 shadow-blockShadow rounded-full text-textInactive/80 transition-all hover:brightness-110 hover:bg-white/20">
-                                    <HiOutlineDotsHorizontal className="font-normal"/>
-                                    Khác
-                                </button>
+                                <div className="relative">
+                                    <button className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 border-2 border-textInactive/70 shadow-blockShadow rounded-full text-textInactive/80 transition-all hover:brightness-110 hover:bg-white/20">
+                                        <HiOutlineDotsHorizontal className="font-normal"/>
+                                        Khác
+                                    </button>
+                                    <ul className="p-2 bg-white shadow-xl rounded-lg absolute top-12 -left-6 z-10">
+                                        <li className="px-1 py-2 w-60 flex items-center gap-2 font-medium hover:bg-[#D1C1FF]/35 cursor-pointer rounded-md">
+                                            <MdOutlineReport />Báo cáo tài khoản
+                                        </li>
+                                        <li className="px-1 py-2 w-60 flex items-center gap-2 font-medium hover:bg-[#D1C1FF]/35 cursor-pointer rounded-md">
+                                            <RiUserForbidLine />Chặn người dùng
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                         
