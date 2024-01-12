@@ -9,24 +9,18 @@ import { useEffect, useState, useRef } from "react";
 
 function Profile() {
     const [openUserActions, setOpenUserActions] = useState(false);
-    const boxRef = useRef();
 
-    const handleOpenUserActions = () => {
-        setOpenUserActions(!openUserActions);
-        console.log(openUserActions);
-    }
+    let boxRef = useRef();
     
-    //FIXME: Fix close modal when clicking outside the box
     useEffect(() => {
-        const handleClickOutside = (e) => {
-            if (boxRef.current && !boxRef.current.contains(e.target)) {
+        let handleClickOutside = (e) => {
+            if (!boxRef.current.contains(e.target)) {
                 setOpenUserActions(false);
-                console.log(openUserActions);
             }
         }
-
+        
         document.addEventListener('click', handleClickOutside);
-    
+
         return () => {
             document.removeEventListener('click', handleClickOutside);
         }
@@ -76,9 +70,9 @@ function Profile() {
                                     <FaPaperPlane className="font-normal"/>
                                     Mời học
                                 </button>
-                                <div className="relative">
+                                <div className="relative" ref={boxRef}>
                                     <button 
-                                    onClick={(e) => handleOpenUserActions()}
+                                    onClick={(e) => setOpenUserActions(!openUserActions)}
                                     className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 border-2 border-textInactive/70 shadow-blockShadow rounded-full text-textInactive/80 transition-all hover:brightness-110 hover:bg-white/20 relative">
                                         <HiOutlineDotsHorizontal className="font-normal"/>
                                         Khác
@@ -86,7 +80,6 @@ function Profile() {
                                     <ul 
                                     className={`box-w-arrow p-2 bg-white shadow-xl rounded-lg absolute top-12 -left-6 z-10
                                     ${openUserActions? "block": "hidden"}`}
-                                    ref={boxRef}
                                     >
                                         <li className="px-1 py-2 w-60 flex items-center gap-2 font-medium hover:bg-[#D1C1FF]/35 cursor-pointer rounded-md">
                                             <MdOutlineReport />Báo cáo tài khoản
