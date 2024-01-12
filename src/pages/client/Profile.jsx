@@ -4,8 +4,35 @@ import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { RiUserForbidLine } from "react-icons/ri";
 import { MdOutlineReport } from "react-icons/md";
 import FriendsList from "../../components/FriendsList";
+import { useEffect, useState, useRef } from "react";
+
 
 function Profile() {
+    const [openUserActions, setOpenUserActions] = useState(false);
+    const boxRef = useRef();
+
+    const handleOpenUserActions = () => {
+        setOpenUserActions(!openUserActions);
+        console.log(openUserActions);
+    }
+    
+    //FIXME: Fix close modal when clicking outside the box
+    useEffect(() => {
+        const handleClickOutside = (e) => {
+            if (boxRef.current && !boxRef.current.contains(e.target)) {
+                setOpenUserActions(false);
+                console.log(openUserActions);
+            }
+        }
+
+        document.addEventListener('click', handleClickOutside);
+    
+        return () => {
+            document.removeEventListener('click', handleClickOutside);
+        }
+    }, [])
+    
+    
     return (
         <div className="ml-80 mr-[416px] mt-10 pb-12">
             <FriendsList />
@@ -13,11 +40,11 @@ function Profile() {
             <div className="bg-white rounded-3xl">
                 <div className="user-info-bgGradient py-8 px-12 flex items-end gap-8 rounded-t-3xl">
                     <div className="w-44 flex flex-col items-center">
-                        <div>
+                        <div className="shrink-0 w-40 h-40">
                             <img 
                             src="https://cdn.tuoitre.vn/ttc/r/2021/01/07/thoi-diem-hien-tai-rose-da-so-huu-visual-dinh-cao-cua-kpop-1610033705.jpg" 
                             alt="avatar" 
-                            className="w-40 h-40 object-cover rounded-full"
+                            className="w-full h-full object-cover rounded-full"
                             />
                         </div>
                         <p className="mt-6 flex gap-4 items-center font-medium">
@@ -27,8 +54,8 @@ function Profile() {
                         <p className="mt-1 text-sm font-medium">(12 lượt đề xuất)</p>
                     </div>
                     <div className="grow">
-                        <h1 className="text-4xl font-semibold">Phác Thái Anh <span className="text-2xl font-medium">(Park Chae-young)</span></h1>
-                        <div className="flex items-end justify-between">
+                        <h1 className="text-3xl font-semibold flex flex-wrap items-end gap-1 lg">Phác Thái Anh <span className="text-lg font-medium">(Park Chae-young)</span></h1>
+                        <div className="flex items-end justify-between flex-wrap">
                             <div className="mt-8 flex items-center gap-10">
                                 <div className="flex flex-col items-center gap-2">
                                     <p className="text-sm font-medium">Số bạn học</p>
@@ -50,11 +77,17 @@ function Profile() {
                                     Mời học
                                 </button>
                                 <div className="relative">
-                                    <button className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 border-2 border-textInactive/70 shadow-blockShadow rounded-full text-textInactive/80 transition-all hover:brightness-110 hover:bg-white/20">
+                                    <button 
+                                    onClick={(e) => handleOpenUserActions()}
+                                    className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 border-2 border-textInactive/70 shadow-blockShadow rounded-full text-textInactive/80 transition-all hover:brightness-110 hover:bg-white/20 relative">
                                         <HiOutlineDotsHorizontal className="font-normal"/>
                                         Khác
                                     </button>
-                                    <ul className="p-2 bg-white shadow-xl rounded-lg absolute top-12 -left-6 z-10">
+                                    <ul 
+                                    className={`box-w-arrow p-2 bg-white shadow-xl rounded-lg absolute top-12 -left-6 z-10
+                                    ${openUserActions? "block": "hidden"}`}
+                                    ref={boxRef}
+                                    >
                                         <li className="px-1 py-2 w-60 flex items-center gap-2 font-medium hover:bg-[#D1C1FF]/35 cursor-pointer rounded-md">
                                             <MdOutlineReport />Báo cáo tài khoản
                                         </li>
@@ -78,26 +111,28 @@ function Profile() {
                 <div className="grow h-44 bg-white rounded-3xl py-3 px-8 flex flex-col items-center">
                     <h3 className="font-semibold text-lg">Thông tin cơ bản</h3>
                     <table className="mt-3 table-auto">
-                        <tr>
-                            <td className="w-32">Trường</td>
-                            <td className="w-6">:</td>
-                            <td className="font-medium">Đại học Kinh tế Quốc dân</td>
-                        </tr>
-                        <tr>
-                            <td className="w-32">Chuyên ngành</td>
-                            <td className="w-6">:</td>
-                            <td className="font-medium">Công nghệ thông tin</td>
-                        </tr>
-                        <tr>
-                            <td className="w-32">Giới tính</td>
-                            <td className="w-6">:</td>
-                            <td className="font-medium">Nữ</td>
-                        </tr>
-                        <tr>
-                            <td className="w-32">Tuổi</td>
-                            <td className="w-6">:</td>
-                            <td className="font-medium">20</td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <td className="w-32">Trường</td>
+                                <td className="w-6">:</td>
+                                <td className="font-medium">Đại học Kinh tế Quốc dân</td>
+                            </tr>
+                            <tr>
+                                <td className="w-32">Chuyên ngành</td>
+                                <td className="w-6">:</td>
+                                <td className="font-medium">Công nghệ thông tin</td>
+                            </tr>
+                            <tr>
+                                <td className="w-32">Giới tính</td>
+                                <td className="w-6">:</td>
+                                <td className="font-medium">Nữ</td>
+                            </tr>
+                            <tr>
+                                <td className="w-32">Tuổi</td>
+                                <td className="w-6">:</td>
+                                <td className="font-medium">20</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>

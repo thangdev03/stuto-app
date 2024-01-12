@@ -24,3 +24,15 @@ code {
 .user-info-bgGradient {
   background: linear-gradient(180deg, #D1C1FF 0%, rgba(214, 200, 255, 0.70) 18.23%, rgba(185, 192, 255, 0.36) 70.31%, rgba(226, 225, 255, 0.53) 82.81%, rgba(255, 255, 255, 0.00) 100%);
 }
+
+.box-w-arrow::after {
+  display: block;
+  content: "";
+  position: absolute;
+  top: -18px;
+  left: 5rem;
+  border-style: solid;
+  border-color: transparent;
+  border-width: 10px 12px;
+  border-bottom-color: white;
+}
