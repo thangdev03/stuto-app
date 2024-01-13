@@ -36,3 +36,8 @@ code {
   border-width: 10px 12px;
   border-bottom-color: white;
 }
+
+.slider-track-1 {
+  background-color: #9069FF;
+  height: 100%;
+}

@@ -8,6 +8,8 @@ const maxAge = 26;
 
 
 function FilterFriends() {
+    const majors = ['Công nghệ thông tin', 'Khoa học máy tính', 'Hệ thống thông tin quản lý', 'Marketing', 'Quản trị nhân lực'];
+    const subjects = ['Nhập môn công nghệ thông tin', 'Lập trình hướng đối tượng', 'Cấu trúc dữ liệu và giải thuật', 'Kinh tế vi mô', 'Pháp luật đại cương'];
     const [inputMajor, setInputMajor] = useState("");
     const [selectedMajor, setSelectedMajor] = useState("");
     const [openMajor, setOpenMajor] = useState(false);
@@ -17,11 +19,10 @@ function FilterFriends() {
     const [inputCity, setInputCity] = useState("");
     const [selectedCity, setSelectedCity] = useState("");
     const [openCity, setOpenCity] = useState(false);
-    const majors = ['Công nghệ thông tin', 'Khoa học máy tính', 'Hệ thống thông tin quản lý', 'Marketing', 'Quản trị nhân lực'];
-    const subjects = ['Nhập môn công nghệ thông tin', 'Lập trình hướng đối tượng', 'Cấu trúc dữ liệu và giải thuật', 'Kinh tế vi mô', 'Pháp luật đại cương'];
     const [cities, setCities] = useState(null);
     const [ageValues, setAgeValues] = useState([minAge, maxAge]);
-    
+    const [selectedGender, setSelectedGender] = useState("all");
+
     useEffect(() => {
         fetch('https://provinces.open-api.vn/api/p')
             .then((res) => res.json())
@@ -40,6 +41,7 @@ function FilterFriends() {
                 <Slider 
                     className="mt-3 w-full h-1 bg-gray-300 rounded-full"
                     thumbClassName="w-5 h-5 bg-[#cbb8ff] rounded-full outline-none cursor-grab -top-2 active:bg-[#BAA1FF] hover:bg-[#BAA1FF]"
+                    trackClassName="slider-track"
                     onChange={setAgeValues}
                     value={ageValues}
                     min={minAge}
@@ -50,16 +52,16 @@ function FilterFriends() {
                 <span className="font-medium block w-full mb-3">Giới tính</span>
                 <div className="w-full flex justify-between items-center">
                     <div className="flex items-center gap-2">
-                        <input type="radio" id="gender_all" className="accent-primaryColor" value={"All"} name="gender"/>
+                        <input type="radio" id="gender_all" className="accent-primaryColor" value={"all"} name="gender" checked={selectedGender === 'all'} onChange={()=>setSelectedGender('all')}/>
                         <label htmlFor="gender_all">Bất kỳ</label>
                     </div>
                     <div className="flex items-center gap-2">
-                        <input type="radio" id="gender_men" className="accent-primaryColor" value={"Men"} name="gender"/>
-                        <label htmlFor="gender_men">Nam</label>
+                        <input type="radio" id="gender_man" className="accent-primaryColor" value={"man"} name="gender" checked={selectedGender === 'man'} onChange={()=>setSelectedGender('man')}/>
+                        <label htmlFor="gender_man">Nam</label>
                     </div>
                     <div className="flex items-center gap-2">
-                        <input type="radio" id="gender_women" className="accent-primaryColor" value={"Women"} name="gender"/>
-                        <label htmlFor="gender_women">Nữ</label>
+                        <input type="radio" id="gender_woman" className="accent-primaryColor" value={"woman"} name="gender" checked={selectedGender === 'woman'} onChange={()=>setSelectedGender('woman')}/>
+                        <label htmlFor="gender_woman">Nữ</label>
                     </div>
                 </div>
             </div>
@@ -174,7 +176,7 @@ function FilterFriends() {
                             <input 
                             type="text"
                             value={inputCity}
-                            placeholder="Nhập tên chuyên ngành" 
+                            placeholder="Nhập tên Thành phố/ Tỉnh" 
                             onChange={(e) => setInputCity(e.target.value.toLowerCase())}
                             className="placeholder:text-gray-400 px-4 py-2 text-sm outline-none w-full"/>
                         </div>
@@ -199,12 +201,21 @@ function FilterFriends() {
                 </div>
             </div>
             <div className="mt-4 flex justify-between">
-                <a href="#" className="w-36 text-center py-2 text-base text-red-500 rounded-lg border border-red-500 transition-all hover:brightness-110 hover:shadow">
+                <button 
+                className="w-36 text-center py-2 text-base text-red-500 rounded-lg border border-red-500 transition-all hover:brightness-110 hover:shadow"
+                onClick={() => {
+                    setAgeValues([minAge, maxAge]);
+                    setSelectedGender('all');
+                    setSelectedMajor('');
+                    setSelectedSubject('');
+                    setSelectedCity('');
+                }}
+                >
                     Bỏ chọn
-                </a>
-                <a href="#" type="submit" className="w-36 text-center py-2 text-base bg-primaryColor text-white rounded-lg border border-primaryColor transition-all hover:brightness-105 hover:shadow">
+                </button>
+                <button type="submit" className="w-36 text-center py-2 text-base bg-primaryColor text-white rounded-lg border border-primaryColor transition-all hover:brightness-105 hover:shadow">
                     Xem kết quả
-                </a>
+                </button>
             </div>
         </div>
     );
