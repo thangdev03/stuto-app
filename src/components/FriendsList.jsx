@@ -4,7 +4,7 @@ function FriendsList() {
 
     return (
         <div className="fixed top-28 right-7 h-[500px] w-[360px] bg-boxBackground rounded-3xl py-7 pl-7 pr-4 flex flex-col">
-            <h3 className="font-semibold text-lg text-textColor mb-2">StuToers của bạn</h3>
+            <h3 className="font-semibold text-lg text-textColor mb-2">StuToers đã kết nối</h3>
             <form action="#" method="post" className="bg-[#dfdfdf79] rounded-full flex opacity-60 focus-within:opacity-100">
                 <input 
                     type="text"
