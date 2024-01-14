@@ -1,12 +1,13 @@
 import { Link, useLocation } from 'react-router-dom' 
 import { FaHome, FaUserFriends, FaVideo, FaCalendarAlt, FaUserGraduate } from "react-icons/fa";
 import { BsPostcardFill } from "react-icons/bs";
+import BtnUpgradePro from './BtnUpgradePro';
 
 function Navbar() {
     const location = useLocation();
 
     return (
-        <nav className="fixed top-0">
+        <nav className="fixed top-0 max-w-[276px]">
             <Link to="/" className="block ml-8 mb-2">
                 <img src="./img/logo.webp" width={150} alt=""/>
             </Link>
@@ -90,6 +91,7 @@ function Navbar() {
                     </Link>
                 </li>
             </ul>
+            <BtnUpgradePro className="mt-20 mx-5" />
         </nav>
     );
 }

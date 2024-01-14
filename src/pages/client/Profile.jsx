@@ -64,14 +64,14 @@ function Profile() {
                                 </div>
                             </div>
                             <div className="mt-4 flex gap-5">
-                                <button className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-primaryColor shadow-blockShadow rounded-full text-white transition-all hover:brightness-110">
+                                <button className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-primaryColor rounded-full text-white transition-all hover:shadow-blockShadow hover:brightness-110">
                                     <FaPlus className="font-normal"/>
                                     Kết nối
                                 </button>
                                 <div className="relative" ref={boxRef}>
                                     <button 
                                     onClick={(e) => setOpenUserActions(!openUserActions)}
-                                    className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 border-2 border-textInactive/70 shadow-blockShadow rounded-full text-textInactive/80 transition-all hover:brightness-110 hover:bg-white/20 relative">
+                                    className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 border-2 border-textInactive/70 rounded-full text-textInactive/80 transition-all hover:shadow-blockShadow hover:brightness-110 hover:bg-white/20 relative">
                                         <HiOutlineDotsHorizontal className="font-normal"/>
                                         Khác
                                     </button>
@@ -128,7 +128,7 @@ function Profile() {
                 </div>
             </div>
 
-            {/* Subjects */}
+            {/* Recommendation */}
             <div className="mt-4 bg-white rounded-3xl pt-6 px-12 pb-4">
                 <h3 className="text-xl font-semibold">Đề xuất từ StuToers khác</h3>
                 <div className="my-3 flex items-start gap-6">
@@ -159,7 +159,7 @@ function Profile() {
                     <FaArrowRight className="text-textInactive/70"/>
                 </div>
             </div>
-            {/* Recommendation */}
+            {/* Posts */}
             <div className="mt-4 bg-white rounded-3xl pt-6 px-12 pb-4">
                 <h3 className="text-xl font-semibold">Bài đăng cá nhân</h3>
                 <div className="">
@@ -233,8 +233,49 @@ function Profile() {
                 </div>
             </div>
 
-            {/* Posts */}
+            {/* Courses */}
+            <div className="mt-4 bg-white rounded-3xl pt-4 px-12 pb-10">
+                <div className="flex gap-3">
+                    <button className="px-4 py-3 rounded-3xl font-semibold hover:shadow-md text-white bg-primaryColor">Khóa học đang tham gia</button>
+                    <button className="px-4 py-3 rounded-3xl font-semibold hover:shadow-md text-textInactive border border-[#ACACAC]">Khóa học quan tâm</button>
+                </div>
+                <div className="mt-10 w-full overflow-x-auto flex flex-nowrap justify-between gap-2 pb-4">
+                    <div className="p-2 bg-boxBackground rounded-xl h-48 w-64 shadow-blockShadow hover:bg-primaryColor/70 hover:text-white transition-all">
+                        <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                        alt="" 
+                        className="w-full h-[60%] object-cover rounded-lg"/>
+                        <p className="mt-3 font-medium text-center truncate">Lập trình hướng đối tượng C++</p>
+                    </div>
+                    <div className="p-2 bg-boxBackground rounded-xl h-48 w-64 shadow-blockShadow hover:bg-primaryColor/70 hover:text-white transition-all">
+                        <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                        alt="" 
+                        className="w-full h-[60%] object-cover rounded-lg"/>
+                        <p className="mt-3 font-medium text-center truncate">Thương mại điện tử</p>
+                    </div>
+                    <div className="p-2 bg-boxBackground rounded-xl h-48 w-64 shadow-blockShadow hover:bg-primaryColor/70 hover:text-white transition-all">
+                        <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                        alt="" 
+                        className="w-full h-[60%] object-cover rounded-lg"/>
+                        <p className="mt-3 font-medium text-center truncate">Phân tích dữ liệu</p>
+                    </div>
+                    <div className="p-2 bg-boxBackground rounded-xl h-48 w-64 shadow-blockShadow hover:bg-primaryColor/70 hover:text-white transition-all">
+                        <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=1931&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+                        alt="" 
+                        className="w-full h-[60%] object-cover rounded-lg"/>
+                        <p className="mt-3 font-medium text-center truncate">Phân tích và thiết kế hệ thống CNTT</p>
+                    </div>
+                </div>
+            </div>
 
+            {/* Subjects */}
+            <div className="mt-4 bg-white rounded-3xl pt-4 px-12 pb-10">
+                <h3 className="text-xl font-semibold">Các môn đã học</h3>
+                <ul className="mt-5 w-full">
+                    <li className="py-3 px-4 mb-3 border border-gray-400 rounded-xl">1. Lập trình hướng đối tượng</li>
+                    <li className="py-3 px-4 mb-3 border border-gray-400 rounded-xl">2. Phân tích dữ liêu</li>
+                    <li className="py-3 px-4 mb-3 border border-gray-400 rounded-xl">3. Học máy (Machine Learning)</li>
+                </ul>
+            </div>
         </div>
     );
 }
