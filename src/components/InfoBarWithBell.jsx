@@ -6,7 +6,7 @@ function InfoBarWithBell() {
             <a href="#" className="px-1">
                 <FaBell className="text-textInactive text-xl"/>
             </a>
-            <div className="py-2 px-5 grow flex items-center bg-boxBackground rounded-full shadow-blockShadow">
+            <div className="py-2 px-3 grow flex items-center bg-boxBackground rounded-full shadow-blockShadow">
                 <div className="mr-4">
                     <img 
                         src="./img/default-avatar.png" 

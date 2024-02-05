@@ -64,7 +64,7 @@ function Home() {
     ];
 
     return (
-        <div className="ml-80 mr-[416px] mt-10">
+        <div className="ml-72 mr-[386px] mt-10">
             <h1 className="font-bold text-3xl">Đến giờ học rồi, Nhật Thăng ơi</h1>
             <p className="mt-4 text-textInactive font-bold">Hôm nay bạn muốn học môn gì?</p>
             {/* Dashboard */}
@@ -111,36 +111,36 @@ function Home() {
             <div className="mt-2 grid grid-cols-4 gap-2 overflow-hidden w-full py-2">
                 {recentlyGroups.map(group => {
                     return (
-                        <a href="#" key={group.id} className="p-2 bg-boxBackground rounded-xl h-48 shadow-blockShadow hover:bg-primaryColor/70 hover:text-white transition-all">
+                        <a href="#" key={group.id} className="p-2 bg-boxBackground rounded-xl h-40 shadow-blockShadow hover:bg-primaryColor/70 hover:text-white transition-all">
                             <img 
                                 src={group.image}
                                 alt="code on laptop on black table"
                                 className="w-full h-[60%] object-cover rounded-lg"
                             />
-                            <p className="mt-3 font-medium text-center truncate" title={group.name}>{group.name}</p>
+                            <p className="mt-3 text-sm font-medium text-center truncate" title={group.name}>{group.name}</p>
                         </a>
                     );
                 })}
             </div>
             {/* Courses Recommend */}
             <h2 className="font-semibold text-xl mt-12">Các khóa học cho bạn</h2>
-            <div className="mt-2 mb-8 grid grid-cols-4 gap-2 overflow-hidden w-full py-2">
+            <div className="mt-2 mb-8 grid grid-cols-3 gap-2 overflow-hidden w-full py-2">
                 {courses.map(course => {
                     return (
-                        <div key={course.id} className="p-2 bg-boxBackground rounded-xl h-72 shadow-blockShadow relative">
+                        <div key={course.id} className="p-2 bg-boxBackground rounded-xl h-64 shadow-blockShadow flex flex-col">
                             <img 
                                 src={course.image}
                                 alt="code on laptop on black table"
                                 className="w-full h-[45%] object-cover rounded-lg"
                             />
                             <p className="mt-3 font-medium text-center truncate" title={course.name}>{course.name}</p>
-                            <div className="w-full absolute bottom-3 flex justify-around items-center">
+                            <div className="mt-5 w-full flex flex-col items-center">
                                 <p className="text-sm font-medium flex items-center gap-1">
                                     <span><FaClock /></span>
                                     {course.duration}
                                 </p>
                                 <button 
-                                    className="p-2 text-primaryColor border border-primaryColor font-medium rounded-lg \
+                                    className="mt-2 w-full p-2 text-sm text-primaryColor border border-primaryColor font-medium rounded-lg \
                                     hover:text-white hover:bg-primaryColor transition-all"
                                 >
                                     Tham gia ngay

@@ -30,7 +30,7 @@ function Profile() {
     
     
     return (
-        <div className="ml-80 mr-[416px] mt-10 pb-12">
+        <div className="ml-72 mr-[416px] mt-10 pb-12">
             <FriendsList />
             {/* Basic Info */}
             <div className="bg-white rounded-3xl">

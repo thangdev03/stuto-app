@@ -24,16 +24,16 @@ function FilterFriends() {
     const [selectedGender, setSelectedGender] = useState("all");
 
     useEffect(() => {
-        fetch('https://provinces.open-api.vn/api/p')
+        fetch('https://vapi.vnappmob.com/api/province')
             .then((res) => res.json())
-            .then((citiesData) => setCities(citiesData));
+            .then((citiesData) => setCities(citiesData.results));
     }, []);
     return (
-        <div className="fixed top-28 right-7 min-h-[500px] w-[360px] bg-boxBackground rounded-3xl py-7 px-7 flex flex-col">
-            <h3 className="font-semibold text-xl text-textColor mb-4">Bộ lọc</h3>
-            <div className="text-base">
+        <div className="fixed top-24 right-7 min-h-[500px] w-[340px] bg-boxBackground rounded-3xl py-6 px-7 flex flex-col">
+            <h3 className="font-semibold text-lg text-textColor">Bộ lọc</h3>
+            <div className="mt-3 text-sm">
                 <span className="font-medium">Độ tuổi</span>
-                <div className="mt-3 flex items-center justify-between">
+                <div className="mt-3 flex items-center justify-between text-sm">
                     <p className="py-1 px-5 border border-[#bebebe] rounded w-20 text-center">{ageValues[0]}</p>
                     <div className="bg-[#bebebe] w-20 h-[1px] grow"></div>
                     <p className="py-1 px-5 border border-[#bebebe] rounded w-20 text-center">{ageValues[1]}</p>
@@ -48,7 +48,7 @@ function FilterFriends() {
                     max={maxAge}
                 />
             </div>
-            <div className="mt-5 text-base">
+            <div className="mt-4 text-sm">
                 <span className="font-medium block w-full mb-3">Giới tính</span>
                 <div className="w-full flex justify-between items-center">
                     <div className="flex items-center gap-2">
@@ -65,7 +65,7 @@ function FilterFriends() {
                     </div>
                 </div>
             </div>
-            <div className="mt-5 text-base">
+            <div className="mt-4 text-sm">
                 <span className="font-medium">Chuyên ngành</span>
                 <div className="w-full font-normal mt-3 relative">
                     <div 
@@ -110,7 +110,7 @@ function FilterFriends() {
                     </ul>
                 </div>
             </div>
-            <div className="mt-5 text-base">
+            <div className="mt-4 text-sm">
                 <span className="font-medium">Môn học</span>
                 <div className="w-full font-normal mt-3 relative">
                     <div 
@@ -155,7 +155,7 @@ function FilterFriends() {
                     </ul>
                 </div>
             </div>
-            <div className="mt-5 text-base">
+            <div className="mt-4 text-sm">
                 <span className="font-medium">Khu vực</span>
                 <div className="w-full font-normal mt-3 relative">
                     <div 
@@ -179,22 +179,23 @@ function FilterFriends() {
                             placeholder="Nhập tên Thành phố/ Tỉnh" 
                             onChange={(e) => setInputCity(e.target.value.toLowerCase())}
                             className="placeholder:text-gray-400 px-4 py-2 text-sm outline-none w-full"/>
-                        </div>
+                        </div> 
+                        {/* { console.log(cities) } */}
                         {cities?.map((city, index) => (
                             <li 
                             key={index} 
                             className={`px-4 py-2 text-sm hover:bg-primaryColor hover:text-white first:rounded-t-md last:rounded-b-md cursor-pointer
-                            ${city?.name?.toLowerCase().includes(inputCity) ? 'block' : 'hidden' }
-                            ${city?.name?.toLowerCase() === selectedCity?.toLowerCase() && "bg-primaryColor text-white"}`}
+                            ${city?.province_name?.toLowerCase().includes(inputCity) ? 'block' : 'hidden' }
+                            ${city?.province_name?.toLowerCase() === selectedCity?.toLowerCase() && "bg-primaryColor text-white"}`}
                             onClick={(e) => {
-                                if (city?.name?.toLowerCase() !== selectedCity.toLowerCase()) {
-                                    setSelectedCity(city?.name);
+                                if (city?.province_name?.toLowerCase() !== selectedCity.toLowerCase()) {
+                                    setSelectedCity(city?.province_name);
                                     setOpenCity(false);
                                     setInputCity("");
                                 }
                             }}
                             >
-                                {city?.name}
+                                {city?.province_name}
                             </li>
                         ))}
                     </ul>
@@ -202,7 +203,7 @@ function FilterFriends() {
             </div>
             <div className="mt-4 flex justify-between">
                 <button 
-                className="w-36 text-center py-2 text-base text-red-500 rounded-lg border border-red-500 transition-all hover:brightness-110 hover:shadow"
+                className="w-36 text-center py-2 text-sm text-red-500 rounded-lg border border-red-500 transition-all hover:brightness-110 hover:shadow"
                 onClick={() => {
                     setAgeValues([minAge, maxAge]);
                     setSelectedGender('all');
@@ -213,7 +214,7 @@ function FilterFriends() {
                 >
                     Bỏ chọn
                 </button>
-                <button type="submit" className="w-36 text-center py-2 text-base bg-primaryColor text-white rounded-lg border border-primaryColor transition-all hover:brightness-105 hover:shadow">
+                <button type="submit" className="w-36 text-center py-2 text-sm bg-primaryColor text-white rounded-lg border border-primaryColor transition-all hover:brightness-105 hover:shadow">
                     Xem kết quả
                 </button>
             </div>

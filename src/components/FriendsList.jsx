@@ -29,7 +29,7 @@ function FriendsList() {
     const [inputValue, setInputValue] = useState("");
 
     return (
-        <div className="fixed top-28 right-7 h-[500px] w-[360px] bg-boxBackground rounded-3xl py-7 pl-7 pr-4 flex flex-col">
+        <div className="fixed top-24 right-7 h-[380px] w-[340px] bg-boxBackground rounded-3xl py-6 pl-7 pr-4 flex flex-col">
             <h3 className="font-semibold text-lg text-textColor mb-2">StuToers đã kết nối</h3>
             <div className={`bg-[#dfdfdf79] rounded-full flex focus-within:opacity-100 transition-all ${inputValue? "opacity-100": "opacity-60"}`}>
                 <input 
@@ -44,19 +44,19 @@ function FriendsList() {
                 </div>
             </div>
             {/* Friends list */}
-            <ul className="mt-5 flex flex-col gap-1 grow overflow-y-auto">
+            <ul className="mt-5 flex flex-col gap-0 grow overflow-y-auto">
                 {friendsList.map((friend) => friend.name.toLowerCase().includes(inputValue) || friend.major.toLowerCase().includes(inputValue) ? (
                     <li className="flex items-top hover:cursor-pointer hover:bg-gray-100 p-2 rounded-lg cursor-pointer">
                         <div className="relative mr-4">
                             <img 
                                 src="./img/default-avatar.png" 
                                 alt=""
-                                className="w-10 h-10 rounded-full object-cover" 
+                                className="w-9 h-9 rounded-full object-cover" 
                             />
-                            <div className={`absolute top-7 left-7 bg-green-500 w-3 h-3 rounded-full`}></div>
+                            <div className={`absolute top-7 left-6 bg-green-500 w-2 h-2 rounded-full`}></div>
                         </div>
                         <div className="w-[calc(100%-58px)]">
-                            <h4 className="font-semibold">{friend.name}</h4>
+                            <h4 className="text-sm font-semibold">{friend.name}</h4>
                             <p className="text-xs w-full truncate">{friend.school}, {friend.major}</p>
                         </div>
                     </li>

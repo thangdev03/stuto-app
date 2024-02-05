@@ -8,14 +8,14 @@ function Navbar() {
 
     return (
         <nav className="fixed top-0 max-w-[276px]">
-            <Link to="/" className="block ml-8 mb-2">
+            <Link to="/" className="block ml-8">
                 <img src="./img/logo.webp" width={150} alt=""/>
             </Link>
-            <ul className="w-64 ml-5 font-semibold flex flex-col gap-3">
+            <ul className="w-56 ml-5 font-semibold flex flex-col gap-1">
                 <li>
                     <Link to="/"
                     className={
-                        `flex items-center gap-3 h-12 px-5 text-lg rounded-xl hover:bg-[#f8f8f8] transition-all
+                        `flex items-center gap-3 h-12 px-5 rounded-xl hover:bg-[#f8f8f8] transition-all
                         ${location.pathname === '/'? 
                         "text-primaryColor bg-boxBackground": 
                         "text-textInactive"
@@ -28,7 +28,7 @@ function Navbar() {
                 <li>
                     <Link to="/tim-ban-hoc" 
                     className={
-                        `flex items-center gap-3 h-12 px-5 text-lg rounded-xl hover:bg-[#f8f8f8] transition-all
+                        `flex items-center gap-3 h-12 px-5 rounded-xl hover:bg-[#f8f8f8] transition-all
                         ${location.pathname === '/tim-ban-hoc'? 
                         "text-primaryColor bg-boxBackground": 
                         "text-textInactive"
@@ -41,7 +41,7 @@ function Navbar() {
                 <li>
                     <Link to="/phong-hoc-online"
                     className={
-                        `flex items-center gap-3 h-12 px-5 text-lg rounded-xl hover:bg-[#f8f8f8] transition-all
+                        `flex items-center gap-3 h-12 px-5 rounded-xl hover:bg-[#f8f8f8] transition-all
                         ${location.pathname === '/phong-hoc-online'? 
                         "text-primaryColor bg-boxBackground": 
                         "text-textInactive"
@@ -54,7 +54,7 @@ function Navbar() {
                 <li>
                     <Link to="/thoi-gian-bieu"
                     className={
-                        `flex items-center gap-3 h-12 px-5 text-lg rounded-xl hover:bg-[#f8f8f8] transition-all
+                        `flex items-center gap-3 h-12 px-5 rounded-xl hover:bg-[#f8f8f8] transition-all
                         ${location.pathname === '/thoi-gian-bieu'? 
                         "text-primaryColor bg-boxBackground": 
                         "text-textInactive"
@@ -67,7 +67,7 @@ function Navbar() {
                 <li>
                     <Link to="/khoa-hoc" 
                     className={
-                        `flex items-center gap-3 h-12 px-5 text-lg rounded-xl hover:bg-[#f8f8f8] transition-all
+                        `flex items-center gap-3 h-12 px-5 rounded-xl hover:bg-[#f8f8f8] transition-all
                         ${location.pathname === '/khoa-hoc'? 
                         "text-primaryColor bg-boxBackground": 
                         "text-textInactive"
@@ -80,7 +80,7 @@ function Navbar() {
                 <li>
                     <Link to="/bai-dang" 
                     className={
-                        `flex items-center gap-3 h-12 px-5 text-lg rounded-xl hover:bg-[#f8f8f8] transition-all
+                        `flex items-center gap-3 h-12 px-5 rounded-xl hover:bg-[#f8f8f8] transition-all
                         ${location.pathname === '/bai-dang'? 
                         "text-primaryColor bg-boxBackground": 
                         "text-textInactive"
@@ -91,7 +91,7 @@ function Navbar() {
                     </Link>
                 </li>
             </ul>
-            <BtnUpgradePro className="mt-20 mx-5" />
+            <BtnUpgradePro className="mt-10 mx-5" />
         </nav>
     );
 }

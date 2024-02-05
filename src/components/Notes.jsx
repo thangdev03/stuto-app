@@ -31,9 +31,9 @@ function Notes() {
     ];
     
     return (
-        <div className="fixed top-[636px] right-7 pt-6 pr-2 pl-6 pb-2 h-56 w-[360px] bg-boxBackground rounded-3xl">
+        <div className="fixed top-[490px] right-7 pt-6 pr-2 pl-6 pb-2 h-48 w-[340px] bg-boxBackground rounded-3xl">
             <h3 className="font-semibold text-lg">Lời nhắc</h3>
-            <ul className="mt-3 max-h-28 overflow-y-auto">
+            <ul className="mt-3 max-h-28 overflow-y-auto text-sm">
                 {
                     notes.map(note => 
                         <li className="mb-2 flex items-center" key={note.id}>
@@ -44,7 +44,7 @@ function Notes() {
                     )
                 }
             </ul>
-            <form action="#" method="post" className="mt-2">
+            <form action="#" method="post" className="mt-2 text-sm">
                 <p className="mr-3 text-center w-4 float-start">+</p>
                 <input 
                     type="text" 
