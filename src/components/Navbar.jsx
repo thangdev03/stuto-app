@@ -7,11 +7,11 @@ function Navbar() {
     const location = useLocation();
 
     return (
-        <nav className="fixed top-0 max-w-[276px]">
-            <Link to="/" className="block ml-8">
-                <img src="./img/logo.webp" width={150} alt=""/>
-            </Link>
-            <ul className="w-56 ml-5 font-semibold flex flex-col gap-1">
+        <nav className="fixed top-20 w-64 pl-5">
+            {/* <Link to="/" className="block ml-12">
+                <img src="./img/logo.webp" width={100} alt=""/>
+            </Link> */}
+            <ul className="w-full font-semibold flex flex-col gap-1">
                 <li>
                     <Link to="/"
                     className={
@@ -91,7 +91,7 @@ function Navbar() {
                     </Link>
                 </li>
             </ul>
-            <BtnUpgradePro className="mt-10 mx-5" />
+            <BtnUpgradePro className="mt-10 text-center" />
         </nav>
     );
 }

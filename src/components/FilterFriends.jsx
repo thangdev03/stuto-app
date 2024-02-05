@@ -29,7 +29,7 @@ function FilterFriends() {
             .then((citiesData) => setCities(citiesData.results));
     }, []);
     return (
-        <div className="fixed top-24 right-7 min-h-[500px] w-[340px] bg-boxBackground rounded-3xl py-6 px-7 flex flex-col">
+        <div className="fixed top-24 right-5 min-h-[500px] w-[340px] bg-boxBackground rounded-3xl py-6 px-7 flex flex-col">
             <h3 className="font-semibold text-lg text-textColor">Bộ lọc</h3>
             <div className="mt-3 text-sm">
                 <span className="font-medium">Độ tuổi</span>

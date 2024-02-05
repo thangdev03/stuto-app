@@ -29,7 +29,7 @@ function FriendsList() {
     const [inputValue, setInputValue] = useState("");
 
     return (
-        <div className="fixed top-24 right-7 h-[380px] w-[340px] bg-boxBackground rounded-3xl py-6 pl-7 pr-4 flex flex-col">
+        <div className="fixed top-24 right-5 h-[380px] w-[340px] bg-boxBackground rounded-3xl py-6 pl-7 pr-4 flex flex-col">
             <h3 className="font-semibold text-lg text-textColor mb-2">StuToers đã kết nối</h3>
             <div className={`bg-[#dfdfdf79] rounded-full flex focus-within:opacity-100 transition-all ${inputValue? "opacity-100": "opacity-60"}`}>
                 <input 
