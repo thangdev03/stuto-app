@@ -43,9 +43,9 @@ function Login() {
                 <h1 className="mt-3 text-xl font-semibold">ĐĂNG NHẬP</h1>
                 <form action="" className="mt-4 flex flex-col gap-2">
                     <label htmlFor="email" className="">Email</label>
-                    <input type="email" id="email" placeholder="Nhập email của bạn" className="h-10 rounded-lg p-3 placeholder:text-textInactive/45 outline-none border focus:border-primaryColor/70 focus:shadow-md"/>
+                    <input type="email" id="email" placeholder="Nhập email của bạn" required className="h-10 rounded-lg p-3 placeholder:text-textInactive/45 outline-none border focus:border-primaryColor/70 focus:shadow-md"/>
                     <label htmlFor="password" className="mt-2">Mật khẩu</label>
-                    <input type="text" id="password" placeholder="Nhập mật khẩu của bạn" className="h-10 rounded-lg p-3 placeholder:text-textInactive/45 outline-none border focus:border-primaryColor/70 focus:shadow-md"/>
+                    <input type="text" id="password" placeholder="Nhập mật khẩu của bạn" required className="h-10 rounded-lg p-3 placeholder:text-textInactive/45 outline-none border focus:border-primaryColor/70 focus:shadow-md"/>
                     <div className="mt-2 flex justify-between items-center">
                         <div className="flex items-center gap-1">
                             <input type="checkbox" id="remember-login" className="w-4 h-4"/>
@@ -53,7 +53,7 @@ function Login() {
                         </div>
                             <a href="#" className="text-sm text-primaryColor">Quên mật khẩu?</a>
                     </div>
-                    <button type="submit" className="mt-4 py-2 rounded-lg bg-primaryColor text-white text-base font-medium">ĐĂNG NHẬP</button>
+                    <button type="submit" className="mt-4 py-2 rounded-lg bg-primaryColor text-white text-base font-medium shadow-blockShadow hover:bg-primaryColor/90">ĐĂNG NHẬP</button>
                 </form>
                 <div className="my-4 flex gap-5 items-center">
                     <span className="h-[1px] grow rounded-full bg-[#b9b9b9]"></span>
@@ -64,7 +64,7 @@ function Login() {
                     <img src="/img/outlook-icon.png" alt="outlook" className="w-7"/>
                     Outlook
                 </a>
-                <p className="mt-5 text-center text-[#b9b9b9]">
+                <p className="mt-5 text-center text-[#b9b9b9] text-sm">
                     Bạn mới biết đến StuTo? <a href="#" className="text-primaryColor">Đăng ký ngay</a>
                 </p>
             </div>
