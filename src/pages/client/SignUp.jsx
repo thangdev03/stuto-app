@@ -1,6 +1,6 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate } from 'react-router-dom'
 
-function Login() {
+function SignUp() {
     let auth = true;
     if (auth) {
         return <Navigate to="/" />
@@ -46,20 +46,14 @@ function Login() {
             </div>
             <div className="w-1/3 h-full px-16">
                 <img src="/img/logo.webp" alt="logo StuTo" className="w-40 mx-auto"/>
-                <h1 className="mt-5 text-xl font-semibold">ĐĂNG NHẬP</h1>
-                <form action="" className="mt-4 flex flex-col gap-2">
-                    {/* <label htmlFor="email" className="">Email</label> */}
-                    <input type="email" placeholder="Địa chỉ email" required className="h-10 rounded-lg p-3 placeholder:text-textInactive/45 outline-none border focus:border-primaryColor/70 focus:shadow-md"/>
-                    {/* <label htmlFor="password" className="mt-2">Mật khẩu</label> */}
-                    <input type="text" placeholder="Mật khẩu" required className="mt-2 h-10 rounded-lg p-3 placeholder:text-textInactive/45 outline-none border focus:border-primaryColor/70 focus:shadow-md"/>
-                    <div className="mt-2 flex justify-between items-center">
-                        <div className="flex items-center gap-1">
-                            <input type="checkbox" id="remember-login" className="w-4 h-4"/>
-                            <label htmlFor="remember-password" className="text-sm">Ghi nhớ đăng nhập</label>
-                        </div>
-                            <a href="#" className="text-sm text-primaryColor">Quên mật khẩu?</a>
-                    </div>
-                    <button type="submit" className="mt-4 py-2 rounded-lg bg-primaryColor text-white text-base font-medium shadow-blockShadow hover:bg-primaryColor/90">ĐĂNG NHẬP</button>
+                <h1 className="mt-2 text-xl font-semibold">ĐĂNG KÝ</h1>
+                <form action="" className="mt-4 flex flex-col gap-4">
+                    <input type="text" placeholder="Họ tên của bạn*" required className="h-10 rounded-lg p-3 placeholder:text-textInactive/45 outline-none border focus:border-primaryColor/70 focus:shadow-md"/>
+                    
+                    <input type="email" placeholder="Địa chỉ email*" required className="h-10 rounded-lg p-3 placeholder:text-textInactive/45 outline-none border focus:border-primaryColor/70 focus:shadow-md"/>
+                    <input type="text" placeholder="Mật khẩu*" required className="h-10 rounded-lg p-3 placeholder:text-textInactive/45 outline-none border focus:border-primaryColor/70 focus:shadow-md"/>
+                    <input type="text" placeholder="Nhập lại mật khẩu*" required className="h-10 rounded-lg p-3 placeholder:text-textInactive/45 outline-none border focus:border-primaryColor/70 focus:shadow-md"/>
+                    <button type="submit" className="mt-4 py-2 rounded-lg bg-primaryColor text-white text-base font-medium shadow-blockShadow hover:bg-primaryColor/90">TẠO TÀI KHOẢN</button>
                 </form>
                 <div className="my-4 flex gap-5 items-center">
                     <span className="h-[1px] grow rounded-full bg-[#b9b9b9]"></span>
@@ -71,11 +65,11 @@ function Login() {
                     Outlook
                 </a>
                 <p className="mt-5 text-center text-[#b9b9b9] text-sm">
-                    Bạn mới biết đến StuTo? <Link to="/signup" className="text-primaryColor">Đăng ký</Link>
+                    Bạn đã có tài khoản? <Link to="/login" className="text-primaryColor">Đăng nhập</Link>
                 </p>
             </div>
         </div>
     );
 }
 
-export default Login
+export default SignUp;
