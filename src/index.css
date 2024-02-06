@@ -41,3 +41,13 @@ code {
   background-color: #9069FF;
   height: 100%;
 }
+
+.auth-description::before {
+  display: block;
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  -webkit-text-stroke: 2px #9169ffab;
+}
