@@ -203,7 +203,7 @@ function FilterFriends() {
             </div>
             <div className="mt-4 flex justify-between">
                 <button 
-                className="w-36 text-center py-2 text-sm text-red-500 rounded-lg border border-red-500 transition-all hover:brightness-110 hover:shadow"
+                className="w-32 text-center py-2 text-sm text-red-500 rounded-lg border border-red-500 transition-all hover:bg-red-500 hover:text-white hover:shadow"
                 onClick={() => {
                     setAgeValues([minAge, maxAge]);
                     setSelectedGender('all');
@@ -214,7 +214,7 @@ function FilterFriends() {
                 >
                     Bỏ chọn
                 </button>
-                <button type="submit" className="w-36 text-center py-2 text-sm bg-primaryColor text-white rounded-lg border border-primaryColor transition-all hover:brightness-105 hover:shadow">
+                <button type="submit" className="w-32 text-center py-2 text-sm bg-primaryColor text-white rounded-lg border border-primaryColor transition-all hover:bg-primaryColor/80 hover:shadow">
                     Xem kết quả
                 </button>
             </div>

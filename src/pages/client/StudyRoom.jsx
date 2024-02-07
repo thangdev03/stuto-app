@@ -7,7 +7,7 @@ import { FaMicrophone } from "react-icons/fa";
 function StudyRoom() {
     return (
         <div className="ml-72 mr-[386px] mt-10 mb-10">
-            <button className="w-full py-3 bg-primaryColor rounded-3xl text-lg text-white font-medium flex items-center justify-center gap-2 shadow-blockShadow hover:brightness-105">
+            <button className="w-full py-3 bg-primaryColor rounded-3xl text-lg text-white font-medium flex items-center justify-center gap-2 shadow-blockShadow hover:bg-primaryColor/80">
                 <FaPlus className="text-sm"/>
                 Tạo phòng mới
             </button>

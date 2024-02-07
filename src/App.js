@@ -12,13 +12,15 @@ import Profile from './pages/client/Profile'
 import Login from './pages/client/Login'
 import SignUp from './pages/client/SignUp'
 import PrivateRoutes from './utils/PrivateRoutes'
+import Meeting from './pages/client/Meeting'
 
 function App() {
   let auth = true;
+  const { pathname } = useLocation();
 
   return (
     <div className="App">
-      {auth && (
+      {auth && pathname !== '/meeting' && (
         <>
           <div className="sticky top-0 h-16 bg-[#cbe0ff] shadow-md border-b border-b-white flex items-center py-2 overflow-hidden">
             <Link to="/" className="block ml-16">
@@ -44,6 +46,7 @@ function App() {
           <Route path="/khoa-hoc" element={<Courses />}/>
           <Route path="/bai-dang" element={<Posts />}/>
           <Route path="/user-profile" element={<Profile />}/>
+          <Route path="/meeting" element={<Meeting />} />
         </Route>
       </Routes>
     </div>
