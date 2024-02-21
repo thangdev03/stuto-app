@@ -13,6 +13,11 @@ module.exports = {
       },
       boxShadow: {
         blockShadow: '1px 3px 4px 0px rgba(0, 0, 0, 0.10)',
+      },
+      keyframes: {
+        progress: {
+          '100%': {right: '100%'}
+        }
       }
     },
   },
