@@ -1,10 +1,37 @@
 import { Link, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 function Login() {
-    let auth = true;
-    if (auth) {
-        return <Navigate to="/" />
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+
+    async function loginUser(event) {
+        event.preventDefault();
+
+        const response = await fetch("http://localhost:5555/account/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email,
+                password
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.user) {
+            localStorage.setItem('user', data.user);
+            const user = localStorage.getItem('user')
+            console.log(user)
+            alert("Đăng nhập thành công");
+            // window.location.href = "/"
+        } else {
+            alert('Vui lòng kiểm tra lại email và mật khẩu của bạn')
+        }
     }
+    
     return (
         <div className="flex h-screen">
             <div className="grow h-full overflow-hidden relative">
@@ -47,11 +74,24 @@ function Login() {
             <div className="w-1/3 h-full px-16">
                 <img src="/img/logo.webp" alt="logo StuTo" className="w-40 mx-auto"/>
                 <h1 className="mt-5 text-xl font-semibold">ĐĂNG NHẬP</h1>
-                <form action="" className="mt-4 flex flex-col gap-2">
+                <form onSubmit={loginUser} className="mt-4 flex flex-col gap-2">
                     {/* <label htmlFor="email" className="">Email</label> */}
-                    <input type="email" placeholder="Địa chỉ email" required className="h-10 rounded-lg p-3 placeholder:text-textInactive/45 outline-none border focus:border-primaryColor/70 focus:shadow-md"/>
+                    <input 
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        type="email" 
+                        placeholder="Địa chỉ email" 
+                        required 
+                        className="h-10 rounded-lg p-3 placeholder:text-textInactive/45 outline-none border 
+                        focus:border-primaryColor/70 focus:shadow-md"/>
                     {/* <label htmlFor="password" className="mt-2">Mật khẩu</label> */}
-                    <input type="text" placeholder="Mật khẩu" required className="mt-2 h-10 rounded-lg p-3 placeholder:text-textInactive/45 outline-none border focus:border-primaryColor/70 focus:shadow-md"/>
+                    <input 
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        type="password" 
+                        placeholder="Mật khẩu" 
+                        required 
+                        className="mt-2 h-10 rounded-lg p-3 placeholder:text-textInactive/45 outline-none border focus:border-primaryColor/70 focus:shadow-md"/>
                     <div className="mt-2 flex justify-between items-center">
                         <div className="flex items-center gap-1">
                             <input type="checkbox" id="remember-login" className="w-4 h-4"/>

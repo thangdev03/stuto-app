@@ -14,20 +14,6 @@ function SignUp() {
   const [message, setMessage] = useState("");
   const [type, setType] = useState("");
 
-  // function checkValidation() {
-  //   if (password !== retype) {
-  //     setMessage("Mật khẩu nhập lại chưa trùng khớp");
-  //     setType("FAILED");
-  //     const timer = setTimeout(() => {
-  //       setMessage("");
-  //       setType("");
-  //     }, 3500);
-  //     return () => {
-  //       clearTimeout(timer);
-  //     };
-  //   }
-  // }
-
   async function registerUser(event) {
     event.preventDefault();
     let timer;
