@@ -4,19 +4,35 @@ import { IoIosSend } from "react-icons/io";
 import { FaUserFriends } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
 import FilterFriends from "../../components/FilterFriends"
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 var statusFindFriend = true;
 
 function FindFriends() {
     const [activeFind, setActiveFind] = useState(statusFindFriend);
     const [openInvitation, setOpenInvitation] = useState(false);
+    const [state, dispatch] = useAuthContext();
+    const { user } = state;
+    let username = ""
+
+    if (user) {
+        const nameWords = user.name.split(" ");
+        const lastName = nameWords.pop();
+        if (nameWords.length >= 2) {
+            const secondLastName = nameWords.pop();
+            username = secondLastName + " " + lastName;
+        } else {
+            username = user.name;
+        }
+    }
+
     function handleOpenInvitation() {
         setOpenInvitation(!openInvitation);
     }
 
     return (
         <div className="ml-72 mr-[386px] my-10">
-            <h1 className="font-bold text-3xl">Hi Nhật Thăng, bạn muốn học cùng ai?</h1>
+            <h1 className="font-bold text-3xl">Nè {username}, bạn muốn học cùng ai?</h1>
             <div className="mt-8 pt-5 px-6 pb-6 bg-white w-full rounded-lg shadow-blockShadow">
                 <div className="flex justify-between items-center">
                     <span className="font-medium">Chế độ tìm bạn học</span>

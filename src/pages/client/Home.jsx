@@ -1,6 +1,7 @@
 import { FaClock } from "react-icons/fa"
 import Notes from "../../components/Notes";
 import FriendsList from "../../components/FriendsList";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 function Home() {
     const recentlyGroups = [
@@ -62,10 +63,24 @@ function Home() {
             duration: "20:00:00"
         },
     ];
+    const [state, dispatch] = useAuthContext();
+    const { user } = state;
+    let username = ""
+
+    if (user) {
+        const nameWords = user.name.split(" ");
+        const lastName = nameWords.pop();
+        if (nameWords.length >= 2) {
+            const secondLastName = nameWords.pop();
+            username = secondLastName + " " + lastName;
+        } else {
+            username = user.name;
+        }
+    }
 
     return (
         <div className="ml-72 mr-[386px] mt-10">
-            <h1 className="font-bold text-3xl">Đến giờ học rồi, Nhật Thăng ơi</h1>
+            <h1 className="font-bold text-3xl">Đến giờ học rồi, {username} ơi!</h1>
             <p className="mt-4 text-textInactive font-bold">Hôm nay bạn muốn học môn gì?</p>
             {/* Dashboard */}
             <div id="dashboard" className="mt-8 h-44 px-9 py-8 bg-boxBackground rounded-3xl grid grid-cols-2 gap-x-52 gap-y-7">

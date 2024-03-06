@@ -6,7 +6,7 @@ function Courses() {
             <div>
                 <div className="flex items-end justify-between flex-wrap">
                     <h1 className="text-xl font-semibold">Các khóa học từ Coursera</h1>
-                    <a href="#" className="text-textInactive hover:text-textColor transition-all">Xem thêm -></a>
+                    <a href="#" className="text-textInactive hover:text-textColor transition-all">Xem thêm {`->`}</a>
                 </div>
                 <div className="mt-3 flex gap-3 flex-wrap">
                     <div className="w-80 bg-white p-2 rounded-xl 2xl:grow shadow-blockShadow">
@@ -80,7 +80,7 @@ function Courses() {
             <div>
                 <div className="mt-10 flex items-end justify-between flex-wrap">
                     <h1 className="text-xl font-semibold">Các khóa học từ Udemy</h1>
-                    <a href="#" className="text-textInactive hover:text-textColor transition-all">Xem thêm -></a>
+                    <a href="#" className="text-textInactive hover:text-textColor transition-all">Xem thêm {`->`}</a>
                 </div>
                 <div className="mt-3 flex gap-3 flex-wrap">
                     <div className="w-80 bg-white p-2 rounded-xl 2xl:grow shadow-blockShadow">

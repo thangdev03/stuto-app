@@ -13,16 +13,18 @@ import Login from './pages/client/Login'
 import SignUp from './pages/client/SignUp'
 import PrivateRoutes from './utils/PrivateRoutes'
 import Meeting from './pages/client/Meeting'
+import { useAuthContext } from './hooks/useAuthContext'
 
 function App() {
-  let auth = true;
   const { pathname } = useLocation();
+  const [state, dispatch] = useAuthContext();
+  const { user } = state;
 
   return (
     <div className="App">
-      {auth && pathname !== '/meeting' && (
+      {user && (pathname !== '/meeting') && (pathname !== '/login') && (pathname !== '/signup') && (
         <>
-          <div className="sticky top-0 h-16 bg-[#cbe0ff] shadow-md border-b border-b-white flex items-center py-2 overflow-hidden">
+          <div className="sticky z-10 top-0 h-16 bg-[#cbe0ff] shadow-md border-b border-b-white flex items-center py-2">
             <Link to="/" className="block ml-16">
                 <img src="./img/logo.webp" className="w-[100px]" alt=""/>
             </Link>
@@ -45,9 +47,9 @@ function App() {
           <Route path="/thoi-gian-bieu" element={<Timetable />}/>
           <Route path="/khoa-hoc" element={<Courses />}/>
           <Route path="/bai-dang" element={<Posts />}/>
-          <Route path="/user-profile" element={<Profile />}/>
+          <Route path={user && (`/user/${user.id}`)} element={<Profile />}/>
           <Route path="/meeting" element={<Meeting />} />
-        </Route>
+        </Route> 
       </Routes>
     </div>
   );

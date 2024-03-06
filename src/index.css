@@ -16,11 +16,6 @@ body {
   color: #222222;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
 .user-info-bgGradient {
   background: linear-gradient(180deg, #D1C1FF 0%, rgba(214, 200, 255, 0.70) 18.23%, rgba(185, 192, 255, 0.36) 70.31%, rgba(226, 225, 255, 0.53) 82.81%, rgba(255, 255, 255, 0.00) 100%);
 }

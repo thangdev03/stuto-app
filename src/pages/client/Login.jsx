@@ -1,14 +1,21 @@
 import { Link, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { useAuthContext } from "../../hooks/useAuthContext"
+import { setLogin } from "../../contexts/AuthContext";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [checkingAccount, setCheckingAccount] = useState(false);
+    const [state, dispatch] = useAuthContext();
+    const { user } = state;
 
     async function loginUser(event) {
+        setCheckingAccount(true)
         event.preventDefault();
 
-        const response = await fetch("http://localhost:5555/account/login", {
+        const response = await fetch("https://stuto-api.onrender.com/account/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -21,19 +28,27 @@ function Login() {
 
         const data = await response.json();
 
-        if (data.user) {
-            localStorage.setItem('user', data.user);
-            const user = localStorage.getItem('user')
-            console.log(user)
-            alert("Đăng nhập thành công");
-            // window.location.href = "/"
+        if (data) {
+            setCheckingAccount(false)
+        }
+        
+        if (data.token && data.role === "client") {
+            localStorage.setItem("user", JSON.stringify(data));
+            dispatch(setLogin(data));
+            // alert("Chào mừng " + data.name + " đã quay trở lại StuTo");
+            return window.location.href = "/";
         } else {
-            alert('Vui lòng kiểm tra lại email và mật khẩu của bạn')
+            return alert("Vui lòng kiểm tra lại email và mật khẩu của bạn");
         }
     }
     
-    return (
+    return user ? (<Navigate to="/"/>) : (
         <div className="flex h-screen">
+            {checkingAccount && (
+                <div className="fixed z-30 left-0 top-0 right-0 bottom-0 bg-[#333333]/[.3] pt-20">
+                    <LoadingSpinner width={50} height={50} />
+                </div>
+            )}
             <div className="grow h-full overflow-hidden relative">
                 <img 
                     src="/img/study-group.jpg" 

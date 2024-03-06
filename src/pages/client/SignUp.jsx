@@ -1,35 +1,25 @@
 import { Link, Navigate } from "react-router-dom";
 import { useState } from "react";
-import Toast from "../../components/Toast";
+import { useAuthContext } from "../../hooks/useAuthContext";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 function SignUp() {
-  // let auth = true;
-  // if (auth) {
-  //     return <Navigate to="/" />
-  // }
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [retype, setRetype] = useState("");
-  const [message, setMessage] = useState("");
-  const [type, setType] = useState("");
+  const [creatingAccount, setCreatingAccount] = useState(false);
+  const [state, dispatch] = useAuthContext();
+  const { user } = state;
 
   async function registerUser(event) {
     event.preventDefault();
-    let timer;
+    setCreatingAccount(true)
     if (password !== retype) {
-      setMessage("Mật khẩu nhập lại chưa trùng khớp");
-      setType("FAILED");
-      timer = setTimeout(() => {
-        setMessage("");
-        setType("");
-      }, 3500);
-      return () => {
-        clearTimeout(timer);
-      };
+      return alert("Mật khẩu nhập lại chưa khớp");
     }
     
-    const response = await fetch("http://localhost:5555/user/register", {
+    const response = await fetch("https://stuto-api.onrender.com/user/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -40,28 +30,24 @@ function SignUp() {
             password: password
         })
     });
+    const data = await response.json();
 
     if (response.status === 400) {
-      setType("FAILED");
+      setCreatingAccount(false)
+      return alert(data.message);
     } else if (response.status === 201) {
-      setType("SUCCESS");
+      setCreatingAccount(false)
+      alert("Tạo tài khoản thành công, chuyển hướng tới trang đăng nhập");
+      return window.location.href = "/login";
     }
-
-    const data = await response.json();
-    setMessage(data.message);
-    timer = setTimeout(() => {
-      setMessage("");
-      setType("");
-    }, 3500);
-    return () => {
-      clearTimeout(timer);
-    };
   }
    
-  return (
+  return user ? (<Navigate to="/"/>) : (
     <div className="flex h-screen">
-      {message && type &&(
-        <Toast type={type} message={message}/>
+      {creatingAccount && (
+          <div className="fixed z-30 left-0 top-0 right-0 bottom-0 bg-[#333333]/[.3] pt-20">
+              <LoadingSpinner width={50} height={50} />
+          </div>
       )}
       <div className="grow h-full overflow-hidden relative">
         <img
