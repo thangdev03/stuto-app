@@ -49,7 +49,7 @@ function FriendsList() {
                     <li className="flex items-top hover:cursor-pointer hover:bg-gray-100 p-2 rounded-lg cursor-pointer">
                         <div className="relative mr-4">
                             <img 
-                                src="./img/default-avatar.png" 
+                                src="/img/default-avatar.png" 
                                 alt=""
                                 className="w-9 h-9 rounded-full object-cover" 
                             />

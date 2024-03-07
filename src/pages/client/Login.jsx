@@ -13,6 +13,7 @@ function Login() {
 
     async function loginUser(event) {
         setCheckingAccount(true)
+        localStorage.clear();
         event.preventDefault();
 
         const response = await fetch("https://stuto-api.onrender.com/account/login", {
