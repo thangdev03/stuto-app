@@ -90,7 +90,7 @@ const UpdateInfo = () => {
                 setInputName(data.user.name);
                 setInputStudentId(data.user.student_id);
                 setProgramOption((prevState) => ({...prevState, selected: data.user.study_program}));
-                setMajorOption((prevState) => ({...prevState, selected: data.majorOfUser.name}))
+                setMajorOption((prevState) => ({...prevState, selected: data.majorOfUser.name, id: data.user.major}))
                 setInputDOB(data.user.date_of_birth.split("T")[0]);
                 setSexOption((prevState) => ({...prevState, selected: data.user.sex}));
                 setLocationOption((prevState) => ({...prevState, selected: data.user.location}))
