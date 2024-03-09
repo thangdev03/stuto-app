@@ -72,7 +72,7 @@ function InfoBarWithBell() {
             </Link>
           </li>
           <li>
-            <Link className="block py-3 hover:text-white hover:bg-[rgb(169,203,253)]">
+            <Link to="/update-info" className="block py-3 hover:text-white hover:bg-[rgb(169,203,253)]">
               Cài đặt tài khoản
             </Link>
           </li>

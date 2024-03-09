@@ -41,8 +41,6 @@ const UpdateInfo = () => {
 
     const user = JSON.parse(localStorage.getItem("user"));
 
-    // const datePicker = document.querySelector("input[name='dob']")
-
     const updateInfo = async (event) => {
         event.preventDefault();
 
@@ -52,8 +50,7 @@ const UpdateInfo = () => {
 
         setIsLoading(true);
 
-        // const response = await fetch("https://stuto-api.onrender.com/user/" + user.id, {
-        const response = await fetch("http://localhost:5555/user/" + user.id, {
+        const response = await fetch("https://stuto-api.onrender.com/user/" + user.id, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -79,8 +76,7 @@ const UpdateInfo = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // const response = await fetch("https://stuto-api.onrender.com/user/" + user.id);
-                const response = await fetch("http://localhost:5555/user/" + user.id);
+                const response = await fetch("https://stuto-api.onrender.com/user/" + user.id);
                 const data = await response.json()
                 
                 if (response.status === 404 || response.status === 500 ) {
@@ -90,7 +86,7 @@ const UpdateInfo = () => {
                 setInputName(data.user.name);
                 setInputStudentId(data.user.student_id);
                 setProgramOption((prevState) => ({...prevState, selected: data.user.study_program}));
-                setMajorOption((prevState) => ({...prevState, selected: data.majorOfUser.name, id: data.user.major}))
+                setMajorOption((prevState) => ({...prevState, selected: data.majorOfUser?.name, id: data.user.major}))
                 setInputDOB(data.user.date_of_birth.split("T")[0]);
                 setSexOption((prevState) => ({...prevState, selected: data.user.sex}));
                 setLocationOption((prevState) => ({...prevState, selected: data.user.location}))
@@ -168,13 +164,6 @@ const UpdateInfo = () => {
                 </div>
                 <div className="flex flex-col gap-2 w-96 relative">
                     <label className="font-semibold">Hệ đào tạo</label>
-                    {/* <input 
-                        type="text" 
-                        placeholder="Chọn hệ đào tạo"
-                        value={inputStudyProgram}
-                        onChange={(e) => setInputStudyProgram(e.target.value)}
-                        className="w-96 px-3 py-2 bg-boxBackground rounded-lg border border-gray-300"     
-                    /> */}
                     <div 
                         onClick={(e) => setProgramOption((prevState) => ({
                             ...prevState,
@@ -236,14 +225,14 @@ const UpdateInfo = () => {
                             <li 
                             key={index} 
                             className={`px-4 py-2 text-sm hover:bg-primaryColor hover:text-white first:rounded-t-md last:rounded-b-md cursor-pointer
-                            ${major.name.toLowerCase().includes(searchText.major.toLowerCase()) ? 'block' : 'hidden' }
-                            ${major.name.toLowerCase() === majorOption.selected?.toLowerCase() && "bg-primaryColor text-white"}`}
+                            ${major?.name.toLowerCase().includes(searchText.major.toLowerCase()) ? 'block' : 'hidden' }
+                            ${major?.name.toLowerCase() === majorOption.selected?.toLowerCase() && "bg-primaryColor text-white"}`}
                             onClick={() => {
-                                if (major.name.toLowerCase() !== majorOption.selected?.toLowerCase()) {
+                                if (major?.name.toLowerCase() !== majorOption.selected?.toLowerCase()) {
                                     setMajorOption({
                                         isOpen: false,
-                                        selected: major.name,
-                                        id: major._id
+                                        selected: major?.name,
+                                        id: major?._id
                                     })
                                     setSearchText((prevState) => ({
                                         ...prevState,
@@ -252,7 +241,7 @@ const UpdateInfo = () => {
                                 }
                             }}
                             >
-                                {major.name}
+                                {major?.name}
                             </li>
                         ))}
                     </ul>
@@ -326,17 +315,17 @@ const UpdateInfo = () => {
                             }))}
                             className="placeholder:text-gray-400 px-4 py-2 text-sm outline-none w-full"/>
                         </div> 
-                        {locationList.map((city, index) => (
+                        {locationList?.map((city, index) => (
                             <li 
                             key={index} 
                             className={`px-4 py-2 text-sm hover:bg-primaryColor hover:text-white first:rounded-t-md last:rounded-b-md cursor-pointer
-                            ${city.province_name.toLowerCase().includes(searchText.location.toLowerCase()) ? 'block' : 'hidden' }
-                            ${city.province_name.toLowerCase() === locationOption.selected?.toLowerCase() && "bg-primaryColor text-white"}`}
+                            ${city?.province_name.toLowerCase().includes(searchText.location.toLowerCase()) ? 'block' : 'hidden' }
+                            ${city?.province_name.toLowerCase() === locationOption.selected?.toLowerCase() && "bg-primaryColor text-white"}`}
                             onClick={() => {
-                                if (city.province_name.toLowerCase() !== locationOption.selected?.toLowerCase()) {
+                                if (city?.province_name.toLowerCase() !== locationOption.selected?.toLowerCase()) {
                                     setLocationOption({
                                         isOpen: false,
-                                        selected: city.province_name
+                                        selected: city?.province_name
                                     })
                                     setSearchText((prevState) => ({
                                         ...prevState,
@@ -345,7 +334,7 @@ const UpdateInfo = () => {
                                 }
                             }}
                             >
-                                {city.province_name}
+                                {city?.province_name}
                             </li>
                         ))}
                     </ul>

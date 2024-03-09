@@ -13,6 +13,7 @@ import Login from './pages/client/Login'
 import SignUp from './pages/client/SignUp'
 import PrivateRoutes from './utils/PrivateRoutes'
 import Meeting from './pages/client/Meeting'
+import Messenger from './pages/client/Messenger'
 import { useAuthContext } from './hooks/useAuthContext'
 import UpdateInfo from './components/UpdateInfo'
 
@@ -51,6 +52,7 @@ function App() {
           <Route path="/user/:userId" element={<Profile />}/>
           <Route path="/update-info" element={<UpdateInfo />}/>
           <Route path="/meeting" element={<Meeting />} />
+          <Route path="/messenger" element={<Messenger />} />
         </Route> 
       </Routes>
     </div>

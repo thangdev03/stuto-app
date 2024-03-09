@@ -14,14 +14,15 @@ function Profile() {
     const [openUserActions, setOpenUserActions] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [userData, setUserData] = useState(null);
+    const [userAge, setUserAge] = useState(0);
     const { userId } = useParams();
     const currAuthUser = JSON.parse(localStorage.getItem("user"))
     let isCurrUser = (userId === currAuthUser.id) ? true : false;
     let boxRef = useRef();
 
-    console.log("Id from param: ", userId);
-    console.log("Is current id: ", isCurrUser);
-    console.log("User from API: ", userData);
+    // console.log("Id from param: ", userId);
+    // console.log("Is current id: ", isCurrUser);
+    // console.log("User from API: ", userData);
 
     const handleClickOutside = (e) => {
         if (!boxRef.current.contains(e.target)) {
@@ -38,12 +39,26 @@ function Profile() {
     }, [openUserActions])
 
     useEffect(() => {
-        setIsLoading(true)
-        fetch("https://stuto-api.onrender.com/user/" + userId)
-        .then((response) => response.json())
-        .then((data) => setUserData(data))
-        .then(() => setIsLoading(false))
+        const fetchData = async () => {
+            try {
+                const response = await fetch("https://stuto-api.onrender.com/user/" + userId);
+                const data = await response.json();
+                if (response.status === 404 || response.status === 500 ) {
+                    throw new Error("Error, status: ", data.message)
+                }
+                setUserData(data);
+            } catch (error) {
+                console.error("Error fetching user data")
+            }
+        }
+        fetchData();
     },[userId])
+
+    useEffect(() => {
+        const currYear = new Date().getFullYear();
+        const birthYear = (new Date(userData?.user.date_of_birth)).getFullYear();
+        setUserAge(currYear - birthYear);
+    },[userData])
     
     return (          
             <div className="ml-72 mr-[416px] mt-8 pb-12">
@@ -55,19 +70,19 @@ function Profile() {
                             <div className="w-44 flex flex-col items-center">
                                 <div className="shrink-0 w-40 h-40">
                                     <img 
-                                    src={userData && (userData.avatar || "/img/default-avatar.png")} 
+                                    src={userData?.user.avatar || "/img/default-avatar.png"} 
                                     alt="user avatar" 
                                     className="w-full h-full object-cover rounded-full"
                                     />
                                 </div>
                                 <p className="mt-6 flex gap-4 items-center font-medium">
                                     <FaMapPin />
-                                    {userData && (userData.location || "Chưa cập nhật")}
+                                    {userData?.user.location || "Chưa cập nhật"}
                                 </p>
                                 <p className="mt-1 text-sm font-medium">(12 lượt đề xuất)</p>
                             </div>
                             <div className="grow">
-                                <h1 className="text-3xl font-semibold flex flex-wrap items-end gap-1 lg">{userData && (userData.name)}{/* <span className="text-lg font-medium">(Biệt danh)</span>*/}</h1>
+                                <h1 className="text-3xl font-semibold flex flex-wrap items-end gap-1 lg">{userData?.user.name}{/* <span className="text-lg font-medium">(Biệt danh)</span>*/}</h1>
                                 <div className="flex items-end justify-between flex-wrap">
                                     <div className="mt-8 flex items-center gap-10">
                                         <div className="flex flex-col items-center gap-2">
@@ -123,22 +138,22 @@ function Profile() {
                                     <tr>
                                         <td className="w-32">Hệ đào tạo</td>
                                         <td className="w-6">:</td>
-                                        <td className="font-medium">{userData && (userData.study_program || "Chưa cập nhật")}</td>
+                                        <td className="font-medium">{userData?.user.study_program || "Chưa cập nhật"}</td>
                                     </tr>
                                     <tr>
                                         <td className="w-32">Chuyên ngành</td>
                                         <td className="w-6">:</td>
-                                        <td className="font-medium">{userData && (userData.major || "Chưa cập nhật")}</td>
+                                        <td className="font-medium">{userData?.majorOfUser?.name || "Chưa cập nhật"}</td>
                                     </tr>
                                     <tr>
                                         <td className="w-32">Giới tính</td>
                                         <td className="w-6">:</td>
-                                        <td className="font-medium">{userData && (userData.sex || "Chưa cập nhật")}</td>
+                                        <td className="font-medium">{userData?.user.sex || "Chưa cập nhật"}</td>
                                     </tr>
                                     <tr>
                                         <td className="w-32">Tuổi</td>
                                         <td className="w-6">:</td>
-                                        <td className="font-medium">20</td>
+                                        <td className="font-medium">{userAge}</td>
                                     </tr>
                                 </tbody>
                             </table>
