@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { io } from "socket.io-client"
 import Conversations from '../../components/Conversations'
 import ConversationHeader from '../../components/ConversationHeader'
 import Message from '../../components/Message'
 import { IoMdSearch } from 'react-icons/io'
 import { BsSendFill } from "react-icons/bs";
 import { useAuthContext } from "../../hooks/useAuthContext"
-
+import { AiOutlineMessage } from "react-icons/ai";
+import LoadingSpinner from "../../components/LoadingSpinner"
 
 const Messenger = () => {
   const [searchText, setSearchText] = useState("");
@@ -13,21 +15,25 @@ const Messenger = () => {
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [isLoadingConversation, setIsLoadingConversation] = useState(false);
+  const [friendId, setFriendId] = useState(null);
   const [ state, dispatch ] = useAuthContext();
   const { user } = state;
   const scrollRef = useRef();
+  const socket = useRef();
 
   const autoGrow = (element) => {
     element.style.height = "40px";
     element.style.height = (element.scrollHeight) + "px";
-  }
+  };
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         handleSubmit(e);   
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -37,6 +43,15 @@ const Messenger = () => {
         text: newMessage,
         attachment_url: ""
     };
+
+    const receiverId = currentChat.members.find((member) => member !== user.id);
+
+    socket.current.emit("sendMessage", {
+        senderId: user.id,
+        receiverId,
+        text: newMessage
+    });
+
     try {
         const response = await fetch("https://stuto-api.onrender.com/messages/", {
             method: "POST",
@@ -51,20 +66,49 @@ const Messenger = () => {
     } catch (error) {
         console.error(error);
     }
-  }
+  };
+
+  useEffect(() => {
+    socket.current = io("http://localhost:5555");
+    socket.current.on("getMessage", (data) => {
+        setArrivalMessage({
+            sender: data.senderId,
+            text: data.text,
+            createdAt: Date.now()
+        });
+    })
+  },[]);
+
+
+  useEffect(() => {
+    if (arrivalMessage && currentChat?.members.includes(arrivalMessage.sender)) {
+        setMessages((prev) => [...prev, arrivalMessage])
+    }
+  },[arrivalMessage, currentChat]);
+
+  useEffect(() => {
+    socket.current.emit("addUser", user.id);
+    // socket.current.on("getUsers", users => {
+    //     console.log(users);
+    // })
+  },[user]);
 
   useEffect(() => {
     const fetchConversations = async () => {
         try {
+            setIsLoadingConversation(true)
             const response = await fetch("https://stuto-api.onrender.com/conversations/" + user.id);
             const data = await response.json();
             setConversations(data)
+            if (response) {
+                setIsLoadingConversation(false)
+            }
         } catch (error) {
             console.error(error);
         }
     };
     fetchConversations();
-  },[user._id])
+  },[user.id]);
 
   useEffect(() => {
     const getMessages = async () => {
@@ -79,26 +123,36 @@ const Messenger = () => {
         }
     }
     getMessages();
-  },[currentChat])
+    const currFriendId = currentChat?.members.find((member) => member !== user.id)
+    setFriendId(currFriendId);
+  },[currentChat]);
 
   useEffect(() => {
     scrollRef.current?.scrollIntoView({
         behavior: "smooth"
     })
-  },[messages])
+  },[messages]);
 
   return (
     <div className="ml-72 h-[calc(100vh-64px)] flex justify-between border-l border-gray-300 bg-boxBackground overflow-y-hidden">
         {currentChat ? (
             <div className="w-[70%] flex flex-col">
                 <ConversationHeader conversation={currentChat} currentUser={user} />
-                <div className="grow overflow-y-auto">
-                    {messages?.map((message, index) => (
-                        <div key={index} ref={scrollRef}>
-                            <Message message={message} own={message.sender === user.id}/>
-                        </div>
-                    ))}
-                </div>
+                {messages.length == 0 ? (
+                    <span className="grow py-10 text-center text-gray-400 flex flex-col gap-8 items-center">
+                        Hãy gửi tin nhắn đầu tiên để bắt đầu cuộc trò chuyện
+                        <AiOutlineMessage className="text-primaryColor w-12 h-12"/>
+                    </span>
+                ) : (
+                    <div className="grow overflow-y-auto">
+                    
+                        {messages.map((message, index) => (
+                                <div key={index} ref={scrollRef}>
+                                    <Message message={message} own={message.sender === user.id} friendId={friendId}/>
+                                </div>
+                        ))}
+                    </div>
+                )}
                 <div className="py-3 px-4 flex items-center gap-3">
                     <textarea
                         type="text"
@@ -134,11 +188,15 @@ const Messenger = () => {
                 />
             </div>
             <div className="mt-3 grow overflow-y-auto shadow-inner">
-                {conversations.map((conversation,index) => (
-                    <div key={index} onClick={() => setCurrentChat(conversation)}>
-                        <Conversations conversation={conversation} currentUser={user} />
-                    </div>
-                ))}
+                {isLoadingConversation ? (
+                    <LoadingSpinner width={32} height={32}/>
+                ) : (
+                    conversations.map((conversation,index) => (
+                        <div key={index} onClick={() => setCurrentChat(conversation)}>
+                            <Conversations conversation={conversation} currentUser={user} />
+                        </div>
+                    ))
+                )}
             </div>
         </div>
     </div>
