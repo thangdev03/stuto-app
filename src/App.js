@@ -16,6 +16,7 @@ import Meeting from './pages/client/Meeting'
 import Messenger from './pages/client/Messenger'
 import { useAuthContext } from './hooks/useAuthContext'
 import UpdateInfo from './components/UpdateInfo'
+import FriendRequests from './pages/client/FriendRequests'
 
 function App() {
   const { pathname } = useLocation();
@@ -53,6 +54,9 @@ function App() {
           <Route path="/update-info" element={<UpdateInfo />}/>
           <Route path="/meeting" element={<Meeting />} />
           <Route path="/messenger" element={<Messenger />} />
+          <Route path="/friend">
+            <Route path="requests" element={<FriendRequests />}/>
+          </Route>
         </Route> 
       </Routes>
     </div>

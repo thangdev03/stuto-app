@@ -1,5 +1,5 @@
 import { FaArrowRight, FaEarthAsia, FaMapPin, FaRegComment, FaRegPaperPlane } from "react-icons/fa6";
-import { FaPlus } from "react-icons/fa";
+import { MdPersonAddAlt1 } from "react-icons/md";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { RiUserForbidLine } from "react-icons/ri";
 import { MdOutlineReport } from "react-icons/md";
@@ -12,7 +12,6 @@ import { useParams } from "react-router-dom";
 
 function Profile() {
     const [openUserActions, setOpenUserActions] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const [userData, setUserData] = useState(null);
     const [userAge, setUserAge] = useState(0);
     const { userId } = useParams();
@@ -56,7 +55,7 @@ function Profile() {
 
     useEffect(() => {
         const currYear = new Date().getFullYear();
-        const birthYear = (new Date(userData?.user.date_of_birth)).getFullYear();
+        const birthYear = (new Date(userData?.date_of_birth)).getFullYear();
         setUserAge(currYear - birthYear);
     },[userData])
     
@@ -70,19 +69,19 @@ function Profile() {
                             <div className="w-44 flex flex-col items-center">
                                 <div className="shrink-0 w-40 h-40">
                                     <img 
-                                    src={userData?.user.avatar || "/img/default-avatar.png"} 
+                                    src={userData?.avatar || "/img/default-avatar.png"} 
                                     alt="user avatar" 
                                     className="w-full h-full object-cover rounded-full"
                                     />
                                 </div>
                                 <p className="mt-6 flex gap-4 items-center font-medium">
                                     <FaMapPin />
-                                    {userData?.user.location || "Chưa cập nhật"}
+                                    {userData?.location || "Chưa cập nhật"}
                                 </p>
                                 <p className="mt-1 text-sm font-medium">(12 lượt đề xuất)</p>
                             </div>
                             <div className="grow">
-                                <h1 className="text-3xl font-semibold flex flex-wrap items-end gap-1 lg">{userData?.user.name}{/* <span className="text-lg font-medium">(Biệt danh)</span>*/}</h1>
+                                <h1 className="text-3xl font-semibold flex flex-wrap items-end gap-1 lg">{userData?.name}{/* <span className="text-lg font-medium">(Biệt danh)</span>*/}</h1>
                                 <div className="flex items-end justify-between flex-wrap">
                                     <div className="mt-8 flex items-center gap-10">
                                         <div className="flex flex-col items-center gap-2">
@@ -97,8 +96,8 @@ function Profile() {
                                     </div>
                                     <div className="mt-4 flex gap-5">
                                         <button className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-primaryColor rounded-full text-white transition-all hover:shadow-blockShadow hover:brightness-110">
-                                            <FaPlus className="font-normal"/>
-                                            Kết nối
+                                            <MdPersonAddAlt1 className="text-xl"/>
+                                            Kết bạn
                                         </button>
                                         <div className="relative" ref={boxRef}>
                                             <button 
@@ -138,22 +137,22 @@ function Profile() {
                                     <tr>
                                         <td className="w-32">Hệ đào tạo</td>
                                         <td className="w-6">:</td>
-                                        <td className="font-medium">{userData?.user.study_program || "Chưa cập nhật"}</td>
+                                        <td className="font-medium">{userData?.study_program.toString() || "Chưa cập nhật"}</td>
                                     </tr>
                                     <tr>
                                         <td className="w-32">Chuyên ngành</td>
                                         <td className="w-6">:</td>
-                                        <td className="font-medium">{userData?.majorOfUser?.name || "Chưa cập nhật"}</td>
+                                        <td className="font-medium">{userData?.major?.name.toString() || "Chưa cập nhật"}</td>
                                     </tr>
                                     <tr>
                                         <td className="w-32">Giới tính</td>
                                         <td className="w-6">:</td>
-                                        <td className="font-medium">{userData?.user.sex || "Chưa cập nhật"}</td>
+                                        <td className="font-medium">{userData?.sex.toString() || "Chưa cập nhật"}</td>
                                     </tr>
                                     <tr>
                                         <td className="w-32">Tuổi</td>
                                         <td className="w-6">:</td>
-                                        <td className="font-medium">{userAge}</td>
+                                        <td className="font-medium">{userAge.toString()}</td>
                                     </tr>
                                 </tbody>
                             </table>

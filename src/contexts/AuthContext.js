@@ -40,8 +40,7 @@ const AuthContextProvider = ({ children }) => {
 
     useEffect(() => {
         const user = JSON.parse(localStorage.getItem("user"));
-
-        if (user) {
+        if (user && (user.role === "client")) {
             dispatch(setLogin(user));
         }
     },[])

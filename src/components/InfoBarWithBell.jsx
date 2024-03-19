@@ -1,8 +1,13 @@
-import { FaBell } from "react-icons/fa";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { setLogout } from "../contexts/AuthContext";
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { FaBell } from "react-icons/fa";
+import { IoChatbubbles } from "react-icons/io5";
+import { RiUserShared2Fill } from "react-icons/ri";
+import { FaCircleUser } from "react-icons/fa6";
+import { FaCog } from "react-icons/fa";
+import { IoLogOut } from "react-icons/io5";
 
 function InfoBarWithBell() {
   const [state, dispatch] = useAuthContext();
@@ -40,10 +45,13 @@ function InfoBarWithBell() {
   return (
     <div
       id="user"
-      className="min-w-fit flex justify-between items-center gap-3"
+      className="min-w-fit flex justify-between items-center gap-4"
     >
+      <Link to="/messenger">
+        <IoChatbubbles className="text-gray-800 hover:text-gray-700 transition-all text-2xl"/>
+      </Link>
       <button className="px-1">
-        <FaBell className="text-textColor text-xl" />
+        <FaBell className="text-gray-800 hover:text-gray-700 transition-all text-2xl"/>
       </button>
       <div
         ref={userModalContainer}
@@ -59,25 +67,42 @@ function InfoBarWithBell() {
         </div>
         <p className="font-medium">{user && userLastName}</p>
         <ul
-          className={`absolute z-20 top-[110%] right-0 min-w-36 w-44 bg-white text-center text-sm rounded-lg shadow-lg overflow-hidden py-2 font-normal ${
+          className={`absolute z-20 top-[110%] right-0 min-w-36 w-44 bg-white text-sm rounded-lg shadow-lg overflow-hidden py-2 font-normal ${
             isOpenUserModal ? "block" : "hidden"
           }`}
         >
           <li>
             <Link
               to={`/user/${user.id}`}
-              className="block py-3 hover:text-white hover:bg-[rgb(169,203,253)]"
+              className="py-3 pl-3 hover:text-white hover:bg-[rgb(169,203,253)] flex items-center gap-2"
             >
+              <FaCircleUser className="text-lg"/>
               Trang cá nhân
             </Link>
           </li>
           <li>
-            <Link to="/update-info" className="block py-3 hover:text-white hover:bg-[rgb(169,203,253)]">
+            <Link 
+              to="/" 
+              className="py-3 pl-3 hover:text-white hover:bg-[rgb(169,203,253)] flex items-center gap-2"
+            >
+              <RiUserShared2Fill className="text-lg"/>
+              Lời mời kết bạn
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/update-info"
+              className="py-3 pl-3 hover:text-white hover:bg-[rgb(169,203,253)] flex items-center gap-2"
+            >
+              <FaCog className="text-lg"/>
               Cài đặt tài khoản
             </Link>
           </li>
           <li onClick={handleLogoutClick}>
-            <Link className="block py-3 hover:text-white hover:bg-[rgb(169,203,253)]">
+            <Link 
+              className="py-3 pl-3 hover:text-white hover:bg-[rgb(169,203,253)] flex items-center gap-2"
+            >
+              <IoLogOut className="text-lg"/>
               Đăng xuất
             </Link>
           </li>
