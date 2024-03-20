@@ -22,7 +22,7 @@ export const sendInvitation = async (sender, receiver) => {
 
 export const acceptInvitation = async (invitationId) => {
     try {
-        const response = await fetch("https://stuto-api.onrender.com/invitation/" + invitationId, {
+        const response = await fetch("http://localhost:5555/invitation/accept/" + invitationId, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -38,7 +38,18 @@ export const acceptInvitation = async (invitationId) => {
 };
 
 export const cancelInvitation = async (invitationId) => {
-    
+    try {
+        const response = await fetch("http://localhost:5555/invitation/" + invitationId, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const data = await response.json();
+        console.log(data.message);
+    } catch (error) {
+        return console.error(error);
+    }
 };
 
 export const unfriendHandle = async (currentUserId, friendId) => {

@@ -82,7 +82,7 @@ function InfoBarWithBell() {
           </li>
           <li>
             <Link 
-              to="/" 
+              to="/friend/requests" 
               className="py-3 pl-3 hover:text-white hover:bg-[rgb(169,203,253)] flex items-center gap-2"
             >
               <RiUserShared2Fill className="text-lg"/>
