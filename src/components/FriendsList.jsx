@@ -1,33 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoMdSearch } from "react-icons/io";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 function FriendsList() {
-  const friendsList = [
-    {
-      id: 1,
-      name: "Chu Bin",
-      school: "NEU",
-      major: "Kinh tế tài nguyên và môi trường",
-      avatar: "",
-    },
-    {
-      id: 2,
-      name: "Phương Ly",
-      school: "NEU",
-      major: "Công nghệ thông tin",
-      avatar: "",
-    },
-    {
-      id: 3,
-      name: "Andree Trái Tay",
-      school: "NEU",
-      major: "Công nghệ tài chính",
-      avatar: "",
-    },
-  ];
-
+  const [friendsList, setFriendsList] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [state, dispatch] = useAuthContext();
+  const { user } = state;
 
+  useEffect(() => {
+    const getFriends = async () => {
+      try {
+          const response = await fetch("https://stuto-api.onrender.com/friend/" + user.id);
+          const data = await response.json();
+          setFriendsList(data);
+      } catch (error) {
+          return console.error(error);
+      }
+    }
+    getFriends();
+  },[user.id])
+  console.log(friendsList)
+  
   return (
     <div className="fixed top-24 right-5 h-[380px] w-[340px] bg-boxBackground rounded-3xl py-6 pl-7 pr-4 flex flex-col">
       <h3 className="font-semibold text-lg text-textColor mb-2">
@@ -54,16 +48,16 @@ function FriendsList() {
       </div>
       {/* Friends list */}
       <ul className="mt-5 flex flex-col gap-0 grow overflow-y-auto">
-        {friendsList.map((friend, index) =>
+        {friendsList.map((friend) =>
           friend.name.toLowerCase().includes(inputValue) ||
           friend.major.toLowerCase().includes(inputValue) ? (
             <li
-              key={index}
+              key={friend._id}
               className="flex items-top hover:cursor-pointer hover:bg-gray-100 p-2 rounded-lg cursor-pointer"
             >
               <div className="relative mr-4">
                 <img
-                  src="/img/default-avatar.png"
+                  src={friend.avatar || "/img/default-avatar.png"}
                   alt=""
                   className="w-9 h-9 rounded-full object-cover"
                 />
@@ -74,7 +68,7 @@ function FriendsList() {
               <div className="w-[calc(100%-58px)]">
                 <h4 className="text-sm font-semibold">{friend.name}</h4>
                 <p className="text-xs w-full truncate">
-                  {friend.school}, {friend.major}
+                  {friend.location} {friend.major && (", " + friend.major?.name)}
                 </p>
               </div>
             </li>

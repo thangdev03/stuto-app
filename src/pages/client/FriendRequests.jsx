@@ -11,7 +11,7 @@ const FriendRequests = () => {
   useEffect(() => {
     const loadRequests = async () => {
         try {
-            const response = await fetch("http://localhost:5555/invitation/" + user.id);
+            const response = await fetch("https://stuto-api.onrender.com/invitation/" + user.id);
             const data = await response.json();
             if (response.status === 404) {
                 return console.error(data.message);

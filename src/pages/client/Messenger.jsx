@@ -70,7 +70,6 @@ const Messenger = () => {
 
   useEffect(() => {
     socket.current = io("https://stuto-api.onrender.com");
-    // socket.current = io("http://localhost:5555");
     socket.current.on("getMessage", (data) => {
         setArrivalMessage({
             sender: data.senderId,

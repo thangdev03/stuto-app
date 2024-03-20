@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdLocationOn, MdPersonAddAlt1 } from "react-icons/md";
 import { FaUserFriends } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
@@ -6,6 +6,7 @@ import FilterFriends from "../../components/FilterFriends"
 import { useAuthContext } from "../../hooks/useAuthContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { Link } from "react-router-dom";
+import { sendInvitation } from "../../utils/friendsHandler";
 
 var statusFindFriend = true;
 
@@ -15,6 +16,9 @@ function FindFriends() {
     const [allUsers, setAllUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [inviteTarget, setInviteTarget] = useState(null);
+    const [inviteMessage, setInviteMessage] = useState("Chào bạn, mình có thể kết nối với bạn để cùng học được không? Mình cũng đang làm bài về môn này 🥰");
+    const [availableUsers, setAvailableUsers] = useState([]);
+    const [friendsList, setFriendsList] = useState([]);
     const [state, dispatch] = useAuthContext();
     const { user } = state;
     let username = ""
@@ -36,6 +40,7 @@ function FindFriends() {
 
     const handleSubmitAdd = (event) => {
         event.preventDefault();
+        sendInvitation(user.id, inviteTarget._id, inviteMessage);
     }
 
     useState(() => {
@@ -47,11 +52,28 @@ function FindFriends() {
                 setAllUsers(data.data);
                 response && setIsLoading(false);
             } catch (error) {
-             console.error(error);   
+                console.error(error);   
             }
-        } 
+        }
+        const getCurrUserFriends = async () => {
+            try {
+                const response = await fetch("https://stuto-api.onrender.com/user/" + user.id);
+                const data = await response.json();
+                setFriendsList(data.friends);
+            } catch (error) {
+                
+            }
+        }
         getUsers();
+        getCurrUserFriends();
     },[user.id])
+
+    useEffect(() => {
+        const result = allUsers.filter((currUser) => (
+            (currUser.info._id !== user.id) && (!friendsList.includes(currUser.info._id))
+        ));
+        setAvailableUsers(result);
+    },[user.id, allUsers, friendsList])
 
     return (
         <div className="ml-72 mr-[386px] my-10">
@@ -85,9 +107,7 @@ function FindFriends() {
                     {isLoading ? (
                         <LoadingSpinner className={"mx-auto"}/>
                     ) : (
-                        allUsers
-                        .filter((userItem) => userItem.info._id !== user.id)
-                        .map((userItem) => (
+                        availableUsers.map((userItem) => (
                             <div
                                 key={userItem.info._id} 
                                 className="mb-2 pt-3 pr-6 pl-3 pb-4 min-h-64 bg-boxBackground rounded-lg shadow-blockShadow">
@@ -130,7 +150,7 @@ function FindFriends() {
                                             <button 
                                                 onClick={() => {
                                                     handleOpenInvitation();
-                                                    setInviteTarget(userItem.info._id);
+                                                    setInviteTarget(userItem.info);
                                                 }}
                                                 className="mt-4 text-sm text-primaryColor font-medium px-3 py-2 border-2 border-primaryColor rounded-full flex items-center gap-2
                                                 hover:text-white hover:bg-primaryColor transition-all"
@@ -144,14 +164,14 @@ function FindFriends() {
                             </div>
                         ))
                     )}
-
                     {openInvitation && (
                         <div onClick={handleOpenInvitation} className="fixed z-30 left-0 top-0 right-0 bottom-0 bg-[#222222]/30">
                             <div onClick={(e) => e.stopPropagation()} className="h-80 w-1/3 bg-boxBackground mx-auto mt-20 rounded-xl px-6 pt-4">
-                                <h2 className="font-medium">Lời mời gửi tới Chu Bin</h2>
+                                <h2 className="font-medium">Lời mời kết bạn tới {inviteTarget.name}</h2>
                                 <textarea 
                                 type="text"
-                                defaultValue={"Chào bạn, mình có thể kết nối với bạn để cùng học được không? Mình cũng đang làm bài về môn này 🥰"}
+                                value={inviteMessage}
+                                onChange={(e) => setInviteMessage(e.target.value)}
                                 className="mt-2 py-2 text-wrap px-3 w-full h-56 text-sm resize-none bg-[#cdcdcd]/20 outline-none border border-[#444444]/80 rounded-md">
                                     
                                 </textarea>
@@ -165,7 +185,10 @@ function FindFriends() {
                                     </button>
                                     <button 
                                         type="submit" 
-                                        onClick={(event) => handleSubmitAdd(event)}
+                                        onClick={(event) => {
+                                            handleOpenInvitation();
+                                            handleSubmitAdd(event);
+                                        }}
                                         className="min-w-20 text-sm py-2 px-4 bg-primaryColor text-white rounded-lg
                                         hover:shadow-blockShadow hover:bg-primaryColor/80">
                                         Gửi lời mời

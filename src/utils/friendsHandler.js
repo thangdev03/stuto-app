@@ -1,4 +1,4 @@
-export const sendInvitation = async (sender, receiver) => {
+export const sendInvitation = async (sender, receiver, note) => {
     try {
         const response = await fetch("https://stuto-api.onrender.com/invitation/send", {
             method: "POST",
@@ -7,7 +7,8 @@ export const sendInvitation = async (sender, receiver) => {
             },
             body: JSON.stringify({
                 sender,
-                receiver
+                receiver,
+                note
             })
         });
         const data = await response.json();
@@ -22,7 +23,7 @@ export const sendInvitation = async (sender, receiver) => {
 
 export const acceptInvitation = async (invitationId) => {
     try {
-        const response = await fetch("http://localhost:5555/invitation/accept/" + invitationId, {
+        const response = await fetch("https://stuto-api.onrender.com/invitation/accept/" + invitationId, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"
@@ -39,7 +40,7 @@ export const acceptInvitation = async (invitationId) => {
 
 export const cancelInvitation = async (invitationId) => {
     try {
-        const response = await fetch("http://localhost:5555/invitation/" + invitationId, {
+        const response = await fetch("https://stuto-api.onrender.com/invitation/" + invitationId, {
             method: "DELETE",
             headers: {
                 "Content-Type": "application/json"
