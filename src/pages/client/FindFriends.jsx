@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { MdLocationOn, MdPersonAddAlt1 } from "react-icons/md";
-import { FaUserFriends } from "react-icons/fa";
+import { FaUserFriends, FaUserTimes, FaUserCheck } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
 import FilterFriends from "../../components/FilterFriends"
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -16,9 +16,11 @@ function FindFriends() {
     const [allUsers, setAllUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [inviteTarget, setInviteTarget] = useState(null);
-    const [inviteMessage, setInviteMessage] = useState("Chào bạn, mình có thể kết nối với bạn để cùng học được không? Mình cũng đang làm bài về môn này 🥰");
+    const [inviteMessage, setInviteMessage] = useState("Chào bạn, mình có thể cùng học với bạn được không? Mình cũng đang học môn này 🥰");
     const [availableUsers, setAvailableUsers] = useState([]);
     const [friendsList, setFriendsList] = useState([]);
+    const [requestSenders, setRequestSenders] = useState([]);
+    const [requestReceivers, setRequestReceivers] = useState([]);
     const [state, dispatch] = useAuthContext();
     const { user } = state;
     let username = ""
@@ -36,15 +38,15 @@ function FindFriends() {
 
     const handleOpenInvitation = () => {
         setOpenInvitation(!openInvitation);
-    }
+    };
 
     const handleSubmitAdd = (event) => {
         event.preventDefault();
         sendInvitation(user.id, inviteTarget._id, inviteMessage);
-    }
+    };
 
     useState(() => {
-        setIsLoading(true)
+        setIsLoading(true);
         const getUsers = async () => {
             try {
                 const response = await fetch("https://stuto-api.onrender.com/user");
@@ -54,18 +56,50 @@ function FindFriends() {
             } catch (error) {
                 console.error(error);   
             }
-        }
+        };
         const getCurrUserFriends = async () => {
             try {
                 const response = await fetch("https://stuto-api.onrender.com/user/" + user.id);
                 const data = await response.json();
                 setFriendsList(data.friends);
             } catch (error) {
-                
+                console.error(error);
             }
-        }
+        };
+        const getRequestSenders = async () => {
+            try {
+                const response = await fetch("https://stuto-api.onrender.com/invitation/" + user.id)
+                const data = await response.json();
+                if (response.status === 200) {
+                    let senders = data.reduce((result, item) => {
+                        result.push(item.sender?._id);
+                        return result;
+                    },[]);
+                    setRequestSenders(senders);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        const getRequestReceiver = async () => {
+            try {
+                const response = await fetch("https://stuto-api.onrender.com/invitation/sent/" + user.id)       
+                const data = await response.json();
+                if (response.status === 200) {
+                    let receivers = data.reduce((result, item) => {
+                        result.push(item.receiver);
+                        return result;
+                    },[]);
+                    setRequestReceivers(receivers);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
         getUsers();
         getCurrUserFriends();
+        getRequestSenders();
+        getRequestReceiver();
     },[user.id])
 
     useEffect(() => {
@@ -93,7 +127,7 @@ function FindFriends() {
                 </div>
                 <div className="flex justify-between items-center mt-2">
                     <span className="font-medium">Thay đổi yêu cầu của bạn</span>
-                    <button className="px-6 py-2 text-primaryColor border border-primaryColor rounded-full transition-all
+                    <button className="px-6 py-2 text-primaryColor border-2 border-primaryColor rounded-full transition-all
                     hover:text-white hover:bg-primaryColor">
                         Chỉnh sửa
                     </button>
@@ -147,17 +181,37 @@ function FindFriends() {
                                                 <span className="block w-[2px] h-6 bg-[#bbbbbb] rounded-full"></span>
                                                 <p className="flex gap-2 items-center text-sm"><FaClock />Số giờ đã học: 6h 23m</p>
                                             </div>
-                                            <button 
-                                                onClick={() => {
-                                                    handleOpenInvitation();
-                                                    setInviteTarget(userItem.info);
-                                                }}
-                                                className="mt-4 text-sm text-primaryColor font-medium px-3 py-2 border-2 border-primaryColor rounded-full flex items-center gap-2
-                                                hover:text-white hover:bg-primaryColor transition-all"
-                                            >
-                                                <MdPersonAddAlt1 className="text-xl"/>
-                                                Kết bạn
-                                            </button>
+                                            {!requestReceivers.includes(userItem.info._id) && !requestSenders.includes(userItem.info._id) && (
+                                                <button 
+                                                    onClick={() => {
+                                                        handleOpenInvitation();
+                                                        setInviteTarget(userItem.info);
+                                                    }}
+                                                    className="mt-4 text-sm text-primaryColor font-medium px-6 py-2 border-2 border-primaryColor rounded-full flex items-center gap-2
+                                                    hover:text-white hover:bg-primaryColor transition-all"
+                                                >
+                                                    <MdPersonAddAlt1 className="text-xl"/>
+                                                    Kết bạn
+                                                </button>
+                                            )}
+                                            {requestReceivers.includes(userItem.info._id) && (
+                                                <button 
+                                                    className="mt-4 text-sm text-textColor font-medium px-3 py-2 border-2 border-gray-300 bg-gray-300 rounded-full flex items-center gap-2
+                                                    hover:bg-gray-200 hover:border-gray-200 transition-all"
+                                                >
+                                                    <FaUserTimes className="text-xl"/>
+                                                    Hủy lời mời
+                                                </button>
+                                            )}
+                                            {requestSenders.includes(userItem.info._id) && (
+                                                <button 
+                                                    className="mt-4 text-sm text-white font-medium px-5 py-2 border-2 border-primaryColor bg-primaryColor rounded-full flex items-center gap-2
+                                                    hover:text-primaryColor hover:bg-white transition-all"
+                                                >
+                                                    <FaUserCheck className="text-xl"/>
+                                                    Phản hồi
+                                                </button>
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -167,11 +221,15 @@ function FindFriends() {
                     {openInvitation && (
                         <div onClick={handleOpenInvitation} className="fixed z-30 left-0 top-0 right-0 bottom-0 bg-[#222222]/30">
                             <div onClick={(e) => e.stopPropagation()} className="h-80 w-1/3 bg-boxBackground mx-auto mt-20 rounded-xl px-6 pt-4">
-                                <h2 className="font-medium">Lời mời kết bạn tới {inviteTarget.name}</h2>
+                                <div className="flex justify-between items-end">
+                                    <h2 className="font-medium">Lời mời kết bạn tới {inviteTarget.name}</h2>
+                                    <p className="text-xs">{inviteMessage.length}/80</p>
+                                </div>
                                 <textarea 
                                 type="text"
                                 value={inviteMessage}
                                 onChange={(e) => setInviteMessage(e.target.value)}
+                                maxLength={80}
                                 className="mt-2 py-2 text-wrap px-3 w-full h-56 text-sm resize-none bg-[#cdcdcd]/20 outline-none border border-[#444444]/80 rounded-md">
                                     
                                 </textarea>

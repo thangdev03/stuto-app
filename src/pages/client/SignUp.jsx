@@ -42,7 +42,7 @@ function SignUp() {
     }
   }
    
-  return user ? (<Navigate to="/"/>) : (
+  return user && user.role == "client" ? (<Navigate to="/"/>) : (
     <div className="flex h-screen">
       {creatingAccount && (
           <div className="fixed z-30 left-0 top-0 right-0 bottom-0 bg-[#333333]/[.3] pt-20">

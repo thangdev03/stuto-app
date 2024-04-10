@@ -24,12 +24,10 @@ const FriendRequests = () => {
     loadRequests();
   },[user.id])
 
-  console.log(requests)
-
   return (
     <div className="ml-72 mt-10 mr-7">
         {requests.length > 0 ? (
-          <div className="w-full grid grid-cols-1 min-[920px]:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-3">
+          <div className="w-full grid grid-cols-1 min-[920px]:grid-cols-2 xl:grid-cols-3 gap-3">
             {requests.map((request) => (
                 <RequestItem key={request._id} request={request} sender={request.sender}/>
             ))}

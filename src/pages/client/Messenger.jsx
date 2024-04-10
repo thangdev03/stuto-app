@@ -7,6 +7,7 @@ import { IoMdSearch } from 'react-icons/io'
 import { BsSendFill } from "react-icons/bs";
 import { useAuthContext } from "../../hooks/useAuthContext"
 import { AiOutlineMessage } from "react-icons/ai";
+import { BsPencilSquare } from "react-icons/bs";
 import LoadingSpinner from "../../components/LoadingSpinner"
 
 const Messenger = () => {
@@ -175,12 +176,17 @@ const Messenger = () => {
         )}
         
         <div className="w-[30%] px-3 py-4 flex flex-col border-l border-l-gray-300">
-            <h1 className="text-2xl font-semibold">Tin nhắn</h1>
+            <div className="flex justify-between items-center">
+                <h1 className="text-2xl font-semibold">Tin nhắn</h1>
+                {/* <div className="bg-slate-200 p-2 rounded-full shadow-sm hover:bg-slate-300 cursor-pointer">
+                    <BsPencilSquare className="text-xl"/>
+                </div> */}
+            </div>
             <div className="mt-2 bg-slate-100 rounded-full flex items-center transition-all px-4">
                 <IoMdSearch className="text-2xl text-textColor/50"/>
                 <input 
                     type="text"
-                    placeholder="Tìm kiếm tin nhắn"
+                    placeholder="Tìm kiếm cuộc trò chuyện"
                     className="w-full bg-transparent py-2 px-2 focus:outline-none text-textColor text-sm"
                     value={searchText}
                     onChange={(e) => setSearchText(e.target.value)}
