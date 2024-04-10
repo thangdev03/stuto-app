@@ -1,4 +1,4 @@
-import { Routes, Route, Link, useLocation } from 'react-router-dom' 
+import { Routes, Route, Link, useLocation } from 'react-router-dom'
 import Home from './pages/client/Home'
 import FindFriends from './pages/client/FindFriends'
 import StudyRoom from './pages/client/StudyRoom'
@@ -22,10 +22,11 @@ function App() {
   const { pathname } = useLocation();
   const [state, dispatch] = useAuthContext();
   const { user } = state;
+  const isMeetingPage = pathname.includes('/meeting');
 
   return (
     <div className="App">
-      {user && (pathname !== '/meeting') && (pathname !== '/login') && (pathname !== '/signup') && (
+      {user && !isMeetingPage && (pathname !== '/login') && (pathname !== '/signup') && (
         <>
           <div className="sticky z-10 top-0 h-16 bg-[#cbe0ff] shadow-md border-b border-b-white flex items-center py-2">
             <Link to="/" className="block ml-16">
@@ -52,7 +53,7 @@ function App() {
           <Route path="/bai-dang" element={<Posts />}/>
           <Route path="/user/:userId" element={<Profile />}/>
           <Route path="/update-info" element={<UpdateInfo />}/>
-          <Route path="/meeting" element={<Meeting />} />
+          <Route path="/meeting/:meetingId" element={<Meeting />} />
           <Route path="/messenger" element={<Messenger />} />
           <Route path="/friend">
             <Route path="requests" element={<FriendRequests />}/>
