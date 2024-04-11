@@ -19,6 +19,8 @@ const Messenger = () => {
   const [arrivalMessage, setArrivalMessage] = useState(null);
   const [isLoadingConversation, setIsLoadingConversation] = useState(false);
   const [friendId, setFriendId] = useState(null);
+  const [friendList, setFriendsList] = useState([]);
+  const [allowChat, setAllowChat] = useState(false);
   const [ state, dispatch ] = useAuthContext();
   const { user } = state;
   const scrollRef = useRef();
@@ -132,9 +134,32 @@ const Messenger = () => {
         behavior: "smooth"
     })
   },[messages]);
+  
+  useEffect(() => {
+    const getFriends = async () => {
+      try {
+          const response = await fetch("https://stuto-api.onrender.com/friend/" + user.id);
+          const data = await response.json();
+          if (data.length > 0) {
+            data.forEach(user => {
+                setFriendsList((prevState) => [...prevState, user._id])
+            })
+          }
+      } catch (error) {
+          return console.error(error);
+      }
+    }
+    getFriends();
+  },[user.id])
+
+  useEffect(() => {
+    const isAllow = friendList.includes(friendId);
+    setAllowChat(isAllow);
+  },[friendId, friendList])
 
   return (
     <div className="ml-72 h-[calc(100vh-64px)] flex justify-between border-l border-gray-300 bg-boxBackground overflow-y-hidden">
+        {/* CHAT BOX */}
         {currentChat ? (
             <div className="w-[70%] flex flex-col">
                 <ConversationHeader conversation={currentChat} currentUser={user} />
@@ -145,7 +170,6 @@ const Messenger = () => {
                     </span>
                 ) : (
                     <div className="grow overflow-y-auto">
-                    
                         {messages.map((message, index) => (
                                 <div key={index} ref={scrollRef}>
                                     <Message message={message} own={message.sender === user.id} friendId={friendId}/>
@@ -153,17 +177,25 @@ const Messenger = () => {
                         ))}
                     </div>
                 )}
+                {!allowChat && (
+                    <span className="text-center mb-10 text-primaryColor font-medium text-lg">⚠ Chỉ khi là bạn bè mới có thể nhắn tin cho nhau!</span>
+                )}
                 <div className="py-3 px-4 flex items-center gap-3">
                     <textarea
+                        disabled={!allowChat}
                         type="text"
                         placeholder="Nhập tin nhắn của bạn ở đây..." 
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
                         onInput={(e) => autoGrow(e.target)}
                         onKeyDown={(e) => handleKeyDown(e)}
-                        className="grow px-4 py-2 bg-slate-100 rounded-3xl outline-none h-10 max-h-36 text-wrap resize-none"
+                        className={`grow px-4 py-2 bg-slate-100 rounded-3xl outline-none h-10 max-h-36 text-wrap resize-none ${!allowChat && "cursor-not-allowed"}`}
                     />
-                    <button className="p-2 rounded-full hover:bg-gray-100" onClick={handleSubmit}>
+                    <button 
+                    disabled={!allowChat} 
+                    className={`p-2 rounded-full cursor-not-allowed ${allowChat && "hover:bg-gray-100 cursor-pointer"}`}
+                    onClick={handleSubmit}
+                    >
                         <BsSendFill className="text-2xl text-primaryColor"/>
                     </button>
                 </div>
@@ -175,6 +207,7 @@ const Messenger = () => {
             </div>
         )}
         
+        {/* RIGHT PART */}
         <div className="w-[30%] px-3 py-4 flex flex-col border-l border-l-gray-300">
             <div className="flex justify-between items-center">
                 <h1 className="text-2xl font-semibold">Tin nhắn</h1>
