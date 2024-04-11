@@ -3,17 +3,25 @@ import { MdPersonAddAlt1 } from "react-icons/md";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { RiUserForbidLine } from "react-icons/ri";
 import { MdOutlineReport } from "react-icons/md";
-import { BsDot, BsThreeDots } from "react-icons/bs";
+import { BsDot, BsThreeDots, BsFillPersonXFill } from "react-icons/bs";
 import { AiOutlineLike } from "react-icons/ai";
 import FriendsList from "../../components/FriendsList";
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
+import { cancelInvitation, getInvitation, sendInvitation, unfriendHandle } from "../../utils/friendsHandler";
 // import LoadingSpinner from "../../components/LoadingSpinner";
 
 function Profile() {
     const [openUserActions, setOpenUserActions] = useState(false);
+    const [openInvitation, setOpenInvitation] = useState(false);
     const [userData, setUserData] = useState(null);
+    const [inviteTarget, setInviteTarget] = useState(null);
+    const [inviteMessage, setInviteMessage] = useState("Chào bạn, mình có thể cùng học với bạn được không? Mình cũng đang học môn này 🥰");
     const [userAge, setUserAge] = useState(0);
+    const [friends, setFriends] = useState([]);
+    const [requestSenders, setRequestSenders] = useState([]);
+    const [requestReceivers, setRequestReceivers] = useState([]);
+    const [isFriend, setIsFriend] = useState(false);
     const { userId } = useParams();
     const currAuthUser = JSON.parse(localStorage.getItem("user"))
     let isCurrUser = (userId === currAuthUser.id) ? true : false;
@@ -28,6 +36,15 @@ function Profile() {
             setOpenUserActions(false);
         }
     }
+
+    const handleOpenInvitation = () => {
+        setOpenInvitation(!openInvitation);
+    };
+
+    const handleSubmitAdd = (event) => {
+        event.preventDefault();
+        sendInvitation(currAuthUser.id, userId, inviteMessage);
+    };
 
     useEffect(() => {
         document.addEventListener('click', handleClickOutside);
@@ -54,11 +71,123 @@ function Profile() {
     },[userId])
 
     useEffect(() => {
+        const fetchFriendsData = async () => {
+            try {
+                const response = await fetch("https://stuto-api.onrender.com/user/" + currAuthUser.id);
+                const data = await response.json();
+                if (response.status === 404 || response.status === 500 ) {
+                    throw new Error("Error, status: ", data.message)
+                }
+                setFriends(data.friends);
+            } catch (error) {
+                console.error("Error fetching user data")
+            }
+        }
+        fetchFriendsData();
+    },[userId])
+
+    useEffect(() => {
+        const result = friends.find(friendId => friendId === userId)
+        if (result) {
+            setIsFriend(true);
+        }
+    }, [friends])
+
+    useEffect(() => {
         const currYear = new Date().getFullYear();
         const birthYear = (new Date(userData?.date_of_birth)).getFullYear();
         setUserAge(currYear - birthYear);
     },[userData])
-    
+
+    useEffect(() => {
+        const getRequestSenders = async () => {
+            try {
+                const response = await fetch("https://stuto-api.onrender.com/invitation/" + currAuthUser.id)
+                const data = await response.json();
+                if (response.status === 200) {
+                    let senders = data.reduce((result, item) => {
+                        result.push(item.sender?._id);
+                        return result;
+                    },[]);
+                    setRequestSenders(senders);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        const getRequestReceiver = async () => {
+            try {
+                const response = await fetch("https://stuto-api.onrender.com/invitation/sent/" + currAuthUser.id)       
+                const data = await response.json();
+                if (response.status === 200) {
+                    let receivers = data.reduce((result, item) => {
+                        result.push(item.receiver);
+                        return result;
+                    },[]);
+                    setRequestReceivers(receivers);
+                }
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        getRequestSenders();
+        getRequestReceiver();
+    },[currAuthUser.id])
+
+    const renderActionBtn = () => {
+        if (isFriend) {
+            return (
+                <button 
+                onClick={async () => {
+                    const invitation = await getInvitation(currAuthUser.id, userId);
+                    unfriendHandle(currAuthUser.id, userId, invitation?._id)
+                    setIsFriend(false)
+                }}
+                className="w-fit h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-gray-400 rounded-full text-white transition-all hover:shadow-blockShadow hover:brightness-110">
+                    <BsFillPersonXFill className="text-xl"/>
+                    Hủy bạn bè
+                </button>
+            )
+        } else if (requestSenders.includes(userId)) {
+            const invitation = getInvitation(currAuthUser.id, userId)
+            return (
+                <button 
+                // onClick={() => {
+                //     handleOpenInvitation();
+                //     setInviteTarget(userData);
+                // }}
+                className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-primaryColor rounded-full text-white transition-all hover:shadow-blockShadow hover:brightness-110">
+                    <MdPersonAddAlt1 className="text-xl"/>
+                    Phản hồi
+                </button>
+            )
+        } else if (requestReceivers.includes(userId)) {
+            return (
+                <button 
+                onClick={async () => {
+                    const invitation = await getInvitation(currAuthUser.id, userId)
+                    cancelInvitation(invitation?._id)
+                }}
+                className="w-fit h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-gray-400 rounded-full text-white transition-all hover:shadow-blockShadow hover:brightness-110">
+                    <BsFillPersonXFill className="text-xl"/>
+                    Hủy lời mời
+                </button>
+            )
+        } else {
+            return (
+                <button 
+                onClick={() => {
+                    handleOpenInvitation();
+                    setInviteTarget(userData);
+                }}
+                className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-primaryColor rounded-full text-white transition-all hover:shadow-blockShadow hover:brightness-110">
+                    <MdPersonAddAlt1 className="text-xl"/>
+                    Kết bạn
+                </button>
+            )
+        }
+    }
+
     return (          
             <div className="ml-72 mr-[416px] mt-8 pb-12">
                 <FriendsList />
@@ -94,11 +223,8 @@ function Profile() {
                                             <p className="font-semibold">12h 35m</p>
                                         </div>
                                     </div>
-                                    <div className="mt-4 flex gap-5">
-                                        <button className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-primaryColor rounded-full text-white transition-all hover:shadow-blockShadow hover:brightness-110">
-                                            <MdPersonAddAlt1 className="text-xl"/>
-                                            Kết bạn
-                                        </button>
+                                    <div className={`mt-4 gap-5 ${isCurrUser ? "hidden" : "flex"}`}>
+                                        {renderActionBtn()}
                                         <div className="relative" ref={boxRef}>
                                             <button 
                                             onClick={(e) => setOpenUserActions(!openUserActions)}
@@ -190,6 +316,46 @@ function Profile() {
                             <FaArrowRight className="text-textInactive/70"/>
                         </div>
                     </div>
+                    
+                    {/* Invitation model */}
+                    {openInvitation && (
+                        <div onClick={handleOpenInvitation} className="fixed z-30 left-0 top-0 right-0 bottom-0 bg-[#222222]/30">
+                            <div onClick={(e) => e.stopPropagation()} className="h-80 w-1/3 bg-boxBackground mx-auto mt-20 rounded-xl px-6 pt-4">
+                                <div className="flex justify-between items-end">
+                                    <h2 className="font-medium">Lời mời kết bạn tới {inviteTarget.name}</h2>
+                                    <p className="text-xs">{inviteMessage.length}/80</p>
+                                </div>
+                                <textarea 
+                                type="text"
+                                value={inviteMessage}
+                                onChange={(e) => setInviteMessage(e.target.value)}
+                                maxLength={80}
+                                className="mt-2 py-2 text-wrap px-3 w-full h-56 text-sm resize-none bg-[#cdcdcd]/20 outline-none border border-[#444444]/80 rounded-md">
+                                    
+                                </textarea>
+                                <div className="float-right inline-block">
+                                    <button 
+                                        type="submit"
+                                        onClick={handleOpenInvitation} 
+                                        className="mr-2 min-w-20 text-sm py-2 px-4 bg-red-500 text-white rounded-lg
+                                        hover:shadow-blockShadow hover:bg-red-500/80">
+                                        Hủy
+                                    </button>
+                                    <button 
+                                        type="submit" 
+                                        onClick={(event) => {
+                                            handleOpenInvitation();
+                                            handleSubmitAdd(event);
+                                        }}
+                                        className="min-w-20 text-sm py-2 px-4 bg-primaryColor text-white rounded-lg
+                                        hover:shadow-blockShadow hover:bg-primaryColor/80">
+                                        Gửi lời mời
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     {/* Posts */}
                     <div className="mt-4 bg-white rounded-3xl pt-6 px-12 pb-4">
                         <h3 className="text-xl font-semibold">Bài đăng cá nhân</h3>

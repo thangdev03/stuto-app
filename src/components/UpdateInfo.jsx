@@ -83,14 +83,14 @@ const UpdateInfo = () => {
                     throw new Error("Error, status: ", data.message)
                 }
 
-                setInputName(data.user.name);
-                setInputStudentId(data.user.student_id);
-                setProgramOption((prevState) => ({...prevState, selected: data.user.study_program}));
-                setMajorOption((prevState) => ({...prevState, selected: data.majorOfUser?.name, id: data.user.major}))
-                setInputDOB(data.user.date_of_birth.split("T")[0]);
-                setSexOption((prevState) => ({...prevState, selected: data.user.sex}));
-                setLocationOption((prevState) => ({...prevState, selected: data.user.location}))
-                setInputCreatedAt(data.user.createdAt.split("T")[0]);
+                setInputName(data.name);
+                setInputStudentId(data.student_id);
+                setProgramOption((prevState) => ({...prevState, selected: data.study_program}));
+                setMajorOption((prevState) => ({...prevState, selected: data.major?.name, id: data.major?._id}))
+                setInputDOB(data.date_of_birth.split("T")[0]);
+                setSexOption((prevState) => ({...prevState, selected: data.sex}));
+                setLocationOption((prevState) => ({...prevState, selected: data.location}))
+                setInputCreatedAt(data.createdAt.split("T")[0]);
                 setIsLoading(false);
             } catch (error) {
                 console.error("Error fetching user data: ", error);
@@ -156,7 +156,7 @@ const UpdateInfo = () => {
                     <input 
                         type="text"
                         placeholder="Mã sinh viên gồm 8 số"
-                        value={inputStudentId}
+                        value={inputStudentId || ""}
                         onChange={(e) => setInputStudentId(e.target.value)}
                         maxLength={8}
                         className="w-96 px-3 py-2 bg-boxBackground rounded-lg border border-gray-300"     

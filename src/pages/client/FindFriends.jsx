@@ -6,7 +6,7 @@ import FilterFriends from "../../components/FilterFriends"
 import { useAuthContext } from "../../hooks/useAuthContext";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import { Link } from "react-router-dom";
-import { sendInvitation } from "../../utils/friendsHandler";
+import { cancelInvitation, getInvitation, sendInvitation } from "../../utils/friendsHandler";
 
 var statusFindFriend = true;
 
@@ -104,7 +104,7 @@ function FindFriends() {
 
     useEffect(() => {
         const result = allUsers.filter((currUser) => (
-            (currUser.info._id !== user.id) && (!friendsList.includes(currUser.info._id))
+            (currUser.info._id !== user.id) && (!friendsList?.includes(currUser.info._id))
         ));
         setAvailableUsers(result);
     },[user.id, allUsers, friendsList])
@@ -196,6 +196,10 @@ function FindFriends() {
                                             )}
                                             {requestReceivers.includes(userItem.info._id) && (
                                                 <button 
+                                                    onClick={async () => {
+                                                        const invitation = await getInvitation(userItem.info._id, user.id);
+                                                        cancelInvitation(invitation._id)
+                                                    }}
                                                     className="mt-4 text-sm text-textColor font-medium px-3 py-2 border-2 border-gray-300 bg-gray-300 rounded-full flex items-center gap-2
                                                     hover:bg-gray-200 hover:border-gray-200 transition-all"
                                                 >

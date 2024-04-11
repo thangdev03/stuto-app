@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { Link } from "react-router-dom";
 
 function FriendsList() {
   const [friendsList, setFriendsList] = useState([]);
@@ -47,7 +48,7 @@ function FriendsList() {
       </div>
       {/* Friends list */}
       <ul className="mt-5 flex flex-col gap-0 grow overflow-y-auto">
-        {friendsList.map((friend) =>
+        {friendsList.length > 0 && friendsList.map((friend) =>
           friend.name.toLowerCase().includes(inputValue) ||
           friend.major.toLowerCase().includes(inputValue) ? (
             <li
@@ -64,12 +65,12 @@ function FriendsList() {
                   className={`absolute top-7 left-6 bg-green-500 w-2 h-2 rounded-full`}
                 ></div>
               </div>
-              <div className="w-[calc(100%-58px)]">
+              <Link to={"/user/" + friend._id} className="block w-[calc(100%-58px)]">
                 <h4 className="text-sm font-semibold">{friend.name}</h4>
                 <p className="text-xs w-full truncate">
                   {friend.location} {friend.major && (", " + friend.major?.name)}
                 </p>
-              </div>
+              </Link>
             </li>
           ) : null
         )}

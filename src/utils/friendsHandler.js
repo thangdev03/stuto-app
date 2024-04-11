@@ -1,3 +1,13 @@
+export const getInvitation = async (currUserId, otherUserId) => {
+    try {
+        const response = await fetch("https://stuto-api.onrender.com/invitation/detail/" + currUserId + "/" + otherUserId)
+        const data = await response.json();
+        return response.status === 200 ? data : null
+    } catch (error) {
+        return console.error(error);    
+    }
+}
+
 export const sendInvitation = async (sender, receiver, note) => {
     try {
         const response = await fetch("https://stuto-api.onrender.com/invitation/send", {
@@ -53,6 +63,22 @@ export const cancelInvitation = async (invitationId) => {
     }
 };
 
-export const unfriendHandle = async (currentUserId, friendId) => {
-
+export const unfriendHandle = async (currentUserId, friendId, invitationId) => {
+    try {
+        const response = await fetch("https://stuto-api.onrender.com/friend/", {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                currentUserId: currentUserId,
+                friendId: friendId,
+                invitationId: invitationId
+            })
+        });
+        const data = await response.json();
+        console.log(data.message);
+    } catch (error) {
+        return console.error(error);
+    }
 };
