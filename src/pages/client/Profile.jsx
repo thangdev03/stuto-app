@@ -9,6 +9,7 @@ import FriendsList from "../../components/FriendsList";
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { cancelInvitation, getInvitation, sendInvitation, unfriendHandle } from "../../utils/friendsHandler";
+import { getAge } from "../../utils/getAge";
 // import LoadingSpinner from "../../components/LoadingSpinner";
 
 function Profile() {
@@ -94,9 +95,8 @@ function Profile() {
     }, [friends])
 
     useEffect(() => {
-        const currYear = new Date().getFullYear();
-        const birthYear = (new Date(userData?.date_of_birth)).getFullYear();
-        setUserAge(currYear - birthYear);
+        const userAge = getAge(userData?.date_of_birth)
+        setUserAge(userAge);
     },[userData])
 
     useEffect(() => {

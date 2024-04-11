@@ -2,43 +2,89 @@ import { useEffect, useState } from "react";
 import { FaChevronDown } from "react-icons/fa6";
 import { IoIosSearch } from "react-icons/io";
 import Slider from "react-slider";
+import { handleFilter } from "../utils/filterUsers";
+import { getMaxAge, getMinAge } from "../utils/getAge";
 
-const minAge = 18;
-const maxAge = 26;
-
-function FilterFriends() {
-  const majors = [
-    "Công nghệ thông tin",
-    "Khoa học máy tính",
-    "Hệ thống thông tin quản lý",
-    "Marketing",
-    "Quản trị nhân lực",
-  ];
-  const subjects = [
-    "Nhập môn công nghệ thông tin",
-    "Lập trình hướng đối tượng",
-    "Cấu trúc dữ liệu và giải thuật",
-    "Kinh tế vi mô",
-    "Pháp luật đại cương",
-  ];
+function FilterFriends({ applyFilter, resetFilter, availableUsers, sendFilteredUsers }) {
+  const [majors, setMajors] = useState([]);
+  const [subjects, setSubjects] = useState([]);
   const [inputMajor, setInputMajor] = useState("");
-  const [selectedMajor, setSelectedMajor] = useState("");
+  const [selectedMajor, setSelectedMajor] = useState(null);
   const [openMajor, setOpenMajor] = useState(false);
   const [inputSubject, setInputSubject] = useState("");
-  const [selectedSubject, setSelectedSubject] = useState("");
+  const [selectedSubject, setSelectedSubject] = useState(null);
   const [openSubject, setOpenSubject] = useState(false);
   const [inputCity, setInputCity] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [openCity, setOpenCity] = useState(false);
   const [cities, setCities] = useState(null);
+  const [minAge, setMinAge] = useState(0);
+  const [maxAge, setMaxAge] = useState(50);
   const [ageValues, setAgeValues] = useState([minAge, maxAge]);
   const [selectedGender, setSelectedGender] = useState("all");
+  const [subjectId, setSubjectId] = useState("");
+  const [majorId, setMajorId] = useState("");
 
   useEffect(() => {
-    fetch("https://vapi.vnappmob.com/api/province")
-      .then((res) => res.json())
-      .then((citiesData) => setCities(citiesData.results));
+    const getProvinces = async () => {
+      try {
+        fetch("https://vapi.vnappmob.com/api/province")
+          .then((res) => res.json())
+          .then((citiesData) => setCities(citiesData.results));
+      } catch (error) {
+        return console.log(error)
+      }
+    }
+
+    const getSubjects = async () => {
+      try {
+        const response = await fetch("https://stuto-api.onrender.com/subject");
+        const data = await response.json();
+        setSubjects(data.data);
+      } catch (error) {
+        return console.log(error);
+      }
+    };
+
+    const getMajors = async () => {
+      try {
+        const response = await fetch("https://stuto-api.onrender.com/major");
+        const data = await response.json();
+        setMajors(data.data);
+      } catch (error) {
+        return console.log(error);
+      }
+    };
+    
+    getProvinces();
+    getSubjects();
+    getMajors();
   }, []);
+
+  const handleSubmit = () => {
+    applyFilter();
+    const data = handleFilter(availableUsers, ageValues[0], ageValues[1], selectedGender, selectedMajor, selectedSubject, selectedCity);
+    sendFilteredUsers(data);
+  }
+
+  const handleCancel = () => {
+    setAgeValues([minAge, maxAge]);
+    setSelectedGender("all");
+    setSelectedMajor("");
+    setSelectedSubject("");
+    setSelectedCity("");
+    resetFilter();
+  }
+
+  useEffect(() => {
+    setMinAge(getMinAge(availableUsers));
+    setMaxAge(getMaxAge(availableUsers));
+  },[availableUsers])
+
+  useEffect(() => {
+    setAgeValues([minAge, maxAge]);
+  },[minAge, maxAge])
+
   return (
     <div className="fixed top-24 right-5 min-h-[500px] w-[340px] bg-boxBackground rounded-3xl py-6 px-7 flex flex-col">
       <h3 className="font-semibold text-lg text-textColor">Bộ lọc</h3>
@@ -63,6 +109,8 @@ function FilterFriends() {
           max={maxAge}
         />
       </div>
+
+      {/* GIỚI TÍNH - GENDER*/}
       <div className="mt-4 text-sm">
         <span className="font-medium block w-full mb-3">Giới tính</span>
         <div className="w-full flex justify-between items-center">
@@ -104,6 +152,8 @@ function FilterFriends() {
           </div>
         </div>
       </div>
+
+      {/* CHUYÊN NGÀNH - MAJOR*/}
       <div className="mt-4 text-sm">
         <span className="font-medium">Chuyên ngành</span>
         <div className="w-full font-normal mt-3 relative">
@@ -139,34 +189,37 @@ function FilterFriends() {
                 className="placeholder:text-gray-400 px-4 py-2 text-sm outline-none w-full"
               />
             </div>
-            {majors.map((major, index) => (
+            {majors?.map((major) => (
               <li
-                key={index}
+                key={major?._id}
                 className={`px-4 py-2 text-sm hover:bg-primaryColor hover:text-white first:rounded-t-md last:rounded-b-md cursor-pointer
                             ${
-                              major.toLowerCase().includes(inputMajor)
+                              major?.name.toLowerCase().includes(inputMajor)
                                 ? "block"
                                 : "hidden"
                             }
                             ${
-                              major.toLowerCase() ===
-                                selectedMajor.toLowerCase() &&
+                              major?.name.toLowerCase() ===
+                                selectedMajor?.toLowerCase() &&
                               "bg-primaryColor text-white"
                             }`}
                 onClick={(e) => {
-                  if (major.toLowerCase() !== selectedMajor.toLowerCase()) {
-                    setSelectedMajor(major);
+                  if (major?.name.toLowerCase() !== selectedMajor?.toLowerCase()) {
+                    setSelectedMajor(major?.name);
+                    setMajorId(major?._id);
                     setOpenMajor(false);
                     setInputMajor("");
                   }
                 }}
               >
-                {major}
+                {major?.name}
               </li>
             ))}
           </ul>
         </div>
       </div>
+
+      {/* MÔN HỌC - SUBJECT */}
       <div className="mt-4 text-sm">
         <span className="font-medium">Môn học</span>
         <div className="w-full font-normal mt-3 relative">
@@ -202,29 +255,33 @@ function FilterFriends() {
                 className="placeholder:text-gray-400 px-4 py-2 text-sm outline-none w-full"
               />
             </div>
-            {subjects.map((subject, index) => (
+            {subjects?.map((subject) => (
               <li
-                key={index}
+                key={subject?._id}
                 className={`px-4 py-2 text-sm hover:bg-primaryColor hover:text-white first:rounded-t-md last:rounded-b-md cursor-pointer
                             ${
-                              subject.toLowerCase().includes(inputSubject)
+                              subject?.name.toLowerCase().includes(inputSubject)
                                 ? "block"
                                 : "hidden"
                             }
                             ${
-                              subject.toLowerCase() ===
-                                selectedSubject.toLowerCase() &&
+                              subject?.name.toLowerCase() ===
+                                selectedSubject?.toLowerCase() &&
                               "bg-primaryColor text-white"
                             }`}
                 onClick={(e) => {
-                  if (subject.toLowerCase() !== selectedSubject.toLowerCase()) {
-                    setSelectedSubject(subject);
+                  if (
+                    subject?.name.toLowerCase() !==
+                    selectedSubject?.toLowerCase()
+                  ) {
+                    setSelectedSubject(subject?.name);
+                    setSubjectId(subject?._id);
                     setOpenSubject(false);
                     setInputSubject("");
                   }
                 }}
               >
-                {subject}
+                {subject?.name}
               </li>
             ))}
           </ul>
@@ -302,18 +359,13 @@ function FilterFriends() {
       <div className="mt-4 flex justify-between">
         <button
           className="w-32 text-center py-2 text-sm text-red-500 rounded-lg border border-red-500 transition-all hover:bg-red-500 hover:text-white hover:shadow"
-          onClick={() => {
-            setAgeValues([minAge, maxAge]);
-            setSelectedGender("all");
-            setSelectedMajor("");
-            setSelectedSubject("");
-            setSelectedCity("");
-          }}
+          onClick={handleCancel}
         >
           Bỏ chọn
         </button>
         <button
           type="submit"
+          onClick={handleSubmit}
           className="w-32 text-center py-2 text-sm bg-primaryColor text-white rounded-lg border border-primaryColor transition-all hover:bg-primaryColor/80 hover:shadow"
         >
           Xem kết quả

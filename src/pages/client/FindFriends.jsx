@@ -2,17 +2,16 @@ import { useEffect, useState } from "react";
 import { MdLocationOn, MdPersonAddAlt1 } from "react-icons/md";
 import { FaUserFriends, FaUserTimes, FaUserCheck } from "react-icons/fa";
 import { FaClock } from "react-icons/fa6";
-import FilterFriends from "../../components/FilterFriends"
 import { useAuthContext } from "../../hooks/useAuthContext";
+import FilterFriends from "../../components/FilterFriends"
 import LoadingSpinner from "../../components/LoadingSpinner";
+import WishModal from "../../components/WishModal";
 import { Link } from "react-router-dom";
 import { cancelInvitation, getInvitation, sendInvitation } from "../../utils/friendsHandler";
 
-var statusFindFriend = true;
-
 function FindFriends() {
-    const [activeFind, setActiveFind] = useState(statusFindFriend);
     const [openInvitation, setOpenInvitation] = useState(false);
+    const [openWish, setOpenWish] = useState(false);
     const [allUsers, setAllUsers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [inviteTarget, setInviteTarget] = useState(null);
@@ -21,6 +20,8 @@ function FindFriends() {
     const [friendsList, setFriendsList] = useState([]);
     const [requestSenders, setRequestSenders] = useState([]);
     const [requestReceivers, setRequestReceivers] = useState([]);
+    const [applyFilter, setApplyFilter] = useState(false);
+    const [filteredUsers, setFilteredUsers] = useState([]);
     const [state, dispatch] = useAuthContext();
     const { user } = state;
     let username = ""
@@ -44,6 +45,10 @@ function FindFriends() {
         event.preventDefault();
         sendInvitation(user.id, inviteTarget._id, inviteMessage);
     };
+
+    const handleFilterUsers = (data) => {
+        setFilteredUsers(data);
+    }
 
     useState(() => {
         setIsLoading(true);
@@ -104,7 +109,7 @@ function FindFriends() {
 
     useEffect(() => {
         const result = allUsers.filter((currUser) => (
-            (currUser.info._id !== user.id) && (!friendsList?.includes(currUser.info._id))
+            (currUser.info._id !== user.id) && (!friendsList?.includes(currUser.info._id)) && currUser.info.wish?.is_active
         ));
         setAvailableUsers(result);
     },[user.id, allUsers, friendsList])
@@ -114,20 +119,12 @@ function FindFriends() {
             {/* <h1 className="font-bold text-3xl">Nè {username}, bạn muốn học cùng ai?</h1> */}
             <h1 className="font-bold text-3xl">Hôm nay bạn muốn học cùng ai?</h1>
             <div className="mt-8 pt-5 px-6 pb-6 bg-white w-full rounded-lg shadow-blockShadow">
-                <div className="flex justify-between items-center">
-                    <span className="font-medium">Chế độ tìm bạn học</span>
-                    <div 
-                    className={`h-10 w-32 bg-gray-300 rounded-full flex items-center cursor-pointer
-                    transition-all ${activeFind && "bg-primaryColor"}`} 
-                    onClick={() => setActiveFind(!activeFind)}>
-                        <div className={`w-8 h-8 
-                        rounded-full transition-all bg-white
-                        ${activeFind ? "ml-[92px]" : "ml-1"}`}></div>
-                    </div>
-                </div>
+                
                 <div className="flex justify-between items-center mt-2">
-                    <span className="font-medium">Thay đổi yêu cầu của bạn</span>
-                    <button className="px-6 py-2 text-primaryColor border-2 border-primaryColor rounded-full transition-all
+                    <span className="font-medium">Thay đổi mong muốn của bạn</span>
+                    <button
+                    onClick={() => setOpenWish(true)}
+                    className="px-6 py-2 text-primaryColor border-2 border-primaryColor rounded-full transition-all
                     hover:text-white hover:bg-primaryColor">
                         Chỉnh sửa
                     </button>
@@ -141,7 +138,7 @@ function FindFriends() {
                     {isLoading ? (
                         <LoadingSpinner className={"mx-auto"}/>
                     ) : (
-                        availableUsers.map((userItem) => (
+                        (applyFilter? filteredUsers : availableUsers).map((userItem) => (
                             <div
                                 key={userItem.info._id} 
                                 className="mb-2 pt-3 pr-6 pl-3 pb-4 min-h-64 bg-boxBackground rounded-lg shadow-blockShadow">
@@ -261,7 +258,13 @@ function FindFriends() {
                     )}
                 </div>
             </div>
-            <FilterFriends />
+            {openWish &&
+                <div onClick={() => setOpenWish(false)} className="fixed z-30 left-0 top-0 right-0 bottom-0 bg-[#222222]/30">
+                    <WishModal userId={user.id} closeModal={() => setOpenWish(false)} />
+                </div>
+            }
+            <FilterFriends applyFilter={() => setApplyFilter(true)} resetFilter={() => setApplyFilter(false)} 
+            availableUsers={availableUsers} sendFilteredUsers={handleFilterUsers} />
         </div>
     )
 }
