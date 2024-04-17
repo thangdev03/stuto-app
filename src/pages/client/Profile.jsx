@@ -1,4 +1,5 @@
 import { FaArrowRight, FaEarthAsia, FaMapPin, FaRegComment, FaRegPaperPlane } from "react-icons/fa6";
+import { FaUserFriends, FaUserTimes, FaUserCheck } from "react-icons/fa";
 import { MdPersonAddAlt1 } from "react-icons/md";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { RiUserForbidLine } from "react-icons/ri";
@@ -10,7 +11,7 @@ import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { cancelInvitation, getInvitation, sendInvitation, unfriendHandle } from "../../utils/friendsHandler";
 import { getAge } from "../../utils/getAge";
-// import LoadingSpinner from "../../components/LoadingSpinner";
+import InvitationModal from "../../components/InvitationModal";
 
 function Profile() {
     const [openUserActions, setOpenUserActions] = useState(false);
@@ -23,14 +24,11 @@ function Profile() {
     const [requestSenders, setRequestSenders] = useState([]);
     const [requestReceivers, setRequestReceivers] = useState([]);
     const [isFriend, setIsFriend] = useState(false);
+    const [isSentRequest, setIsSentRequest] = useState(false);
     const { userId } = useParams();
     const currAuthUser = JSON.parse(localStorage.getItem("user"))
     let isCurrUser = (userId === currAuthUser.id) ? true : false;
     let boxRef = useRef();
-
-    // console.log("Id from param: ", userId);
-    // console.log("Is current id: ", isCurrUser);
-    // console.log("User from API: ", userData);
 
     const handleClickOutside = (e) => {
         if (!boxRef.current.contains(e.target)) {
@@ -46,6 +44,15 @@ function Profile() {
         event.preventDefault();
         sendInvitation(currAuthUser.id, userId, inviteMessage);
     };
+
+    const updateSentStatus = () => {
+        setIsSentRequest(true)
+    };
+
+    const handleCancelInvite = async () => {
+        const invitation = await getInvitation(currAuthUser.id, userId);
+        cancelInvitation(invitation._id);
+      };
 
     useEffect(() => {
         document.addEventListener('click', handleClickOutside);
@@ -157,16 +164,20 @@ function Profile() {
                 //     setInviteTarget(userData);
                 // }}
                 className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-primaryColor rounded-full text-white transition-all hover:shadow-blockShadow hover:brightness-110">
-                    <MdPersonAddAlt1 className="text-xl"/>
+                    <FaUserCheck className="text-xl"/>
                     Phản hồi
                 </button>
             )
-        } else if (requestReceivers.includes(userId)) {
+        } else if (requestReceivers.includes(userId) || isSentRequest) {
             return (
                 <button 
                 onClick={async () => {
                     const invitation = await getInvitation(currAuthUser.id, userId)
                     cancelInvitation(invitation?._id)
+                }}
+                onClick={() => {
+                    setIsSentRequest(false);
+                    handleCancelInvite();
                 }}
                 className="w-fit h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-gray-400 rounded-full text-white transition-all hover:shadow-blockShadow hover:brightness-110">
                     <BsFillPersonXFill className="text-xl"/>
@@ -319,41 +330,42 @@ function Profile() {
                     
                     {/* Invitation model */}
                     {openInvitation && (
-                        <div onClick={handleOpenInvitation} className="fixed z-30 left-0 top-0 right-0 bottom-0 bg-[#222222]/30">
-                            <div onClick={(e) => e.stopPropagation()} className="h-80 w-1/3 bg-boxBackground mx-auto mt-20 rounded-xl px-6 pt-4">
-                                <div className="flex justify-between items-end">
-                                    <h2 className="font-medium">Lời mời kết bạn tới {inviteTarget.name}</h2>
-                                    <p className="text-xs">{inviteMessage.length}/80</p>
-                                </div>
-                                <textarea 
-                                type="text"
-                                value={inviteMessage}
-                                onChange={(e) => setInviteMessage(e.target.value)}
-                                maxLength={80}
-                                className="mt-2 py-2 text-wrap px-3 w-full h-56 text-sm resize-none bg-[#cdcdcd]/20 outline-none border border-[#444444]/80 rounded-md">
+                        // <div onClick={handleOpenInvitation} className="fixed z-30 left-0 top-0 right-0 bottom-0 bg-[#222222]/30">
+                        //     <div onClick={(e) => e.stopPropagation()} className="h-80 w-1/3 bg-boxBackground mx-auto mt-20 rounded-xl px-6 pt-4">
+                        //         <div className="flex justify-between items-end">
+                        //             <h2 className="font-medium">Lời mời kết bạn tới {inviteTarget.name}</h2>
+                        //             <p className="text-xs">{inviteMessage.length}/80</p>
+                        //         </div>
+                        //         <textarea 
+                        //         type="text"
+                        //         value={inviteMessage}
+                        //         onChange={(e) => setInviteMessage(e.target.value)}
+                        //         maxLength={80}
+                        //         className="mt-2 py-2 text-wrap px-3 w-full h-56 text-sm resize-none bg-[#cdcdcd]/20 outline-none border border-[#444444]/80 rounded-md">
                                     
-                                </textarea>
-                                <div className="float-right inline-block">
-                                    <button 
-                                        type="submit"
-                                        onClick={handleOpenInvitation} 
-                                        className="mr-2 min-w-20 text-sm py-2 px-4 bg-red-500 text-white rounded-lg
-                                        hover:shadow-blockShadow hover:bg-red-500/80">
-                                        Hủy
-                                    </button>
-                                    <button 
-                                        type="submit" 
-                                        onClick={(event) => {
-                                            handleOpenInvitation();
-                                            handleSubmitAdd(event);
-                                        }}
-                                        className="min-w-20 text-sm py-2 px-4 bg-primaryColor text-white rounded-lg
-                                        hover:shadow-blockShadow hover:bg-primaryColor/80">
-                                        Gửi lời mời
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
+                        //         </textarea>
+                        //         <div className="float-right inline-block">
+                        //             <button 
+                        //                 type="submit"
+                        //                 onClick={handleOpenInvitation} 
+                        //                 className="mr-2 min-w-20 text-sm py-2 px-4 bg-red-500 text-white rounded-lg
+                        //                 hover:shadow-blockShadow hover:bg-red-500/80">
+                        //                 Hủy
+                        //             </button>
+                        //             <button 
+                        //                 type="submit" 
+                        //                 onClick={(event) => {
+                        //                     handleOpenInvitation();
+                        //                     handleSubmitAdd(event);
+                        //                 }}
+                        //                 className="min-w-20 text-sm py-2 px-4 bg-primaryColor text-white rounded-lg
+                        //                 hover:shadow-blockShadow hover:bg-primaryColor/80">
+                        //                 Gửi lời mời
+                        //             </button>
+                        //         </div>
+                        //     </div>
+                        // </div>
+                        <InvitationModal handleOpenInvitation={handleOpenInvitation} inviteTarget={inviteTarget} updateSentStatus={updateSentStatus}/>
                     )}
 
                     {/* Posts */}
