@@ -1,5 +1,5 @@
 import { FaArrowRight, FaEarthAsia, FaMapPin, FaRegComment, FaRegPaperPlane } from "react-icons/fa6";
-import { FaUserFriends, FaUserTimes, FaUserCheck } from "react-icons/fa";
+import { FaUserCheck } from "react-icons/fa";
 import { MdPersonAddAlt1 } from "react-icons/md";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { RiUserForbidLine } from "react-icons/ri";
@@ -9,7 +9,7 @@ import { AiOutlineLike } from "react-icons/ai";
 import FriendsList from "../../components/FriendsList";
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { cancelInvitation, getInvitation, sendInvitation, unfriendHandle } from "../../utils/friendsHandler";
+import { cancelInvitation, getInvitation, sendInvitation, unfriend } from "../../utils/friendsHandler";
 import { getAge } from "../../utils/getAge";
 import InvitationModal from "../../components/InvitationModal";
 
@@ -25,6 +25,7 @@ function Profile() {
     const [requestReceivers, setRequestReceivers] = useState([]);
     const [isFriend, setIsFriend] = useState(false);
     const [isSentRequest, setIsSentRequest] = useState(false);
+    const [openActions, setOpenActions] = useState(false);
     const { userId } = useParams();
     const currAuthUser = JSON.parse(localStorage.getItem("user"))
     let isCurrUser = (userId === currAuthUser.id) ? true : false;
@@ -53,6 +54,11 @@ function Profile() {
         const invitation = await getInvitation(currAuthUser.id, userId);
         cancelInvitation(invitation._id);
       };
+
+    const handleUnfriend = async () => {
+        const invitation = await getInvitation(currAuthUser.id, userId);
+        unfriend(currAuthUser.id, userId, invitation?._id);
+    }
 
     useEffect(() => {
         document.addEventListener('click', handleClickOutside);
@@ -144,16 +150,38 @@ function Profile() {
     const renderActionBtn = () => {
         if (isFriend) {
             return (
-                <button 
-                onClick={async () => {
-                    const invitation = await getInvitation(currAuthUser.id, userId);
-                    unfriendHandle(currAuthUser.id, userId, invitation?._id)
-                    setIsFriend(false)
-                }}
-                className="w-fit h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-gray-400 rounded-full text-white transition-all hover:shadow-blockShadow hover:brightness-110">
-                    <BsFillPersonXFill className="text-xl"/>
-                    Hủy bạn bè
-                </button>
+                // <button 
+                // onClick={async () => {
+                //     const invitation = await getInvitation(currAuthUser.id, userId);
+                //     unfriendHandle(currAuthUser.id, userId, invitation?._id)
+                //     setIsFriend(false)
+                // }}
+                // className="w-fit h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-gray-400 rounded-full text-white transition-all hover:shadow-blockShadow hover:brightness-110">
+                //     <BsFillPersonXFill className="text-xl"/>
+                //     Hủy bạn bè
+                // </button>
+                <div 
+                onClick={() => setOpenActions(!openActions)}
+                className="w-fit h-9 flex justify-center items-center gap-2 font-medium text-sm px-6 bg-primaryColor rounded-full text-white transition-all hover:shadow-blockShadow hover:bg-primaryColor/80 cursor-pointer relative">
+                    <FaUserCheck className="text-xl"/>
+                    Bạn bè
+
+                    <ul
+                    className={`absolute z-40 left-0 right-0 top-11 border border-gray-200 text-textColor shadow-md text-center rounded-md overflow-hidden
+                    ${!openActions && "hidden"}`}
+                    >
+                        <li
+                            onClick={(e) => {
+                            e.preventDefault();
+                            handleUnfriend();
+                            setIsFriend(false)
+                            }}
+                            className="px-4 py-2 bg-[#fcfcfc] hover:bg-[#e8e8e8]"
+                        >
+                            Hủy kết bạn
+                        </li>
+                    </ul>
+                </div>
             )
         } else if (requestSenders.includes(userId)) {
             const invitation = getInvitation(currAuthUser.id, userId)

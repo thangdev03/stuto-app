@@ -63,7 +63,7 @@ export const cancelInvitation = async (invitationId) => {
     }
 };
 
-export const unfriendHandle = async (currentUserId, friendId, invitationId) => {
+export const unfriend = async (currentUserId, friendId, invitationId) => {
     try {
         const response = await fetch("https://stuto-api.onrender.com/friend/", {
             method: "DELETE",
