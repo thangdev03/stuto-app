@@ -9,9 +9,12 @@ import { AiOutlineLike } from "react-icons/ai";
 import FriendsList from "../../components/FriendsList";
 import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { cancelInvitation, getInvitation, sendInvitation, unfriend } from "../../utils/friendsHandler";
+import { cancelInvitation, getInvitation, acceptInvitation, unfriend } from "../../utils/friendsHandler";
 import { getAge } from "../../utils/getAge";
 import InvitationModal from "../../components/InvitationModal";
+import UploadWidget from "../../components/UploadWidget";
+import AvatarImage from "../../components/AvatarImage";
+import { cloudName, uploadPreset, cld } from "../../services/const";
 
 function Profile() {
     const [openUserActions, setOpenUserActions] = useState(false);
@@ -26,10 +29,22 @@ function Profile() {
     const [isFriend, setIsFriend] = useState(false);
     const [isSentRequest, setIsSentRequest] = useState(false);
     const [openActions, setOpenActions] = useState(false);
+    const [isOpenResponse, setIsOpenResponse] = useState(false);
+    const [isResponse, setIsResponse] = useState(false);
+    const [isAccept, setIsAccept] = useState(false);
     const { userId } = useParams();
     const currAuthUser = JSON.parse(localStorage.getItem("user"))
+    const [publicId, setPublicId] = useState("");
     let isCurrUser = (userId === currAuthUser.id) ? true : false;
     let boxRef = useRef();
+
+    const [uwConfig] = useState({
+        cloudName,
+        uploadPreset,
+        cropping: true,
+        maxImageWidth: 250,
+        maxImageFileSize: 2000000
+    })
 
     const handleClickOutside = (e) => {
         if (!boxRef.current.contains(e.target)) {
@@ -39,11 +54,6 @@ function Profile() {
 
     const handleOpenInvitation = () => {
         setOpenInvitation(!openInvitation);
-    };
-
-    const handleSubmitAdd = (event) => {
-        event.preventDefault();
-        sendInvitation(currAuthUser.id, userId, inviteMessage);
     };
 
     const updateSentStatus = () => {
@@ -59,6 +69,11 @@ function Profile() {
         const invitation = await getInvitation(currAuthUser.id, userId);
         unfriend(currAuthUser.id, userId, invitation?._id);
     }
+
+    const handleAcceptInvite = async () => {
+    const invitation = await getInvitation(currAuthUser.id, userId);
+    acceptInvitation(invitation._id);
+    };
 
     useEffect(() => {
         document.addEventListener('click', handleClickOutside);
@@ -77,6 +92,7 @@ function Profile() {
                     throw new Error("Error, status: ", data.message)
                 }
                 setUserData(data);
+                setPublicId(data.avatar);
             } catch (error) {
                 console.error("Error fetching user data")
             }
@@ -148,18 +164,8 @@ function Profile() {
     },[currAuthUser.id])
 
     const renderActionBtn = () => {
-        if (isFriend) {
+        if (isFriend || isAccept) {
             return (
-                // <button 
-                // onClick={async () => {
-                //     const invitation = await getInvitation(currAuthUser.id, userId);
-                //     unfriendHandle(currAuthUser.id, userId, invitation?._id)
-                //     setIsFriend(false)
-                // }}
-                // className="w-fit h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-gray-400 rounded-full text-white transition-all hover:shadow-blockShadow hover:brightness-110">
-                //     <BsFillPersonXFill className="text-xl"/>
-                //     Hủy bạn bè
-                // </button>
                 <div 
                 onClick={() => setOpenActions(!openActions)}
                 className="w-fit h-9 flex justify-center items-center gap-2 font-medium text-sm px-6 bg-primaryColor rounded-full text-white transition-all hover:shadow-blockShadow hover:bg-primaryColor/80 cursor-pointer relative">
@@ -172,9 +178,9 @@ function Profile() {
                     >
                         <li
                             onClick={(e) => {
-                            e.preventDefault();
                             handleUnfriend();
-                            setIsFriend(false)
+                            setIsFriend(false);
+                            setIsAccept(false);
                             }}
                             className="px-4 py-2 bg-[#fcfcfc] hover:bg-[#e8e8e8]"
                         >
@@ -183,47 +189,75 @@ function Profile() {
                     </ul>
                 </div>
             )
-        } else if (requestSenders.includes(userId)) {
-            const invitation = getInvitation(currAuthUser.id, userId)
-            return (
-                <button 
-                // onClick={() => {
-                //     handleOpenInvitation();
-                //     setInviteTarget(userData);
-                // }}
-                className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-primaryColor rounded-full text-white transition-all hover:shadow-blockShadow hover:brightness-110">
-                    <FaUserCheck className="text-xl"/>
-                    Phản hồi
-                </button>
-            )
-        } else if (requestReceivers.includes(userId) || isSentRequest) {
-            return (
-                <button 
-                onClick={async () => {
-                    const invitation = await getInvitation(currAuthUser.id, userId)
-                    cancelInvitation(invitation?._id)
-                }}
-                onClick={() => {
-                    setIsSentRequest(false);
-                    handleCancelInvite();
-                }}
-                className="w-fit h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-gray-400 rounded-full text-white transition-all hover:shadow-blockShadow hover:brightness-110">
-                    <BsFillPersonXFill className="text-xl"/>
-                    Hủy lời mời
-                </button>
-            )
         } else {
-            return (
-                <button 
-                onClick={() => {
-                    handleOpenInvitation();
-                    setInviteTarget(userData);
-                }}
-                className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-primaryColor rounded-full text-white transition-all hover:shadow-blockShadow hover:brightness-110">
-                    <MdPersonAddAlt1 className="text-xl"/>
-                    Kết bạn
-                </button>
-            )
+            if (requestSenders.includes(userId) && !isResponse) {
+                return (
+                    <div 
+                    onClick={() => {
+                        setIsOpenResponse(!isOpenResponse);
+                    }}
+                    className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-primaryColor rounded-full text-white transition-all cursor-pointer relative
+                    hover:shadow-blockShadow hover:bg-primaryColor/80">
+                        <FaUserCheck className="text-xl"/>
+                        Phản hồi
+
+                        <ul
+                        className={`absolute z-40 left-0 right-0 top-11 border border-gray-200 text-textColor shadow-md text-center rounded-md overflow-hidden
+                                    ${!isOpenResponse && "hidden"}`}
+                        >
+                            <li
+                                onClick={(e) => {
+                                e.preventDefault();
+                                setIsResponse(true);
+                                setIsAccept(true);
+                                handleAcceptInvite();
+                                }}
+                                className="px-4 py-2 bg-[#fcfcfc] hover:bg-[#e8e8e8]"
+                            >
+                                Đồng ý
+                            </li>
+                            <li
+                                onClick={(e) => {
+                                e.preventDefault();
+                                setIsResponse(true);
+                                handleCancelInvite();
+                                }}
+                                className="px-4 py-2 bg-[#fcfcfc] hover:bg-[#e8e8e8]"
+                            >
+                                Từ chối
+                            </li>
+                        </ul>
+                    </div>
+                )
+                } else if (requestReceivers.includes(userId) || isSentRequest) {
+                    return (
+                        <button 
+                        onClick={async () => {
+                            const invitation = await getInvitation(currAuthUser.id, userId)
+                            cancelInvitation(invitation?._id)
+                        }}
+                        onClick={() => {
+                            setIsSentRequest(false);
+                            handleCancelInvite();
+                        }}
+                        className="w-fit h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-gray-400 rounded-full text-white transition-all hover:shadow-blockShadow hover:brightness-110">
+                            <BsFillPersonXFill className="text-xl"/>
+                            Hủy lời mời
+                        </button>
+                    )
+                } else {
+                    return (
+                        <button 
+                        onClick={() => {
+                            handleOpenInvitation();
+                            setInviteTarget(userData);
+                        }}
+                        className="w-32 h-9 flex justify-center items-center gap-2 font-medium text-sm px-4 bg-primaryColor rounded-full text-white transition-all hover:shadow-blockShadow hover:brightness-110">
+                            <MdPersonAddAlt1 className="text-xl"/>
+                            Kết bạn
+                        </button>
+                )
+            }
         }
     }
 
@@ -235,12 +269,15 @@ function Profile() {
                     <div className="bg-white rounded-3xl">
                         <div className="user-info-bgGradient py-8 px-12 flex items-end gap-8 rounded-t-3xl">
                             <div className="w-44 flex flex-col items-center">
-                                <div className="shrink-0 w-40 h-40">
-                                    <img 
-                                    src={userData?.avatar || "/img/default-avatar.png"} 
-                                    alt="user avatar" 
-                                    className="w-full h-full object-cover rounded-full"
-                                    />
+                                <div className="shrink-0 w-40 h-40 relative">
+                                    <AvatarImage publicId={publicId} cld={cld}/>
+                                    {isCurrUser && (
+                                        <UploadWidget 
+                                        uwConfig={uwConfig}
+                                        setPublicId={setPublicId} 
+                                        className={"absolute right-0 bottom-2"}
+                                        />
+                                    )}
                                 </div>
                                 <p className="mt-6 flex gap-4 items-center font-medium">
                                     <FaMapPin />
@@ -289,6 +326,7 @@ function Profile() {
                             </div>
                         </div>
                     </div>
+
                     {/* About */}
                     <div className="mt-4 flex gap-3 h-48">
                         <div className="w-2/5 h-full bg-white rounded-3xl py-3 px-5">
@@ -358,41 +396,6 @@ function Profile() {
                     
                     {/* Invitation model */}
                     {openInvitation && (
-                        // <div onClick={handleOpenInvitation} className="fixed z-30 left-0 top-0 right-0 bottom-0 bg-[#222222]/30">
-                        //     <div onClick={(e) => e.stopPropagation()} className="h-80 w-1/3 bg-boxBackground mx-auto mt-20 rounded-xl px-6 pt-4">
-                        //         <div className="flex justify-between items-end">
-                        //             <h2 className="font-medium">Lời mời kết bạn tới {inviteTarget.name}</h2>
-                        //             <p className="text-xs">{inviteMessage.length}/80</p>
-                        //         </div>
-                        //         <textarea 
-                        //         type="text"
-                        //         value={inviteMessage}
-                        //         onChange={(e) => setInviteMessage(e.target.value)}
-                        //         maxLength={80}
-                        //         className="mt-2 py-2 text-wrap px-3 w-full h-56 text-sm resize-none bg-[#cdcdcd]/20 outline-none border border-[#444444]/80 rounded-md">
-                                    
-                        //         </textarea>
-                        //         <div className="float-right inline-block">
-                        //             <button 
-                        //                 type="submit"
-                        //                 onClick={handleOpenInvitation} 
-                        //                 className="mr-2 min-w-20 text-sm py-2 px-4 bg-red-500 text-white rounded-lg
-                        //                 hover:shadow-blockShadow hover:bg-red-500/80">
-                        //                 Hủy
-                        //             </button>
-                        //             <button 
-                        //                 type="submit" 
-                        //                 onClick={(event) => {
-                        //                     handleOpenInvitation();
-                        //                     handleSubmitAdd(event);
-                        //                 }}
-                        //                 className="min-w-20 text-sm py-2 px-4 bg-primaryColor text-white rounded-lg
-                        //                 hover:shadow-blockShadow hover:bg-primaryColor/80">
-                        //                 Gửi lời mời
-                        //             </button>
-                        //         </div>
-                        //     </div>
-                        // </div>
                         <InvitationModal handleOpenInvitation={handleOpenInvitation} inviteTarget={inviteTarget} updateSentStatus={updateSentStatus}/>
                     )}
 

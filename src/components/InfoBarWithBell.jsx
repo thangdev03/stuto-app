@@ -8,6 +8,8 @@ import { RiUserShared2Fill } from "react-icons/ri";
 import { FaCircleUser } from "react-icons/fa6";
 import { FaCog } from "react-icons/fa";
 import { IoLogOut } from "react-icons/io5";
+import { cld } from "../services/const";
+import AvatarImage from "./AvatarImage";
 
 function InfoBarWithBell() {
   const [state, dispatch] = useAuthContext();
@@ -59,11 +61,7 @@ function InfoBarWithBell() {
         className="py-2 pl-3 pr-10 grow flex items-center bg-boxBackground rounded-full cursor-pointer relative hover:shadow-blockShadow min-w-44 max-w-52"
       >
         <div className="mr-4 w-9 h-9 shrink-0">
-          <img
-            src={user.avatar || "/img/default-avatar.png"}
-            alt="Avatar"
-            className="w-full h-full rounded-full object-cover"
-          />
+          <AvatarImage publicId={user.avatar} cld={cld}/>
         </div>
         <p className="font-medium">{user && userLastName}</p>
         <ul
