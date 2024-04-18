@@ -10,6 +10,8 @@ import {
 } from "../utils/friendsHandler.js";
 import InvitationModal from "./InvitationModal";
 import { useAuthContext } from "../hooks/useAuthContext.js";
+import AvatarImage from "./AvatarImage.jsx";
+import { cld } from "../services/const.js";
 
 const UserItem = ({ user, requestSenders, requestReceivers }) => {
   const [openInvitation, setOpenInvitation] = useState(false);
@@ -42,12 +44,8 @@ const UserItem = ({ user, requestSenders, requestReceivers }) => {
   return (
     <div className="mb-2 pt-3 pr-6 pl-3 pb-4 min-h-64 bg-boxBackground rounded-lg shadow-blockShadow">
       <div className="flex gap-4">
-        <Link to={"/user/" + user?._id} className="block flex-shrink-0">
-          <img
-            src={user?.avatar || "./img/default-avatar.png"}
-            alt="avatar"
-            className="w-16 h-16 object-cover rounded-full hover:brightness-105"
-          />
+        <Link to={"/user/" + user?._id} className="block w-16 h-16  flex-shrink-0">
+          <AvatarImage publicId={user?.avatar} cld={cld} className={""}/>
         </Link>
         <div className="grow flex flex-col">
           <div className="relative">

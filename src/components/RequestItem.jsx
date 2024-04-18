@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { acceptInvitation, cancelInvitation } from "../utils/friendsHandler.js"
+import AvatarImage from "./AvatarImage.jsx";
+import { cld } from "../services/const.js";
 
 const RequestItem = ({ sender, request }) => {
   const [userResponse, setUserResponse] = useState(null);
@@ -8,12 +10,13 @@ const RequestItem = ({ sender, request }) => {
   return (
     <div className="pb-4 bg-white border border-gray-300 shadow-md rounded-xl overflow-hidden flex flex-col justify-between">
       <div className="w-full flex border-b border-b-gray-300">
-        <Link to={"/user/" + sender?._id} className="block shrink-0 w-32 h-36">
-          <img
+        <Link to={"/user/" + sender?._id} className="block shrink-0 w-32 h-32 p-2">
+          <AvatarImage publicId={sender.avatar} cld={cld}/>
+          {/* <img
             src={sender?.avatar || "/img/default-avatar-square.webp"}
             alt="avatar"
             className="w-full h-full object-cover"
-          />
+          /> */}
         </Link>
         <div className="py-1 px-3">
           <Link

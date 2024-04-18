@@ -4,7 +4,7 @@ import { thumbnail } from "@cloudinary/url-gen/actions/resize";
 import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
 import { format, quality } from "@cloudinary/url-gen/actions/delivery";
 
-const AvatarImage = ({publicId, cld}) => {
+const AvatarImage = ({publicId, cld, className}) => {
 
   const myImage = cld
     .image(publicId)
@@ -16,12 +16,12 @@ const AvatarImage = ({publicId, cld}) => {
         <AdvancedImage 
         cldImg={myImage}
         plugins={[placeholder()]}
-        className="w-full h-full object-cover rounded-full"
+        className={`w-full h-full object-cover rounded-full ${className}`}
         />
     ) : (
         <img 
         src="/img/default-avatar.png"
-        className="w-full h-full object-cover rounded-full"
+        className={`w-full h-full object-cover rounded-full ${className}`}
         />
     )
 };

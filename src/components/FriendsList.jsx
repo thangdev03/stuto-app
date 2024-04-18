@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { IoMdSearch } from "react-icons/io";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { Link } from "react-router-dom";
+import AvatarImage from "./AvatarImage";
+import { cld } from "../services/const";
 
 function FriendsList() {
   const [friendsList, setFriendsList] = useState([]);
@@ -55,12 +57,8 @@ function FriendsList() {
               key={friend._id}
               className="flex items-top hover:cursor-pointer hover:bg-gray-100 p-2 rounded-lg cursor-pointer"
             >
-              <div className="relative mr-4">
-                <img
-                  src={friend.avatar || "/img/default-avatar.png"}
-                  alt=""
-                  className="w-9 h-9 rounded-full object-cover"
-                />
+              <div className="relative mr-4 w-9 h-9">
+                <AvatarImage publicId={friend.avatar} cld={cld}/>
                 <div
                   className={`absolute top-7 left-6 bg-green-500 w-2 h-2 rounded-full`}
                 ></div>
