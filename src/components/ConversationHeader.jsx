@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import AvatarImage from "./AvatarImage";
+import { cld } from "../services/const";
 
 const ConversationHeader = ({ conversation, currentUser }) => {
   const [user, setUser] = useState(null);
@@ -24,12 +26,8 @@ const ConversationHeader = ({ conversation, currentUser }) => {
 
   return (
     <div className="flex gap-3 p-4 border-b border-gray-300 shadow-sm">
-      <div className="relative">
-        <img
-          src={user?.avatar || "img/default-avatar.png"}
-          alt="avatar"
-          className="w-10 h-10 object-cover rounded-full"
-        />
+      <div className="relative w-10 h-10">
+        <AvatarImage publicId={user?.avatar} cld={cld}/>
         <div
           className={`absolute bottom-0 right-0 ${user?.is_ative && "border border-white bg-green-500"} w-3 h-3 rounded-full`}
         ></div>

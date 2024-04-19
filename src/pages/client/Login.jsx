@@ -33,6 +33,10 @@ function Login() {
             setCheckingAccount(false)
         }
         
+        if (data.is_restricted) {
+            return alert("Tài khoản của bạn tạm thời bị khóa, vui lòng liên hệ quản trị viên để biết thêm chi tiết.");
+        }
+
         if (data.token && data.role === "client") {
             localStorage.setItem("user", JSON.stringify(data));
             dispatch(setLogin(data));

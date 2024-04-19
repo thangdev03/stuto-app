@@ -1,6 +1,8 @@
 function Timetable() {
     return (
-        <h1>Timetable Page</h1>
+        <div className="ml-72 mr-[386px] mt-10 mb-10">
+            <img src="../img/timetable.png" alt="" />
+        </div>
     );
 }
 
