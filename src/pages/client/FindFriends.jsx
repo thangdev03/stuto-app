@@ -15,8 +15,10 @@ function FindFriends() {
     const [requestReceivers, setRequestReceivers] = useState([]);
     const [applyFilter, setApplyFilter] = useState(false);
     const [filteredUsers, setFilteredUsers] = useState([]);
+    const [page, setPage] = useState(1);
     const [state, dispatch] = useAuthContext();
     const { user } = state;
+    const [isEnded, setIsEnded] = useState(false);
     let username = ""
 
     if (user) {
@@ -32,20 +34,40 @@ function FindFriends() {
 
     const handleFilterUsers = (data) => {
         setFilteredUsers(data);
-    }
+    };
 
-    useState(() => {
-        setIsLoading(true);
+    const handleScroll = () => {
+        const {scrollTop, clientHeight, scrollHeight} = document.documentElement;
+        if ((scrollTop + clientHeight >= scrollHeight) && !isLoading && !isEnded) {
+            setPage(page + 1);
+        }
+    };
+
+    useEffect(() => {
         const getUsers = async () => {
             try {
-                const response = await fetch("https://stuto-api.onrender.com/user");
+                setIsLoading(true);
+                //FIXME: change the api address
+                const response = await fetch(`https://stuto-api.onrender.com/user?page=${page}&&userId=${user.id}`);
                 const data = await response.json();
-                setAllUsers(data.data);
-                response && setIsLoading(false);
+
+                setIsLoading(false);
+                if (page > data.paginatedUsers?.totalPages) {
+                    setIsEnded(true);
+                    return;
+                }
+                
+                setAllUsers([...allUsers, ...data.paginatedUsers?.users])
+
+                
             } catch (error) {
                 console.error(error);   
             }
         };
+        getUsers();
+    },[user.id,page])
+
+    useEffect(() => {
         const getCurrUserFriends = async () => {
             try {
                 const response = await fetch("https://stuto-api.onrender.com/user/" + user.id);
@@ -85,7 +107,6 @@ function FindFriends() {
                 console.error(error);
             }
         };
-        getUsers();
         getCurrUserFriends();
         getRequestSenders();
         getRequestReceiver();
@@ -93,10 +114,18 @@ function FindFriends() {
 
     useEffect(() => {
         const result = allUsers.filter((currUser) => (
-            (currUser.info._id !== user.id) && (!friendsList?.includes(currUser.info._id)) && currUser.info.wish?.is_active
+            (!friendsList?.includes(currUser.info?._id)) && currUser.info?.wish.is_active
         ));
         setAvailableUsers(result);
-    },[user.id, allUsers, friendsList])
+    }, [allUsers, friendsList])
+
+    useEffect(() => {
+        if(document.documentElement.scrollHeight > 0) {
+            window.addEventListener("scroll", handleScroll);
+        }
+
+        return () => window.removeEventListener("scroll", handleScroll);
+    },[])
 
     return (
         <div className="ml-72 mr-[386px] my-10">
@@ -118,14 +147,14 @@ function FindFriends() {
                 <h3 className="font-semibold text-xl">Các StuToers phù hợp nhất</h3>
                 <div className="mt-3 users-container">
                     {/* User Item */}
-                    {isLoading ? (
-                        <LoadingSpinner className={"mx-auto"}/>
-                    ) : (
-                        (applyFilter? filteredUsers : availableUsers).map((userItem) => (
-                            <UserItem key={userItem.info._id} user={userItem.info} requestSenders={requestSenders} requestReceivers={requestReceivers} />
+                    {(applyFilter? filteredUsers : availableUsers).map((userItem) => (
+                        <UserItem key={userItem.info._id} user={userItem.info} requestSenders={requestSenders} requestReceivers={requestReceivers} />
                         ))
-                    )}
+                    }
                 </div>
+                {isLoading && (
+                    <LoadingSpinner />
+                )}
             </div>
             {openWish && (
                 <div onClick={() => setOpenWish(false)} className="fixed z-30 left-0 top-0 right-0 bottom-0 bg-[#222222]/30">

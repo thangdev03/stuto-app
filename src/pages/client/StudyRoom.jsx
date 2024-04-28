@@ -1,5 +1,5 @@
 import FriendsList from "../../components/FriendsList"
-import { FaBook, FaChevronDown, FaMicrophoneSlash, FaPlus, FaVideo } from "react-icons/fa";
+import { FaArrowRight, FaBook, FaChevronDown, FaMicrophoneSlash, FaPlus, FaVideo } from "react-icons/fa";
 import { GrStatusGoodSmall } from "react-icons/gr";
 import { FaMicrophone } from "react-icons/fa";
 import { useAuthContext } from "../../hooks/useAuthContext";
@@ -21,6 +21,7 @@ function StudyRoom() {
     const [micAllow, setMicAllow] = useState(false);
     const [videoAllow, setVideoAllow] = useState(false);
     const [roomName, setRoomName] = useState("");
+    const [roomsNumber, setRoomsNumber] = useState(3);
 
     useEffect(() => {
         const getRooms = async () => {
@@ -32,20 +33,21 @@ function StudyRoom() {
                 console.log(error);
             }
         }
+        getRooms();
+    },[user.id])
 
+    useEffect(() => {
         const getSubjects = async () => {
             try {
-              const response = await fetch("https://stuto-api.onrender.com/subject");
-              const data = await response.json();
-              setSubjects(data.data);
+                const response = await fetch("https://stuto-api.onrender.com/subject");
+                const data = await response.json();
+                setSubjects(data.data);
             } catch (error) {
-              return console.log(error);
+                return console.log(error);
             }
-          };
-      
-          getRooms();
-          getSubjects();
-    },[user.id, isCreating])
+        };
+        getSubjects();
+    },[])
 
     const handleCloseModal = () => {
         setIsCreating(false);
@@ -55,7 +57,7 @@ function StudyRoom() {
         setOpenSubject(false);
         setMicAllow(false);
         setVideoAllow(false);
-    }
+    };
 
     const handleCreateRoom = async (e) => {
         e.preventDefault()
@@ -82,7 +84,11 @@ function StudyRoom() {
         } catch (error) {
             console.log(error);
         }
-    }
+    };
+
+    const showMoreHandle = () => {
+        setRoomsNumber((prev) => prev + 6);
+    };
 
     return (
         <div className="ml-72 mr-[386px] mt-10 mb-10">
@@ -221,10 +227,10 @@ function StudyRoom() {
             <div className="mt-10">
                 <div className="flex justify-between">
                     <h2 className="font-semibold text-xl">Phòng của bạn</h2>
-                    <span className="mr-2 font-medium px-4 py-1 border text-primaryColor border-primaryColor rounded-full cursor-pointer transition-all hover:bg-primaryColor hover:text-white">Chỉnh sửa</span>
+                    {/* <span className="mr-2 font-medium px-4 py-1 border text-primaryColor border-primaryColor rounded-full cursor-pointer transition-all hover:bg-primaryColor hover:text-white">Chỉnh sửa</span> */}
                 </div>
                 <div className="mt-4 grid xl:grid-cols-3 gap-6">
-                {rooms?.map((room) => (
+                {rooms?.slice(0, roomsNumber).map((room) => (
                         <div key={room._id} className="bg-[#B196FF]/70 rounded-xl pt-2 px-2 pb-3 flex flex-col justify-between gap-3">
                             <div className="grow bg-white rounded-lg p-4">
                                 <h3 className="text-center text-base font-semibold w-full truncate" title={room.name}>{room.name}</h3>
@@ -253,10 +259,18 @@ function StudyRoom() {
                         </div>
                 ))}
                 </div>
+                <button
+                onClick={showMoreHandle}
+                className={`mt-4 mx-auto px-6 py-2 rounded-full bg-primaryColor text-white flex items-center gap-2 hover:bg-primaryColor/80
+                ${(roomsNumber >= rooms.length) && "hidden"}`}
+                >
+                    Xem thêm
+                    <FaArrowRight className="text-sm"/>
+                </button>
             </div>
 
             {/* Public Rooms */}
-            <div className="mt-14">
+            <div className="mt-10">
                 <h2 className="font-semibold text-xl">Phòng cộng đồng</h2>
                 <div className="mt-4 grid xl:grid-cols-3 gap-6">
                     <div className="bg-[#B196FF]/70 rounded-xl pt-2 px-2 pb-3 flex flex-col justify-between gap-3">

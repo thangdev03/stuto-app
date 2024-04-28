@@ -48,6 +48,10 @@ const WishModal = ({ closeModal, userId }) => {
   }, [wish]);
 
   const updateWish = async () => {
+    if (!selectedSubject || !description) {
+      return window.alert("Vui lòng điền đầy đủ thông tin về môn học và mong muốn của bạn!")
+    }
+
     try {
         const response = await fetch("https://stuto-api.onrender.com/user/" + userId + "/wish", {
             method: "PUT",
